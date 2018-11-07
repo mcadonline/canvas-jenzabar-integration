@@ -1,4 +1,6 @@
-const sqlQuery = `
+import withCourseRestrictionsSQL from './withCourseRestrictionsSQL';
+
+const baseSqlQuery = `
 declare @today datetime;
 set @today = getdate();
 
@@ -28,6 +30,7 @@ where sm.LAST_END_DTE >= @today
  */
 export default async function getInstructorsFromJex(jexService) {
   try {
+    const sqlQuery = withCourseRestrictionsSQL(baseSqlQuery);
     const recordset = await jexService.query(sqlQuery);
 
     // filtering here, rather than in query

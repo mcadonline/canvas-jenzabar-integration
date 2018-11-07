@@ -22,25 +22,31 @@ const settings = {
   emailTo: process.env.email_to,
   emailFrom: process.env.email_from,
 
+  // users and enrollments will only be processed for these courses
+  // (course id must be in JEX format)
+  onlyCourses: ['IDM  6611 20', 'SD   6750 20', 'GWD  7460 20', 'HS   5010 20', '2D   3206 20'],
+  onlyTerm: 'SP',
+  onlyRealYear: 2019,
+
   // will be excluded from jex SQL query
-  exclusions: [
-    '% IN99% %', // Internships
-    '% 4010 91', // Internships
-    '% EX99% %', // Externships
-    '% IS99 %', // Independent Studies
-    'OC %', // off campus
-    // 9000 level class = CE classes, which can sometimes be online
-    // exclude section numbers that begin with 0 or 1,
-    // online courses should begin with 2
-    '% 9% 0_',
-    '% 9% 1_',
-    'DT %', // Placeholder for registration billing
-    '% GM99 %', // Graduate Mentored Credits
-    'GRST 7018 %', // Graduate Thesis Exhibition
-    'CSK %', // CE Kids courses
-    'CST %', // CE Teen courses
-    'WAIVE', // Waived courses?
-  ],
+  // exclusions: [
+  //   '% IN99% %', // Internships
+  //   '% 4010 91', // Internships
+  //   '% EX99% %', // Externships
+  //   '% IS99 %', // Independent Studies
+  //   'OC %', // off campus
+  //   // 9000 level class = CE classes, which can sometimes be online
+  //   // exclude section numbers that begin with 0 or 1,
+  //   // online courses should begin with 2
+  //   '% 9% 0_',
+  //   '% 9% 1_',
+  //   'DT %', // Placeholder for registration billing
+  //   '% GM99 %', // Graduate Mentored Credits
+  //   'GRST 7018 %', // Graduate Thesis Exhibition
+  //   'CSK %', // CE Kids courses
+  //   'CST %', // CE Teen courses
+  //   'WAIVE', // Waived courses?
+  // ],
   // what to use as the user's primary identifier
   // jexUser[primaryUserId] === BbUser[primaryUserId]
   // we use this field as EXTERNAL_PERSON_KEY (aka batch_uid)

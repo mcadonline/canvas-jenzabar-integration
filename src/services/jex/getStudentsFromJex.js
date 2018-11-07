@@ -1,4 +1,7 @@
-const sqlQuery = `
+import settings from '../../settings';
+import withCourseRestrictionsSQL from './withCourseRestrictionsSQL';
+
+const baseSqlQuery = `
   declare @today datetime;
   set @today = getdate();
 
@@ -33,6 +36,7 @@ const sqlQuery = `
  */
 export default async function getStudentsFromJex(jexService) {
   try {
+    const sqlQuery = withCourseRestrictionsSQL(baseSqlQuery);
     const recordset = await jexService.query(sqlQuery);
 
     // filtering here, rather than in query
