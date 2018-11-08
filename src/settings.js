@@ -14,7 +14,7 @@ const settings = {
     password: process.env.ldap_password,
   },
   canvas: {
-    url: process.env.canvas_url,
+    hostname: process.env.canvas_hostname,
     token: process.env.canvas_token,
   },
   // for emailing reports

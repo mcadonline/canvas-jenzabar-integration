@@ -20,8 +20,13 @@ export default {
   async getUsers() {
     const url = `https://${hostname}/api/v1/accounts/1/users`;
     const headers = { Authorization: `Bearer ${token}` };
-    const payload = await fetch(`${url}/api/v1/accounts/1/`, { headers }).then(res => res.json());
+    try {
+      const payload = await fetch(url, { headers }).then(res => res.json());
 
-    return payload.map(normalizeCanvasUserData);
+      return payload.map(normalizeCanvasUserData);
+    } catch (err) {
+      console.error(err.message);
+      throw err;
+    }
   },
 };
