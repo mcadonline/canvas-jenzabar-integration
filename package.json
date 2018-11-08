@@ -3,13 +3,20 @@
   "version": "0.1.0",
   "description": "Integrate Jenzabar SIS with Canvas LMS",
   "main": "index.js",
+  "bin": {
+    "canvas-jenzabar": "cli.js"
+  },
   "dependencies": {
     "dotenv": "^6.1.0",
     "esm": "^3.0.84",
+    "inquirer": "^6.2.0",
+    "luxon": "^1.5.0",
+    "meow": "^5.0.0",
     "mssql": "^4.2.3",
     "node-fetch": "^2.2.1",
     "ramda": "^0.25.0",
-    "simple-ldap-search": "^2.0.10"
+    "simple-ldap-search": "^2.0.10",
+    "write": "^1.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.1.5",
@@ -24,7 +31,8 @@
     "regenerator-runtime": "^0.12.1"
   },
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "jest",
     "test:watch": "jest --watch"
   },

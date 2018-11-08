@@ -12,4 +12,7 @@ export default {
     ]);
     return students.concat(faculty);
   },
+  close() {
+    jexService.close();
+  },
 };
