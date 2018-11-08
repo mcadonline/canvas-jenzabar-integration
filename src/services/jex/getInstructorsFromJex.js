@@ -1,10 +1,11 @@
 import withCourseRestrictionsSQL from './withCourseRestrictionsSQL';
+import normalizeJexUserData from './normalizeJexUserData';
 
 const baseSqlQuery = `
 declare @today datetime;
 set @today = getdate();
 
-select distinct nm.ID_NUM as id
+select distinct nm.ID_NUM as sisId
     , rtrim(nm.first_name) as firstName
     , rtrim(nm.PREFERRED_NAME) as preferredName
     , rtrim(nm.MIDDLE_NAME) as middleName
@@ -35,7 +36,9 @@ export default async function getInstructorsFromJex(jexService) {
 
     // filtering here, rather than in query
     // seems to be faster?
-    return recordset.filter(({ username }) => !!username);
+    const activeUsers = recordset.filter(({ username }) => !!username);
+
+    return activeUsers.map(normalizeJexUserData);
   } catch (error) {
     console.error(error);
     throw error;
