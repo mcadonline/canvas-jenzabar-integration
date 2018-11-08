@@ -1,6 +1,7 @@
 import { difference, differenceWith } from 'ramda';
 import jexService from './services/jex';
 import canvasService from './services/canvas';
+import jsonToCSV from './utils/jsonToCSV';
 
 const GENERATE_USERS_CSV = 'GENERATE_USERS_CSV';
 
@@ -9,18 +10,6 @@ function setMinus(collectionA, collectionB, idKeyName) {
 
   const idsAreEqual = (x, y) => x[idKeyName] === y[idKeyName];
   return differenceWith(idsAreEqual, collectionA, collectionB);
-}
-
-const toCSVString = arr => `"${arr.join('","')}"`;
-
-function jsonToCSV(collection) {
-  if (!collection.length) return '';
-
-  // assume first obj is complete
-  const headers = Object.keys(collection[0]);
-  const records = collection.map(record => headers.map(header => record[header] || null));
-
-  return [headers, ...records].map(toCSVString).join('\n');
 }
 
 const defaultArgs = {
