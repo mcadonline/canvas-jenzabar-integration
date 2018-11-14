@@ -9,7 +9,7 @@ const main = require('./src/main').default;
 const C = require('./src/constants');
 const settings = require('./src/settings').default;
 
-const { log } = console;
+const { log, warn } = console;
 
 function writeFeedfileSync(contents, { action }) {
   const feedfiletype = action
@@ -46,15 +46,6 @@ async function cli() {
     },
   );
 
-  const questions = [
-    {
-      type: 'list',
-      name: 'action',
-      message: 'What do you want to do?',
-      choices: [C.GENERATE_USERS_CSV],
-    },
-  ];
-
   if (flags.users) {
     const csv = await main(C.GENERATE_USERS_CSV);
     log(csv);
@@ -62,12 +53,22 @@ async function cli() {
 
   // if no flags prompt for action
   if (Object.values(flags).every(v => v === false)) {
+    const questions = [
+      {
+        type: 'list',
+        name: 'action',
+        message: 'What do you want to do?',
+        choices: [C.GENERATE_USERS_CSV],
+      },
+    ];
     const answers = await inquirer.prompt(questions);
     const { action } = answers;
     const csv = await main(action);
     const fileDest = writeFeedfileSync(csv, { action });
     log(csv);
-    log(`\n👍  Output: ${fileDest}`);
+
+    // to stderr to keep stdout clean for piping
+    warn(`\n👍  Output: ${fileDest}`);
   }
 
   process.exit();

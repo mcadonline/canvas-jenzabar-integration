@@ -1,9 +1,9 @@
 import fetch from 'node-fetch';
-import canvas from './canvas';
+import getUsers from './getUsers';
 
 jest.mock('node-fetch');
 
-const mockData = [
+const mockDataFromApi = [
   {
     id: 1,
     name: 'User Lastname',
@@ -29,17 +29,17 @@ const mockData = [
 describe('getUser', () => {
   beforeEach(() => {
     fetch.mockResolvedValue({
-      json: () => mockData,
+      json: () => mockDataFromApi,
     });
   });
 
   it('should call fetch', async () => {
-    await canvas.getUsers('https://example.com', { Authorization: 'Bearer 12345' });
+    await getUsers('https://example.com', { Authorization: 'Bearer 12345' });
     expect(fetch).toBeCalled();
   });
 
   it('should return user data', async () => {
-    const users = await canvas.getUsers('https://example.com', { Authorization: 'Bearer 12345' });
+    const users = await getUsers('https://example.com', { Authorization: 'Bearer 12345' });
 
     // see: https://canvas.instructure.com/doc/api/file.sis_csv.html
     expect(Object.keys(users[0])).toEqual([
@@ -51,4 +51,6 @@ describe('getUser', () => {
       'status', // active
     ]);
   });
+
+  xit('handles pagination', () => {});
 });
