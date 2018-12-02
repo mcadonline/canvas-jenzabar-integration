@@ -2,6 +2,8 @@
 
 > Create student users, handle enrollment add/drops.
 
+** This is very alpha, as we're currently prepping for a Canvas Pilot**
+
 ## Usage (in development)
 
 ```sh
@@ -23,6 +25,8 @@ $ canvas-jenzabar --users --post-to https://mcad.instructure.com
 ```
 
 ## Installation
+
+TODO
 
 ## Resources
 
