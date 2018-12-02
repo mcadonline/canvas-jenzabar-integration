@@ -1,6 +1,6 @@
 import settings from './settings';
 import jex from './services/jex';
-import canvas from './services/canvas/getUsers';
+import canvas from './services/canvas';
 import jsonToCSV from './utils/jsonToCSV';
 import setMinus from './utils/setMinus';
 import * as C from './constants';
@@ -28,6 +28,8 @@ export default async function main(action) {
     const csv = jsonToCSV(newCanvasCourses);
     return csv;
   }
+
+  warn('No action chosen. Doing nothing.');
 
   return null;
 }
