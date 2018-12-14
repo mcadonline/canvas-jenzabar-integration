@@ -3,6 +3,7 @@ import jex from './services/jex';
 import canvas from './services/canvas';
 import jsonToCSV from './utils/jsonToCSV';
 import setMinus from './utils/setMinus';
+import generateEnrollAdds from './generators/generateEnrollAdds';
 import * as C from './constants';
 
 const { warn } = console;
@@ -27,6 +28,10 @@ export default async function main(action) {
     const newCanvasCourses = setMinus(jexCourses, canvasCourses);
     const csv = jsonToCSV(newCanvasCourses);
     return csv;
+  }
+
+  if (action === C.GENERATE_ENROLLADDS_CSV) {
+    return generateEnrollAdds({ jex, canvas });
   }
 
   warn('No action chosen. Doing nothing.');
