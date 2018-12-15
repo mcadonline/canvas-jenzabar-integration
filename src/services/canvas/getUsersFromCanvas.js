@@ -15,7 +15,7 @@ const normalizeCanvasUserData = ({ sis_user_id, sortable_name, email }) => {
 
 export default async function getUsers() {
   try {
-    const users = await fetchFromCanvas('/users');
+    const users = await fetchFromCanvas('/accounts/1/users');
     return users.map(normalizeCanvasUserData);
   } catch (err) {
     console.error(err.message);
