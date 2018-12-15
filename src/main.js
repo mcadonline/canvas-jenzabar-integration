@@ -25,12 +25,12 @@ export default async function main(action) {
     output = csv;
   }
 
-  if (action === C.GENERATE_COURSES_CSV) {
-    const [jexCourses, canvasCourses] = await Promise.all([jex.getCourses(), canvas.getCourses()]);
-    const newCanvasCourses = setMinus(jexCourses, canvasCourses);
-    const csv = jsonToCSV(newCanvasCourses);
-    output = csv;
-  }
+  // if (action === C.GENERATE_COURSES_CSV) {
+  //   const [jexCourses, canvasCourses] = await Promise.all([jex.getCourses(), canvas.getCourses()]);
+  //   const newCanvasCourses = setMinus(jexCourses, canvasCourses);
+  //   const csv = jsonToCSV(newCanvasCourses);
+  //   output = csv;
+  // }
 
   if (action === C.GENERATE_ENROLLADDS_CSV) {
     const csv = generateEnrollAdds({ jex, canvas });

@@ -58,7 +58,7 @@ async function cli() {
         type: 'list',
         name: 'action',
         message: 'What do you want to do?',
-        choices: [C.GENERATE_USERS_CSV],
+        choices: [C.GENERATE_USERS_CSV, C.GENERATE_ENROLLADDS_CSV],
       },
     ];
     const answers = await inquirer.prompt(questions);
