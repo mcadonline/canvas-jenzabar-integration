@@ -31,13 +31,13 @@ where DATEADD(month, 1, sch.end_dte) >= @today
 
 function normalize(record) {
   const {
-    sisId, courseCode, term, year,
+    id, courseCode, term, year,
   } = record;
   const yearInt = Number.parseInt(year, 10);
   const courseId = toCourseId({ courseCode, term, year: yearInt });
 
   return {
-    user_id: Number.parseInt(sisId, 10),
+    user_id: Number.parseInt(id, 10),
     course_id: courseId,
   };
 }
