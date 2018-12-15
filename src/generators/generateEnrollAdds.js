@@ -1,3 +1,4 @@
+import { pipe } from 'ramda';
 import setMinus from '../utils/setMinus';
 import jsonToCSV from '../utils/jsonToCSV';
 
@@ -9,8 +10,13 @@ export default async ({ jex, canvas }) => {
 
   const withActiveStatus = enrollee => ({ ...enrollee, status: 'active' });
 
+  const withStudentRole = enrollee => ({ ...enrollee, role: 'student' });
+
   const newCanvasEnrollments = setMinus(currentJexEnrollments, currentCanvasEnrollments).map(
-    withActiveStatus,
+    pipe(
+      withActiveStatus,
+      withStudentRole,
+    ),
   );
 
   return jsonToCSV(newCanvasEnrollments);

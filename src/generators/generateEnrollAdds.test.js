@@ -21,7 +21,10 @@ describe('generateEnrollAdds', () => {
         .mockResolvedValue([{ course_id: 'Art 101', user_id: 'enrolled user' }]),
     };
 
-    const expected = ['"course_id","user_id","status"', '"Art 101","new user","active"'].join('\n');
+    const expected = [
+      '"course_id","user_id","status","role"',
+      '"Art 101","new user","active","student"',
+    ].join('\n');
 
     const csv = await generateEnrollAdds({
       jex: jexService,
