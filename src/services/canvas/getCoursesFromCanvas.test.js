@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import getCourses from './getCourses';
+import getCourses from './getCoursesFromCanvas';
 
 jest.mock('node-fetch');
 
@@ -32,12 +32,16 @@ describe('canvas.getCourses', () => {
   beforeEach(() => {
     fetch.mockResolvedValue({
       json: () => mockCoursesFromCanvasApi,
+      headers: {
+        get: () => undefined,
+      },
     });
   });
 
   it('gets a list of all courses in canvas', async () => {
     const courses = await getCourses();
     expect(Object.keys(courses[0])).toEqual([
+      'id', // canvas id (used for enrollment queries)
       'course_id', // sis course id
       'short_name', // course id
       'long_name', // course name
@@ -45,6 +49,7 @@ describe('canvas.getCourses', () => {
       'start_date',
       'end_date',
       'course_format', // online, on_campus, blended
+      'total_students', // total active students
     ]);
   });
   xit('handles pagination', () => {});

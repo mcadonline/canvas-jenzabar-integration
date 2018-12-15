@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import getUsers from './getUsers';
+import getUsers from './getUsersFromCanvas';
 
 jest.mock('node-fetch');
 
@@ -30,6 +30,9 @@ describe('getUser', () => {
   beforeEach(() => {
     fetch.mockResolvedValue({
       json: () => mockDataFromApi,
+      headers: {
+        get: () => undefined,
+      },
     });
   });
 

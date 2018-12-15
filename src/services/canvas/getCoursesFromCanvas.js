@@ -1,11 +1,10 @@
-import fetch from 'node-fetch';
-import settings from '../../settings';
+import fetchFromCanvas from './fetchFromCanvas';
 
 const { error } = console;
-const { token, hostname } = settings.canvas;
 
 const normalizeCanvasCourseData = ({
   /* eslint-disable camelcase */
+  id,
   name,
   start_at,
   end_at,
@@ -13,8 +12,10 @@ const normalizeCanvasCourseData = ({
   sis_course_id,
   course_format,
   workflow_state,
+  total_students,
   /* eslint-enable camelcase */
 }) => ({
+  id,
   course_id: sis_course_id,
   short_name: course_code,
   long_name: name,
@@ -22,14 +23,14 @@ const normalizeCanvasCourseData = ({
   start_date: start_at,
   end_date: end_at,
   course_format,
+  total_students,
 });
 
 export default async () => {
-  const url = `https://${hostname}/api/v1/accounts/1/courses`;
-  const headers = { Authorization: `Bearer ${token}` };
   try {
-    const payload = await fetch(url, { headers }).then(res => res.json());
-    return payload.map(normalizeCanvasCourseData);
+    const url = '/accounts/1/courses?include[]=total_students';
+    const courses = await fetchFromCanvas(url);
+    return courses.map(normalizeCanvasCourseData);
   } catch (err) {
     error(err.message);
     throw err;

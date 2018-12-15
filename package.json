@@ -14,6 +14,8 @@
     "meow": "^5.0.0",
     "mssql": "^4.3.0",
     "node-fetch": "^2.3.0",
+    "p-map-series": "^1.0.0",
+    "parse-link-header": "^1.0.1",
     "ramda": "^0.25.0",
     "simple-ldap-search": "^2.0.10",
     "write": "^1.0.3"

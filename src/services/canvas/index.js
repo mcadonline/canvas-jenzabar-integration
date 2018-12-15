@@ -1,7 +1,9 @@
-import getUsers from './getUsers';
-import getCourses from './getCourses';
+import getUsersFromCanvas from './getUsersFromCanvas';
+import getCoursesFromCanvas from './getCoursesFromCanvas';
+import getEnrollmentFromCanvas from './getEnrollmentFromCanvas';
 
 export default {
-  getUsers,
-  getCourses,
+  getUsers: getUsersFromCanvas,
+  getCourses: getCoursesFromCanvas,
+  getEnrollment: getEnrollmentFromCanvas,
 };

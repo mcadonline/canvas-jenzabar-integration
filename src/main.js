@@ -16,25 +16,31 @@ export default async function main(action) {
   🔵  JENZABAR HOST:\t${settings.jex.server}
   `);
 
+  let output = null;
+
   if (action === C.GENERATE_USERS_CSV) {
     const [jexUsers, canvasUsers] = await Promise.all([jex.getUsers(), canvas.getUsers()]);
     const newCanvasUsers = setMinus(jexUsers, canvasUsers);
     const csv = jsonToCSV(newCanvasUsers);
-    return csv;
+    output = csv;
   }
 
   if (action === C.GENERATE_COURSES_CSV) {
     const [jexCourses, canvasCourses] = await Promise.all([jex.getCourses(), canvas.getCourses()]);
     const newCanvasCourses = setMinus(jexCourses, canvasCourses);
     const csv = jsonToCSV(newCanvasCourses);
-    return csv;
+    output = csv;
   }
 
   if (action === C.GENERATE_ENROLLADDS_CSV) {
-    return generateEnrollAdds({ jex, canvas });
+    const csv = generateEnrollAdds({ jex, canvas });
+    output = csv;
   }
 
-  warn('No action chosen. Doing nothing.');
+  if (!action) {
+    warn('No action chosen. Doing nothing.');
+  }
 
-  return null;
+  jex.close();
+  return output;
 }

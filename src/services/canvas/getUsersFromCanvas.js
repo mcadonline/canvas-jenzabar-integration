@@ -1,7 +1,4 @@
-import fetch from 'node-fetch';
-import settings from '../../settings';
-
-const { token, hostname } = settings.canvas;
+import fetchFromCanvas from './fetchFromCanvas';
 
 // eslint-disable-next-line camelcase
 const normalizeCanvasUserData = ({ sis_user_id, sortable_name, email }) => {
@@ -17,12 +14,9 @@ const normalizeCanvasUserData = ({ sis_user_id, sortable_name, email }) => {
 };
 
 export default async function getUsers() {
-  const url = `https://${hostname}/api/v1/accounts/1/users`;
-  const headers = { Authorization: `Bearer ${token}` };
   try {
-    const payload = await fetch(url, { headers }).then(res => res.json());
-
-    return payload.map(normalizeCanvasUserData);
+    const users = await fetchFromCanvas('/users');
+    return users.map(normalizeCanvasUserData);
   } catch (err) {
     console.error(err.message);
     throw err;
