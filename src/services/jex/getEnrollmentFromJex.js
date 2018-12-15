@@ -1,6 +1,7 @@
 import toCourseId from '../../utils/toCourseId';
+import withCourseRestrictionsSQL from './withCourseRestrictionsSQL';
 
-const sqlQuery = `
+const baseSqlQuery = `
 declare @today datetime;
 set @today = getdate();
 
@@ -47,6 +48,7 @@ function normalize(record) {
  */
 export default async (jexService) => {
   try {
+    const sqlQuery = withCourseRestrictionsSQL(baseSqlQuery, 'sch');
     const recordset = await jexService.query(sqlQuery);
     return recordset.map(normalize);
   } catch (error) {
