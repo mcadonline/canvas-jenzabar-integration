@@ -52,5 +52,4 @@ describe('canvas.getCourses', () => {
       'total_students', // total active students
     ]);
   });
-  xit('handles pagination', () => {});
 });

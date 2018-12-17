@@ -54,6 +54,4 @@ describe('getUser', () => {
       'status', // active
     ]);
   });
-
-  xit('handles pagination', () => {});
 });
