@@ -2,26 +2,47 @@
 
 > Create student users, handle enrollment add/drops.
 
-** This is very alpha, as we're currently prepping for a Canvas Pilot**
+<p class="alert tip">This is very alpha, as we're currently prepping for a Canvas Pilot</p>
 
-## Usage (in development)
+## Usage
 
 ```sh
 # Create a CSV of students and faculty enrolled in current and future courses
-$ canvas-jenzabar --users > students.csv
+$ canvas-jenzabar --users
 
-$ canvas-jenzabar --terms
+"user_id","login_id","first_name","last_name","email","status"
+"123","123","Testy","McTesterson","ttesterson@mcad.edu","active"
+"456","456","Astudent","VonBauhaus","avonbauhaus@mcad.edu","active"
 
-$ canvas-jenzabar --courses --term FA --year 2020
+👍 Saved to: /tmp/ff-users.csv
 
-# Create a CSV of student and enrollments for current/future courses
-$ canvas-jenzabar --student-enrollments
+# Enrollment Adds: Students in SIS, but not enrolled in Canvas
+$ canvas-jenzabar --enrollment-add-students
 
-# faculty enrollments
-$ canvas-jenzabar --faculty-enrollments
+"user_id","course_id","status","role"
+"123","ILL-2000-01-F21","active","student"
+"456","GWD-7460-20-W22","active","student"
+
+👍 Saved to: /tmp/ff-enrolladdstudents.csv
+
+# Enrollment Drops: Student in Canvas, but not in SIS
+$ canvas-jenzabar --enrollment-drop-students
+
+"user_id","course_id","status","role"
+"123","ILL-2000-01-F21","active","student"
+"456","GWD-7460-20-W22","active","student"
+
+👍 Saved to: /tmp/ff-enrolldropstudents.csv
 
 # will post CSV data to SIS Import endpoint
 $ canvas-jenzabar --users --post-to https://mcad.instructure.com
+
+"user_id","login_id","first_name","last_name","email","status"
+"123","123","Testy","McTesterson","ttesterson@mcad.edu","active"
+"456","456","Astudent","VonBauhaus","avonbauhaus@mcad.edu","active"
+
+✅ Posted to: https://mcad.instructure.com
+
 ```
 
 ## Installation
