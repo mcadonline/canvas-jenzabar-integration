@@ -38,7 +38,6 @@ const settings = {
   onlyRealYear: 2019,
 
   // users to ignore when processing drops
-  // wildcards can be used like *_testuser
   ignoreUsers: ['mlisa'],
 };
 
