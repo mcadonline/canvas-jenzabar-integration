@@ -1,7 +1,7 @@
 import SQLService from '../SQLService';
 import getStudentsFromJex from './getStudentsFromJex';
 import getInstructorsFromJex from './getInstructorsFromJex';
-import getEnrollmentFromJex from './getEnrollmentFromJex';
+import getStudentEnrollmentFromJex from './getStudentEnrollmentFromJex';
 
 const jexService = new SQLService('jex');
 
@@ -13,7 +13,7 @@ export default {
     ]);
     return students.concat(faculty);
   },
-  getEnrollment: () => getEnrollmentFromJex(jexService),
+  getStudentEnrollment: () => getStudentEnrollmentFromJex(jexService),
   close() {
     jexService.close();
   },

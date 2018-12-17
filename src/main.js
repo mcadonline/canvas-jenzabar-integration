@@ -4,13 +4,14 @@ import canvas from './services/canvas';
 import jsonToCSV from './utils/jsonToCSV';
 import setMinus from './utils/setMinus';
 import generateEnrollAdds from './generators/generateEnrollAdds';
+import generateEnrollDrops from './generators/generateEnrollDrops';
 import * as C from './constants';
 
 const { warn } = console;
 
 export default async function main(action) {
   // to stderr to keep stdout clean
-  // TODO: Better logging?
+  // TODO: Better logging
   warn(`
   🌕  CANVAS HOST:\t${settings.canvas.hostname}
   🔵  JENZABAR HOST:\t${settings.jex.server}
@@ -25,15 +26,13 @@ export default async function main(action) {
     output = csv;
   }
 
-  // if (action === C.GENERATE_COURSES_CSV) {
-  //   const [jexCourses, canvasCourses] = await Promise.all([jex.getCourses(), canvas.getCourses()]);
-  //   const newCanvasCourses = setMinus(jexCourses, canvasCourses);
-  //   const csv = jsonToCSV(newCanvasCourses);
-  //   output = csv;
-  // }
-
   if (action === C.GENERATE_ENROLLADDS_CSV) {
-    const csv = generateEnrollAdds({ jex, canvas });
+    const csv = await generateEnrollAdds({ jex, canvas });
+    output = csv;
+  }
+
+  if (action === C.GENERATE_ENROLLDROPS_CSV) {
+    const csv = await generateEnrollDrops({ jex, canvas });
     output = csv;
   }
 

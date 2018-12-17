@@ -13,8 +13,8 @@ const normalize = ({ sis_course_id, sis_user_id }) => ({
 
 const onlyThoseWithCourseAndUserId = x => x.sis_course_id && x.sis_user_id;
 
-async function getEnrollmentForCourse({ id }) {
-  const url = `/courses/${id}/enrollments`;
+async function getStudentEnrollmentForCourse({ id }) {
+  const url = `/courses/${id}/enrollments?type[]=StudentEnrollment`;
   try {
     const enrollment = await fetchFromCanvas(url);
     return enrollment.filter(onlyThoseWithCourseAndUserId).map(normalize);
@@ -53,7 +53,7 @@ export default async () => {
   const activeCourses = allCourses.filter(isActiveCourse);
 
   // running in series to prevent Canvas throttling
-  const courseEnrollments = await pMapSeries(activeCourses, getEnrollmentForCourse);
+  const courseEnrollments = await pMapSeries(activeCourses, getStudentEnrollmentForCourse);
 
   // Parallel. Could be throttled by Canvas API?
   // const courseEnrollments = await Promise.all(activeCourses.map(getEnrollmentForCourse));

@@ -3,7 +3,7 @@ import generateEnrollAdds from './generateEnrollAdds';
 describe('generateEnrollAdds', () => {
   it('gets a list of new enrollments to add to Canvas', async () => {
     const jexService = {
-      getEnrollment: jest.fn().mockResolvedValue([
+      getStudentEnrollment: jest.fn().mockResolvedValue([
         {
           course_id: 'Art 101',
           user_id: 'enrolled user',
@@ -16,7 +16,7 @@ describe('generateEnrollAdds', () => {
     };
 
     const canvasService = {
-      getEnrollment: jest
+      getStudentEnrollment: jest
         .fn()
         .mockResolvedValue([{ course_id: 'Art 101', user_id: 'enrolled user' }]),
     };

@@ -1,25 +1,25 @@
-import getEnrollmentFromJex from './getEnrollmentFromJex';
+import getEnrollmentFromJex from './getStudentEnrollmentFromJex';
 
 describe('getEnrollmentFromJex', () => {
   it('gets enrollment for active courses from Jex', async () => {
     const jexService = {
       query: jest.fn().mockResolvedValue([
         {
-          sisId: '1',
+          id: '1',
           username: 'user1',
           courseCode: 'GWD  6610 20',
           term: 'FA',
           year: '2018',
         },
         {
-          sisId: '1',
+          id: '1',
           username: 'user1',
           courseCode: 'AH 1000 01',
           term: 'FA',
           year: '2018',
         },
         {
-          sisId: '2',
+          id: '2',
           courseCode: 'AH  1000 20',
           term: 'SP',
           year: '2019',
