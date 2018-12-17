@@ -33,7 +33,7 @@
     "regenerator-runtime": "^0.12.1"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "node cli.js",
     "dev": "nodemon index.js",
     "test": "jest",
     "test:watch": "jest --watch"
