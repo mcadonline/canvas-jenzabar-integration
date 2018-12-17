@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 require = require('esm')(module); // eslint-disable-line no-global-assign
+const process = require('process');
 const meow = require('meow');
 const inquirer = require('inquirer');
 const write = require('write');
@@ -11,7 +12,7 @@ const settings = require('./src/settings').default;
 
 const { log, warn } = console;
 
-function writeFeedfileSync(contents, { action }) {
+async function writeFeedfile(contents, { action }) {
   const feedfiletype = action
     .split(' ')
     .join('')
@@ -23,8 +24,13 @@ function writeFeedfileSync(contents, { action }) {
   const shorthostname = settings.canvas.hostname.replace(/\.instructure\.com/, '');
   const filename = `ff-${shorthostname}-${feedfiletype}-${timestamp}.csv`;
   const fileDest = path.join(__dirname, './tmp', filename);
-  write.sync(fileDest, contents);
-  return fileDest;
+  try {
+    await write(fileDest, contents);
+    return fileDest;
+  } catch (err) {
+    warn(`Unable to write: ${err.message}`);
+    throw err;
+  }
 }
 
 async function cli() {
@@ -58,13 +64,13 @@ async function cli() {
         type: 'list',
         name: 'action',
         message: 'What do you want to do?',
-        choices: [C.GENERATE_USERS_CSV, C.GENERATE_ENROLLADDS_CSV],
+        choices: [C.GENERATE_USERS_CSV, C.GENERATE_ENROLLADDS_CSV, C.GENERATE_ENROLLDROPS_CSV],
       },
     ];
     const answers = await inquirer.prompt(questions);
     const { action } = answers;
     const csv = await main(action);
-    const fileDest = writeFeedfileSync(csv, { action });
+    const fileDest = await writeFeedfile(csv, { action });
     log(csv);
 
     // to stderr to keep stdout clean for piping
