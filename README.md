@@ -33,12 +33,12 @@ $ canvas-jenzabar --users
 👍 Saved to: /tmp/ff-users.csv
 ```
 
-### `--enrollment-add-students`
+### `--enrollmentadds`
 
 Enrollment Adds: Students in SIS, but not enrolled in Canvas
 
 ```sh
-$ canvas-jenzabar --enrollment-add-students
+$ canvas-jenzabar --enrollmentadds
 
 "user_id","course_id","status","role"
 "123","ILL-2000-01-F21","active","student"
@@ -47,12 +47,12 @@ $ canvas-jenzabar --enrollment-add-students
 👍 Saved to: /tmp/ff-enrolladdstudents.csv
 ```
 
-### `--enrollment-drop-students`
+### `--enrollmentdrops`
 
 Enrollment Drops: Student in Canvas, but not in SIS
 
 ```sh
-$ canvas-jenzabar --enrollment-drop-students
+$ canvas-jenzabar --enrollmentdrops
 
 "user_id","course_id","status","role"
 "123","ILL-2000-01-F21","active","student"
@@ -61,7 +61,7 @@ $ canvas-jenzabar --enrollment-drop-students
 👍 Saved to: /tmp/ff-enrolldropstudents.csv
 ```
 
-### `--post-to`
+### `--post`
 
 Post CSV data to SIS Import endpoint. Must be used with another CLI option.
 

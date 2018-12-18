@@ -11,6 +11,11 @@ const C = require('./src/constants');
 const settings = require('./src/settings').default;
 
 const { log, warn } = console;
+const validFlags = {
+  users: { type: 'boolean' },
+  enrollmentadds: { type: 'boolean' },
+  enrollmentdrops: { type: 'boolean' },
+};
 
 async function writeFeedfile(contents, { action }) {
   const feedfiletype = action
@@ -34,26 +39,36 @@ async function writeFeedfile(contents, { action }) {
 }
 
 async function cli() {
-  const { flags } = meow(
+  const { flags, showHelp } = meow(
     `
       Usage
         $ canvas-jenzabar <options>
    
       Options
         --users        CSV of users to add/update
+        --enrollmentadds   student enrollments to add/update
+        --enrollmentdrops  student enrollments to drop
+        --post <url>   post file to url
    
       Examples
         $ canvas-jenzabar --users
+        $
   `,
-    {
-      flags: {
-        users: { type: 'boolean' },
-      },
-    },
+    { flags: validFlags },
   );
 
   if (flags.users) {
     const csv = await main(C.GENERATE_USERS_CSV);
+    log(csv);
+  }
+
+  if (flags.enrollmentadds) {
+    const csv = await main(C.GENERATE_ENROLLADDS_CSV);
+    log(csv);
+  }
+
+  if (flags.enrollmentdrops) {
+    const csv = await main(C.GENERATE_ENROLLDROPS_CSV);
     log(csv);
   }
 
