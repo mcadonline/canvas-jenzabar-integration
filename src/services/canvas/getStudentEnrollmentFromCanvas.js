@@ -4,10 +4,15 @@ import { DateTime } from 'luxon';
 import fetchFromCanvas from './fetchFromCanvas';
 import getCoursesFromCanvas from './getCoursesFromCanvas';
 
+const ifIntParseInt = (value) => {
+  const parsedInt = Number.parseInt(value, 10);
+  return Number.isInteger(parsedInt) ? parsedInt : value;
+};
+
 /* eslint-disable camelcase */
 const normalize = ({ sis_course_id, sis_user_id }) => ({
   course_id: sis_course_id,
-  user_id: sis_user_id,
+  user_id: ifIntParseInt(sis_user_id),
 });
 /* eslint-enable camelcase */
 
