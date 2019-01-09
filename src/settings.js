@@ -31,7 +31,7 @@ const settings = {
     'HS   5010 20',
     '2D   3206 20',
     'ILL  2000 01',
-    'GRD  2000 01',
+    'GRD  5100 01',
     'AH   2103 01',
   ],
   onlyTerm: 'SP',
