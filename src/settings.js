@@ -25,7 +25,6 @@ const settings = {
   // users and enrollments will only be processed for these courses
   // (course id must be in JEX format)
   onlyCourses: [
-    'IDM  6611 20',
     'SD   6750 20',
     'GWD  7460 20',
     'HS   5010 20',
