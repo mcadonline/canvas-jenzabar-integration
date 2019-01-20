@@ -61,7 +61,7 @@ $ canvas-jenzabar --enrollmentdrops
 👍 Saved to: /tmp/ff-enrolldropstudents.csv
 ```
 
-### `--post`
+### `--post-to`
 
 Post CSV data to SIS Import endpoint. Must be used with another CLI option.
 

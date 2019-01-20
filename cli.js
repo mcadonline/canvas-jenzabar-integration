@@ -9,13 +9,9 @@ const path = require('path');
 const main = require('./src/main').default;
 const C = require('./src/constants');
 const settings = require('./src/settings').default;
+const postToCanvas = require('./src/services/canvas/postToCanvas').default;
 
 const { log, warn } = console;
-const validFlags = {
-  users: { type: 'boolean' },
-  enrollmentadds: { type: 'boolean' },
-  enrollmentdrops: { type: 'boolean' },
-};
 
 async function writeFeedfile(contents, { action }) {
   const feedfiletype = action
@@ -39,7 +35,7 @@ async function writeFeedfile(contents, { action }) {
 }
 
 async function cli() {
-  const { flags, showHelp } = meow(
+  const { flags } = meow(
     `
       Usage
         $ canvas-jenzabar <options>
@@ -54,22 +50,36 @@ async function cli() {
         $ canvas-jenzabar --users
         $
   `,
-    { flags: validFlags },
+    {
+      flags: {
+        users: { type: 'boolean' },
+        enrollmentadds: { type: 'boolean' },
+        enrollmentdrops: { type: 'boolean' },
+        postTo: { type: 'string' },
+      },
+    },
   );
 
+  console.log(flags);
+  let csv;
   if (flags.users) {
-    const csv = await main(C.GENERATE_USERS_CSV);
-    log(csv);
+    csv = await main(C.GENERATE_USERS_CSV);
   }
 
   if (flags.enrollmentadds) {
-    const csv = await main(C.GENERATE_ENROLLADDS_CSV);
-    log(csv);
+    csv = await main(C.GENERATE_ENROLLADDS_CSV);
   }
 
   if (flags.enrollmentdrops) {
-    const csv = await main(C.GENERATE_ENROLLDROPS_CSV);
-    log(csv);
+    csv = await main(C.GENERATE_ENROLLDROPS_CSV);
+  }
+
+  log(csv);
+  if (flags.postTo) {
+    console.log(`\n⤴️  Uploading Data to: ${flags.postTo}`);
+    const url = '/accounts/1/sis_imports?extension=csv';
+    const res = await postToCanvas(url, csv);
+    console.log(JSON.stringify(res));
   }
 
   // if no flags prompt for action
@@ -84,7 +94,7 @@ async function cli() {
     ];
     const answers = await inquirer.prompt(questions);
     const { action } = answers;
-    const csv = await main(action);
+    csv = await main(action);
     const fileDest = await writeFeedfile(csv, { action });
     log(csv);
 

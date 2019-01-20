@@ -12,7 +12,7 @@ export default async (url = '', data = {}, config) => {
     const res = await fetch(`${baseUrl}${url}`, {
       headers,
       method: 'POST',
-      body: JSON.stringify(data),
+      body: data,
       ...config,
     });
     const payload = await res.json();
