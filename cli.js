@@ -7,7 +7,6 @@ const writeToFile = require('./src/utils/writeToFile').default;
 const generators = require('./src/generators').default;
 const services = require('./src/services').default;
 const settings = require('./src/settings').default;
-const debug = require('./src/utils/debugHangingProcess').default;
 
 const { log, warn } = console;
 
@@ -111,9 +110,8 @@ async function cli() {
     }
   } catch (err) {
     console.error(`\n ❌ ${err.message}`);
+    throw err;
   }
-
-  debug();
 }
 
 cli();

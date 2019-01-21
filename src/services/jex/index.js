@@ -1,9 +1,9 @@
-import SQLService from '../SQLService';
+import createSQLService from '../createSQLService';
 import getStudentsFromJex from './getStudentsFromJex';
 import getInstructorsFromJex from './getInstructorsFromJex';
 import getStudentEnrollmentFromJex from './getStudentEnrollmentFromJex';
 
-const jexService = new SQLService('jex');
+const jexService = createSQLService('jex');
 
 export default {
   async getUsers() {
@@ -13,8 +13,10 @@ export default {
     ]);
     return students.concat(faculty);
   },
-  getStudentEnrollment: () => getStudentEnrollmentFromJex(jexService),
-  close() {
-    jexService.close();
+  async getStudentEnrollment() {
+    return getStudentEnrollmentFromJex(jexService);
+  },
+  async close() {
+    await jexService.close();
   },
 };
