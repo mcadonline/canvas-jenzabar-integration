@@ -1,108 +1,119 @@
 #!/usr/bin/env node
 require = require('esm')(module); // eslint-disable-line no-global-assign
-const process = require('process');
 const meow = require('meow');
 const inquirer = require('inquirer');
-const write = require('write');
-const { DateTime } = require('luxon');
-const path = require('path');
 const main = require('./src/main').default;
-const C = require('./src/constants');
+const writeToFile = require('./src/utils/writeToFile').default;
+const generators = require('./src/generators').default;
+const services = require('./src/services').default;
 const settings = require('./src/settings').default;
-const postToCanvas = require('./src/services/canvas/postToCanvas').default;
+const debug = require('./src/utils/debugHangingProcess').default;
 
 const { log, warn } = console;
 
-async function writeFeedfile(contents, { action }) {
-  const feedfiletype = action
-    .split(' ')
-    .join('')
-    .toLowerCase();
-  const timestamp = DateTime.local()
-    .toISODate()
-    .split('-')
-    .join('');
-  const shorthostname = settings.canvas.hostname.replace(/\.instructure\.com/, '');
-  const filename = `ff-${shorthostname}-${feedfiletype}-${timestamp}.csv`;
-  const fileDest = path.join(__dirname, './tmp', filename);
-  try {
-    await write(fileDest, contents);
-    return fileDest;
-  } catch (err) {
-    warn(`Unable to write: ${err.message}`);
-    throw err;
-  }
+const generatorDict = {
+  users: generators.users,
+  'enrollment-adds': generators.enrollAdds,
+  'enrollment-drops': generators.enrollDrops,
+};
+
+const isValidGenerator = str => Object.keys(generatorDict).includes(str);
+
+async function promptUser() {
+  const answers = await inquirer.prompt([
+    {
+      type: 'list',
+      name: 'generatorKey',
+      message: 'What do you want to generate?',
+      choices: Object.keys(generatorDict),
+    },
+    {
+      type: 'checkbox',
+      name: 'destinations',
+      message: 'Destinations? (in addition to stdout)',
+      choices: ['file', 'upload'],
+    },
+  ]);
+
+  return {
+    generatorKey: answers.generatorKey,
+    destinations: {
+      upload: answers.destinations.some(dest => dest === 'upload'),
+      file: answers.destinations.some(dest => dest === 'file'),
+    },
+  };
 }
 
 async function cli() {
-  const { flags } = meow(
+  const { flags, input } = meow(
     `
       Usage
-        $ canvas-jenzabar <options>
+        $ canvas-jenzabar <generator> <options>
    
+
+      Generators
+        users
+        enrollment-adds
+        enrollment-drops
+
       Options
-        --users        CSV of users to add/update
-        --enrollmentadds   student enrollments to add/update
-        --enrollmentdrops  student enrollments to drop
-        --post <url>   post file to url
+        --help              This help text.
+        --file              save csv to a file in \`./tmp\` folder
+        --upload            upload csv to Canvas via SIS Imports
    
-      Examples
-        $ canvas-jenzabar --users
-        $
+      Example
+        $ canvas-jenzabar users --upload
   `,
     {
       flags: {
-        users: { type: 'boolean' },
-        enrollmentadds: { type: 'boolean' },
-        enrollmentdrops: { type: 'boolean' },
-        postTo: { type: 'string' },
+        file: { type: 'boolean' },
+        upload: { type: 'boolean' },
       },
     },
   );
 
-  console.log(flags);
-  let csv;
-  if (flags.users) {
-    csv = await main(C.GENERATE_USERS_CSV);
+  let generatorKey = input ? input[0] : null;
+  let destinations = flags;
+
+  // if input is given and invalid, error
+  if (generatorKey && !isValidGenerator(generatorKey)) {
+    warn(
+      `\n❌  Error: ${generatorKey} is not a valid generator. Use --help option to see valid generators.`,
+    );
+  }
+  // if no generator given as cli input
+  // prompt user for generator and destination
+  if (!generatorKey) {
+    const answers = await promptUser();
+    ({ generatorKey, destinations } = answers);
   }
 
-  if (flags.enrollmentadds) {
-    csv = await main(C.GENERATE_ENROLLADDS_CSV);
-  }
+  const generatorFn = generatorDict[generatorKey];
 
-  if (flags.enrollmentdrops) {
-    csv = await main(C.GENERATE_ENROLLDROPS_CSV);
-  }
-
-  log(csv);
-  if (flags.postTo) {
-    console.log(`\n⤴️  Uploading Data to: ${flags.postTo}`);
-    const url = '/accounts/1/sis_imports?extension=csv';
-    const res = await postToCanvas(url, csv);
-    console.log(JSON.stringify(res));
-  }
-
-  // if no flags prompt for action
-  if (Object.values(flags).every(v => v === false)) {
-    const questions = [
-      {
-        type: 'list',
-        name: 'action',
-        message: 'What do you want to do?',
-        choices: [C.GENERATE_USERS_CSV, C.GENERATE_ENROLLADDS_CSV, C.GENERATE_ENROLLDROPS_CSV],
-      },
-    ];
-    const answers = await inquirer.prompt(questions);
-    const { action } = answers;
-    csv = await main(action);
-    const fileDest = await writeFeedfile(csv, { action });
+  try {
+    const csv = await main(generatorFn);
     log(csv);
 
-    // to stderr to keep stdout clean for piping
-    warn(`\n👍  Output: ${fileDest}`);
+    warn(destinations);
+
+    if (destinations.file) {
+      // save to file
+      const fileDest = await writeToFile(csv, { filenamePrefix: generatorKey });
+      warn(`\n👍  Saving to file: ${fileDest}`);
+    }
+
+    if (destinations.upload) {
+      // upload to canvas
+      log(`\n⤴️  Uploading Data to: ${settings.canvas.hostname}`);
+      const url = '/accounts/1/sis_imports?extension=csv';
+      const res = await services.canvas.post(url, csv);
+      warn(`Response: ${JSON.stringify(res)}`);
+    }
+  } catch (err) {
+    console.error(`\n ❌ ${err.message}`);
   }
 
-  process.exit();
+  debug();
 }
 
 cli();
