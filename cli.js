@@ -95,6 +95,11 @@ async function cli() {
 
     warn(destinations);
 
+    if (csv.length === 0) {
+      warn('🤓  No data generated. Done!');
+      return;
+    }
+
     if (destinations.file) {
       // save to file
       const fileDest = await writeToFile(csv, { filenamePrefix: generatorKey });
