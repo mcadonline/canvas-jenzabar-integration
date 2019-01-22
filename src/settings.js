@@ -1,4 +1,8 @@
-require('dotenv').config();
+import path from 'path';
+
+require('dotenv').config({
+  path: path.resolve(__dirname, '../.env'),
+});
 
 const settings = {
   jex: {
@@ -7,20 +11,10 @@ const settings = {
     server: process.env.jex_server,
     database: process.env.jex_database,
   },
-  ldap: {
-    url: process.env.ldap_url,
-    base: process.env.ldap_base,
-    dn: process.env.ldap_dn,
-    password: process.env.ldap_password,
-  },
   canvas: {
     hostname: process.env.canvas_hostname,
     token: process.env.canvas_token,
   },
-  // for emailing reports
-  postmarkAPIKey: process.env.postmark_api_key,
-  emailTo: process.env.email_to,
-  emailFrom: process.env.email_from,
 
   // users and enrollments will only be processed for these courses
   // (course id must be in JEX format)

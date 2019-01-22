@@ -46,8 +46,22 @@ $ canvas-jenzabar
 
 # Installation
 
+Prerequisites:
+
+- NodeJS LTS
+
 ```sh
-$ git clone
+# clone repo
+$ git clone git@github.com:mcadonline/canvas-jenzabar-integration.git
+
+# configure .env file
+$ cd canvas-jenzabar-integration
+$ cp .env.example .env
+$ nano .env
+
+# run
+$ npm link
+$ canvas-jenzabar users --file
 
 ```
 
