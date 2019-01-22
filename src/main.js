@@ -9,6 +9,7 @@ export default async function main(generatorFn) {
   warn(`
   🌕  CANVAS HOST:\t${settings.canvas.hostname}
   🔵  JENZABAR HOST:\t${settings.jex.server}
+  🕐  DATETIME:\t\t${new Date()}
   `);
 
   if (typeof generatorFn !== 'function') {
