@@ -4,80 +4,52 @@
 
 > Create student users, handle enrollment add/drops in Canvas LMS
 
+This is currently being used as part of the pilot of Canvas LMS at MCAD.
+
 # Usage
 
-## `canvas-jenzabar`
+```sh
+$ canvas-jenzabar <generator> <options>
+```
 
-Select CSV generating choices
+Or, if you'd like to be prompted for choices:
 
 ```
 $ canvas-jenzabar
 
-? What do you want to do?
-❯ Generate Users CSV
-  Generate Enrollment Adds CSV
-  Generate Enrollment Drops CSV
-```
+? What do you want to generate?
+❯ users
+  enrollment-adds
+  enrollment-drops
 
-### `--users`
+? Destinations (in addition to stdout)
+❯◉ file
+ ◯ upload
 
-Create a CSV of students and faculty enrolled in current and future courses:
-
-```sh
-$ canvas-jenzabar --users
-
-"user_id","login_id","first_name","last_name","email","status"
-"123","123","Testy","McTesterson","ttesterson@mcad.edu","active"
-"456","456","Astudent","VonBauhaus","avonbauhaus@mcad.edu","active"
-
-👍 Saved to: /tmp/ff-users.csv
-```
-
-### `--enrollmentadds`
-
-Enrollment Adds: Students in SIS, but not enrolled in Canvas
-
-```sh
-$ canvas-jenzabar --enrollmentadds
-
-"user_id","course_id","status","role"
-"123","ILL-2000-01-F21","active","student"
-"456","GWD-7460-20-W22","active","student"
-
-👍 Saved to: /tmp/ff-enrolladdstudents.csv
-```
-
-### `--enrollmentdrops`
-
-Enrollment Drops: Student in Canvas, but not in SIS
-
-```sh
-$ canvas-jenzabar --enrollmentdrops
-
-"user_id","course_id","status","role"
-"123","ILL-2000-01-F21","active","student"
-"456","GWD-7460-20-W22","active","student"
-
-👍 Saved to: /tmp/ff-enrolldropstudents.csv
-```
-
-### `--post-to`
-
-Post CSV data to SIS Import endpoint. Must be used with another CLI option.
-
-```sh
-$ canvas-jenzabar --users --post-to https://mcad.instructure.com
+  🌕  CANVAS HOST:       canvas.instructure.com
+  🔵  JENZABAR HOST:     jenzabar.school.edu
 
 "user_id","login_id","first_name","last_name","email","status"
-"123","123","Testy","McTesterson","ttesterson@mcad.edu","active"
-"456","456","Astudent","VonBauhaus","avonbauhaus@mcad.edu","active"
-
-✅ Posted to: https://mcad.instructure.com
+⋮
 ```
+
+## Generators
+
+- `users` – CSV of users to update
+- `enrollment-adds` – students to add to Canvas course enrollment
+- `enrollment-drops` – students to drop (make inactive) in Canvas course enrollment
+
+## Options
+
+- `--file` – saves the output to a file in `./tmp`
+- `--upload` – uploads the file to canvas instance
 
 # Installation
 
-TODO
+```sh
+$ git clone
+
+```
 
 # Resources
 
