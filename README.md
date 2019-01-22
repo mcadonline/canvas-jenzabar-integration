@@ -54,6 +54,9 @@ Prerequisites:
 # clone repo
 $ git clone git@github.com:mcadonline/canvas-jenzabar-integration.git
 
+# install node deps
+$ npm ci
+
 # configure .env file
 $ cd canvas-jenzabar-integration
 $ cp .env.example .env
@@ -62,8 +65,9 @@ $ nano .env
 # run
 $ npm link
 $ canvas-jenzabar users --file
-
 ```
+
+Note that canvas-jenzabar will use `.env` file in repo dir.
 
 # Resources
 
