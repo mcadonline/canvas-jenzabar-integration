@@ -19,16 +19,30 @@ const settings = {
   // users and enrollments will only be processed for these courses
   // (course id must be in JEX format)
   onlyCourses: [
-    'SD   6750 20',
-    'GWD  7460 20',
-    'HS   5010 20',
-    '2D   3206 20',
-    'ILL  2000 01',
-    'GRD  5100 01',
-    'AH   2103 01',
+    {
+      term: 'SP',
+      year: 2019,
+      sections: [
+        'SD   6750 20',
+        'GWD  7460 20',
+        'HS   5010 20',
+        '2D   3206 20',
+        'ILL  2000 01',
+        'GRD  5100 01',
+        'AH   2103 01',
+      ],
+    },
+    {
+      term: 'SU',
+      year: 2019,
+      sections: ['HS   5010 20', 'CSGW 5901 20', 'GWD  7800 20'],
+    },
+    {
+      term: 'FA',
+      year: 2019,
+      sections: ['GWD  7410 20', 'CSDE 9478 20', 'GWD  7460 20', 'HS   5010 20'],
+    },
   ],
-  onlyTerm: 'SP',
-  onlyRealYear: 2019,
 
   // users to ignore when processing drops
   ignoreUsers: ['mlisa'],
