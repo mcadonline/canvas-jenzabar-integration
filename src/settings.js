@@ -35,7 +35,7 @@ const settings = {
     {
       term: 'SU',
       year: 2019,
-      sections: ['HS   5010 20', 'CSGW 5901 20', 'GWD  7800 20'],
+      sections: ['HS   5010 20', 'GWD  7800 20', 'CSLA 4004 01'],
     },
     {
       term: 'FA',
