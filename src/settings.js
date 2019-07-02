@@ -51,7 +51,8 @@ const settings = {
         'IDM  6612 20', // Web Dev: CSS
         'IDM  6613 20', // Web Dev: Projects
         'SD   7010 20', // SD Practicum
-        'SD   7020 20', // SD Thesis Project
+        'SD   7021 20', // SD Thesis Project 1
+        'SD   7022 20', // SD Thesis Project 2
         'CSDE 9305 20', // CE / Comic Art Crash Course
         'CSID 6631 20', // Web Dev: PHP and MySQL
         'HS   3317 20', // LA / Myth, Ritual, and Symbolism
