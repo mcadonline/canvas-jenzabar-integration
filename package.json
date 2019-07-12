@@ -19,7 +19,7 @@
     "parse-link-header": "^1.0.1",
     "query-string": "6.6.0",
     "ramda": "^0.25.0",
-    "simple-ldap-search": "^2.0.10",
+    "simple-ldap-search": "2.0.11",
     "write": "^1.0.3"
   },
   "devDependencies": {
@@ -28,7 +28,7 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "24.8.0",
     "eslint": "5.16.0",
-    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-airbnb-base": "13.2.0",
     "eslint-plugin-import": "2.17.3",
     "jest": "24.8.0",
     "nodemon": "1.19.1",
