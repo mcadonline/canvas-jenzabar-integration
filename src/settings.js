@@ -41,7 +41,6 @@ const settings = {
       term: 'FA',
       year: 2019,
       sections: [
-        'GWD  7800 20', // MAGWD / Capstone
         'GWD  7410 20', // MAGWD / Web Design
         'CSDE 9478 20', // CE / Motion Illustration
         'GWD  7460 20', // MAGWD / UX Design
@@ -60,6 +59,10 @@ const settings = {
         'VC   4207 20', // CE / Graphic Design Essentials
         'CSID 6632 20', // CE / Web Dev: Wordpress
         'CSMA 9342 20', // CE / Game Mechanics
+        'AH   3862 01', // LA / Bauhaus
+        'HS   3862 01', // LA / Bauhaus cross-list
+        'AH   2103 01', // LA / Applied Arts
+        'HS   5010 04', // LA / LA Adv Sem - GGG
       ],
     },
   ],
