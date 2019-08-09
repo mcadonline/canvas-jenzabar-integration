@@ -1,10 +1,13 @@
 export default ({
   sisId, firstName, preferredName, lastName, mcadEmail,
-}) => ({
-  user_id: sisId,
-  login_id: sisId,
-  first_name: preferredName || firstName,
-  last_name: lastName,
-  email: mcadEmail,
-  status: 'active',
-});
+}) => {
+  const sisIdInt = Number.parseInt(sisId, 10);
+  return {
+    user_id: sisIdInt,
+    login_id: sisIdInt,
+    first_name: preferredName || firstName,
+    last_name: lastName,
+    email: mcadEmail,
+    status: 'active',
+  };
+};
