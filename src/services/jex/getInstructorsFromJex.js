@@ -1,4 +1,4 @@
-import withCourseRestrictionsSQL from './withCourseRestrictionsSQL';
+import withCourseRestrictionsSQL from './withOnlyCoursesSql';
 import normalizeJexUserData from './normalizeJexUserData';
 
 const baseSqlQuery = `
@@ -31,7 +31,9 @@ where sm.LAST_END_DTE >= @today
  */
 export default async function getInstructorsFromJex(jexService) {
   try {
-    const sqlQuery = withCourseRestrictionsSQL(baseSqlQuery);
+    const sqlQuery = withCourseRestrictionsSQL({
+      baseQuery: baseSqlQuery,
+    });
     const recordset = await jexService.query(sqlQuery);
 
     // filtering here, rather than in query

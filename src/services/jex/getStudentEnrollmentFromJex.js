@@ -1,5 +1,5 @@
 import toCourseId from '../../utils/toCourseId';
-import withCourseRestrictionsSQL from './withCourseRestrictionsSQL';
+import withCourseRestrictionsSQL from './withOnlyCoursesSql';
 
 const baseSqlQuery = `
 declare @today datetime;
@@ -26,7 +26,6 @@ where DATEADD(month, 1, sch.end_dte) >= @today
   and sch.TRANSACTION_STS <> 'W'
   -- only include students with username
   and am_meml.addr_line_2 is not null
-  and sch.begin_dte > '2018-05-15'
 `;
 
 function normalize(record) {
@@ -48,7 +47,10 @@ function normalize(record) {
  */
 export default async (jexService) => {
   try {
-    const sqlQuery = withCourseRestrictionsSQL(baseSqlQuery, 'sch');
+    const sqlQuery = withCourseRestrictionsSQL({
+      baseQuery: baseSqlQuery,
+      sectionTable: 'sch',
+    });
     const recordset = await jexService.query(sqlQuery);
     return recordset.map(normalize);
   } catch (error) {
