@@ -14,6 +14,7 @@ const generatorDict = {
   users: generators.users,
   'enrollment-adds': generators.enrollAdds,
   'enrollment-drops': generators.enrollDrops,
+  sections: generators.sections,
 };
 
 const isValidGenerator = str => Object.keys(generatorDict).includes(str);
