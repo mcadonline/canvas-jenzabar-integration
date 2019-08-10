@@ -1,5 +1,8 @@
 import withCourseRestrictionsSQL from './withOnlyCoursesSql';
 import normalizeJexUserData from './normalizeJexUserData';
+import canvas from '../canvas';
+import groupCourseIdsByTermYear from '../../utils/groupCourseIdsByTermYear';
+import getActiveCoursesByTermYear from '../canvas/getActiveCoursesByTermYear';
 
 const baseSqlQuery = `
 declare @today datetime;
@@ -31,9 +34,13 @@ where sm.LAST_END_DTE >= @today
  */
 export default async function getInstructorsFromJex(jexService) {
   try {
+    const coursesByTerm = await getActiveCoursesByTermYear();
+
     const sqlQuery = withCourseRestrictionsSQL({
       baseQuery: baseSqlQuery,
+      courses: coursesByTerm,
     });
+
     const recordset = await jexService.query(sqlQuery);
 
     // filtering here, rather than in query

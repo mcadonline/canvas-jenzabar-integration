@@ -2,16 +2,19 @@
 import { DateTime } from 'luxon';
 import getCoursesFromCanvas from './getCoursesFromCanvas';
 
-const onlyCoursesWithFutureEndDate = ({ end_at }) => {
-  if (!end_at) return true;
+const onlyCoursesWithFutureEndDate = ({ end_date }) => {
+  if (!end_date) return true;
   const now = DateTime.utc();
-  const end = DateTime.fromISO(end_at);
+  const end = DateTime.fromISO(end_date);
   return now <= end;
 };
 
-const onlyCoursesWithSISCourseId = ({ sis_course_id }) => !!sis_course_id;
+const onlyCoursesEndingWithTerm = ({ course_id }) => {
+  const regexForTermYear = /-[FWS]\d{2}$/i;
+  return regexForTermYear.test(course_id);
+};
 
 export default async () => {
   const courses = await getCoursesFromCanvas();
-  return courses.filter(onlyCoursesWithSISCourseId).filter(onlyCoursesWithFutureEndDate);
+  return courses.filter(onlyCoursesEndingWithTerm).filter(onlyCoursesWithFutureEndDate);
 };

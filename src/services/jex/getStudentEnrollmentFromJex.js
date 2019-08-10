@@ -1,5 +1,6 @@
 import toCourseId from '../../utils/toCourseId';
 import withCourseRestrictionsSQL from './withOnlyCoursesSql';
+import settings from '../../settings';
 
 const baseSqlQuery = `
 declare @today datetime;
@@ -50,6 +51,7 @@ export default async (jexService) => {
     const sqlQuery = withCourseRestrictionsSQL({
       baseQuery: baseSqlQuery,
       sectionTable: 'sch',
+      courses: settings.onlyCourses,
     });
     const recordset = await jexService.query(sqlQuery);
     return recordset.map(normalize);

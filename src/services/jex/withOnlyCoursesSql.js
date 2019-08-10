@@ -3,11 +3,7 @@ import toJexYear from '../../utils/toJexYear';
 
 const { onlyCourses } = settings;
 
-export default function withOnlyCoursesSql({
-  baseQuery,
-  sectionTable = 'sm',
-  courses = onlyCourses,
-}) {
+export default function withOnlyCoursesSql({ baseQuery, sectionTable = 'sm', courses }) {
   // restrict to Canvas Courses
   const restrictionsSQL = courses
     .map(({ year, term, sections }) => {

@@ -17,12 +17,13 @@ describe('getActiveCoursesFromCanvas', () => {
   });
   it('ignores courses without SIS ID set', async () => {
     const activeCourses = await getActiveCoursesFromCanvas();
-    const activeCoursesWithNoSIS = activeCourses.filter(c => !c.sis_course_id);
+    const activeCoursesWithNoSIS = activeCourses.filter(c => !c.course_id);
     expect(activeCoursesWithNoSIS).toEqual([]);
   });
   it('includes courses without an end date set', async () => {
     const activeCourses = await getActiveCoursesFromCanvas();
-    const coursesWithNoEndDate = activeCourses.filter(c => c.end_at === null);
+    const coursesWithNoEndDate = activeCourses.filter(c => c.end_date === null);
     expect(coursesWithNoEndDate.length).toBe(1);
   });
+  it.todo('ignores courses with SIS ID that end with X');
 });

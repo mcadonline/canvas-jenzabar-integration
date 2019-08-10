@@ -1,5 +1,6 @@
 import withCourseRestrictionsSQL from './withOnlyCoursesSql';
 import normalizeJexUserData from './normalizeJexUserData';
+import settings from '../../settings';
 
 const baseSqlQuery = `
   declare @today datetime;
@@ -38,6 +39,7 @@ export default async function getStudentsFromJex(jexService) {
   try {
     const sqlQuery = withCourseRestrictionsSQL({
       baseQuery: baseSqlQuery,
+      courses: settings.onlyCourses,
     });
     const recordset = await jexService.query(sqlQuery);
 
