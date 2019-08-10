@@ -1,7 +1,5 @@
 import withCourseRestrictionsSQL from './withOnlyCoursesSql';
 import normalizeJexUserData from './normalizeJexUserData';
-import canvas from '../canvas';
-import groupCourseIdsByTermYear from '../../utils/groupCourseIdsByTermYear';
 import getActiveCoursesByTermYear from '../canvas/getActiveCoursesByTermYear';
 
 const baseSqlQuery = `
