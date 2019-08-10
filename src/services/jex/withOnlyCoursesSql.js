@@ -1,7 +1,4 @@
-import settings from '../../settings';
 import toJexYear from '../../utils/toJexYear';
-
-const { onlyCourses } = settings;
 
 export default function withOnlyCoursesSql({ baseQuery, sectionTable = 'sm', courses }) {
   // restrict to Canvas Courses

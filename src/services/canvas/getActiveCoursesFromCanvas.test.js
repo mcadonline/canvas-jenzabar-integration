@@ -25,5 +25,4 @@ describe('getActiveCoursesFromCanvas', () => {
     const coursesWithNoEndDate = activeCourses.filter(c => c.end_date === null);
     expect(coursesWithNoEndDate.length).toBe(1);
   });
-  it.todo('ignores courses with SIS ID that end with X');
 });

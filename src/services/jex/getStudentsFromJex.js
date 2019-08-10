@@ -1,6 +1,6 @@
 import withCourseRestrictionsSQL from './withOnlyCoursesSql';
 import normalizeJexUserData from './normalizeJexUserData';
-import settings from '../../settings';
+import getActiveCoursesByTermYear from '../canvas/getActiveCoursesByTermYear';
 
 const baseSqlQuery = `
   declare @today datetime;
@@ -37,9 +37,11 @@ const baseSqlQuery = `
  */
 export default async function getStudentsFromJex(jexService) {
   try {
+    const coursesByTerm = await getActiveCoursesByTermYear();
+
     const sqlQuery = withCourseRestrictionsSQL({
       baseQuery: baseSqlQuery,
-      courses: settings.onlyCourses,
+      courses: coursesByTerm,
     });
     const recordset = await jexService.query(sqlQuery);
 

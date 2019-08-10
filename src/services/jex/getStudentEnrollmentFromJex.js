@@ -1,6 +1,6 @@
 import toCourseId from '../../utils/toCourseId';
 import withCourseRestrictionsSQL from './withOnlyCoursesSql';
-import settings from '../../settings';
+import getActiveCoursesByTermYear from '../canvas/getActiveCoursesByTermYear';
 
 const baseSqlQuery = `
 declare @today datetime;
@@ -48,10 +48,12 @@ function normalize(record) {
  */
 export default async (jexService) => {
   try {
+    const coursesByTerm = await getActiveCoursesByTermYear();
+
     const sqlQuery = withCourseRestrictionsSQL({
       baseQuery: baseSqlQuery,
       sectionTable: 'sch',
-      courses: settings.onlyCourses,
+      courses: coursesByTerm,
     });
     const recordset = await jexService.query(sqlQuery);
     return recordset.map(normalize);
