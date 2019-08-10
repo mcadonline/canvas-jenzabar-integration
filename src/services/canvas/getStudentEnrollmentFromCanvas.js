@@ -53,7 +53,7 @@ export default async () => {
   const allCourses = await getCoursesFromCanvas();
 
   // get enrollments for active courses only
-  // e.g. published, hasn't ended, has students, etc.
+  // e.g. hasn't ended, has students, etc.
   // see: isActiveCourse() for specifics
   const activeCourses = allCourses.filter(isActiveCourse);
 
