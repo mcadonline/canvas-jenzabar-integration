@@ -16,9 +16,9 @@ const normalizeCanvasCourseData = ({
   /* eslint-enable camelcase */
 }) => ({
   id,
-  course_id: sis_course_id,
-  short_name: course_code,
-  long_name: name,
+  sis_course_id,
+  course_code,
+  name,
   status: workflow_state,
   start_date: start_at,
   end_date: end_at,

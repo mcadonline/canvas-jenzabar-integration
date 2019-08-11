@@ -15,7 +15,7 @@ describe('getActiveSectionsFromCanvas', () => {
     };
     const mockCourse = {
       id: 1,
-      course_id: 'GWD-6610-20-F19',
+      sis_course_id: 'GWD-6610-20-F19',
     };
     getActiveCoursesFromCanvas.mockResolvedValue([mockCourse]);
     fetchFromCanvas.mockResolvedValue([mockSection]);

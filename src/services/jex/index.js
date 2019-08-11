@@ -6,6 +6,7 @@ import getStudentEnrollmentFromJex from './getStudentEnrollmentFromJex';
 import getActiveCoursesFromJex from './getActiveCoursesFromJex';
 import toSisEnrollment from './toSisEnrollmentFromJexEnrollment';
 import toSisUser from './toSisUserFromJexUser';
+import toSisSections from './toSisSectionsFromJexCourses';
 
 const jexService = createSQLService('jex');
 
@@ -29,6 +30,7 @@ const jex = {
   close: jexService.close,
   toSisUser,
   toSisEnrollment,
+  toSisSections,
 };
 
 export default jex;

@@ -8,7 +8,7 @@ const getSectionsForCourse = courseId => fetchFromCanvas(`/courses/sis_course_id
 
 export default async () => {
   const activeCourses = await getActiveCoursesFromCanvas();
-  const activeSisIds = activeCourses.map(c => c.course_id);
+  const activeSisIds = activeCourses.map(c => c.sis_course_id);
   const sections = await pMap(activeSisIds, getSectionsForCourse, {
     concurrency: 8,
   });

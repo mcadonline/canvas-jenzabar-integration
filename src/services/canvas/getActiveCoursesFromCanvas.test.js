@@ -7,7 +7,7 @@ const completedCourse = {
   name: 'Completed Course',
   start_date: '2019-01-20T06:00:00Z',
   end_date: '2019-05-31T05:00:00Z',
-  course_id: 'SIS-COMPLETED-W19',
+  sis_course_id: 'SIS-COMPLETED-W19',
 };
 
 const currentCourse = {
@@ -19,7 +19,7 @@ const currentCourse = {
   end_date: DateTime.utc()
     .plus({ months: 2 })
     .toString(),
-  course_id: 'SIS-OPEN-F20',
+  sis_course_id: 'SIS-OPEN-F20',
 };
 
 const upcomingCourse = {
@@ -31,7 +31,7 @@ const upcomingCourse = {
   end_date: DateTime.utc()
     .plus({ months: 8 })
     .toString(),
-  course_id: 'SIS-UPCOMING-F99',
+  sis_course_id: 'SIS-UPCOMING-F99',
 };
 
 const openIndefinitelyCourse = {
@@ -39,7 +39,7 @@ const openIndefinitelyCourse = {
   name: 'Open Indefinitely',
   start_date: null,
   end_date: null,
-  course_id: 'SIS-INDEFINITE-F99',
+  sis_course_id: 'SIS-INDEFINITE-F99',
 };
 
 const noSISIdCourse = {
@@ -47,7 +47,7 @@ const noSISIdCourse = {
   name: 'No SIS ID',
   start_date: null,
   end_date: null,
-  course_id: null,
+  sis_course_id: null,
 };
 
 jest.mock('./getCoursesFromCanvas', () => jest.fn());

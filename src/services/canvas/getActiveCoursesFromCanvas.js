@@ -9,9 +9,9 @@ const onlyCoursesWithFutureEndDate = ({ end_date }) => {
   return now <= end;
 };
 
-const onlyCoursesEndingWithTerm = ({ course_id }) => {
+const onlyCoursesEndingWithTerm = ({ sis_course_id }) => {
   const regexForTermYear = /-[FWS]\d{2}$/i;
-  return regexForTermYear.test(course_id);
+  return regexForTermYear.test(sis_course_id);
 };
 
 export default async () => {

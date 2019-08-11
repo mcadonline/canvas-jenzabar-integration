@@ -1,4 +1,3 @@
-/** Integration tests */
 import { DateTime } from 'luxon';
 import canvas from './index';
 
@@ -10,9 +9,9 @@ describe('canvas Integration Tests', () => {
       expect(courses.length).toBeGreaterThan(3);
       expect(Object.keys(first)).toEqual([
         'id',
-        'course_id',
-        'short_name',
-        'long_name',
+        'sis_course_id',
+        'course_code',
+        'name',
         'status',
         'start_date',
         'end_date',
@@ -38,9 +37,9 @@ describe('canvas Integration Tests', () => {
       expect(courses.length).toBeGreaterThan(10);
       expect(Object.keys(first)).toEqual([
         'id',
-        'course_id',
-        'short_name',
-        'long_name',
+        'sis_course_id',
+        'course_code',
+        'name',
         'status',
         'start_date',
         'end_date',
@@ -85,7 +84,7 @@ describe('canvas Integration Tests', () => {
     it('gets student enrollments for each course', async () => {
       const enrollments = await canvas.getStudentEnrollment();
       expect(enrollments.length).toBeGreaterThan(10);
-      expect(Object.keys(enrollments[0])).toEqual(['course_id', 'user_id']);
+      expect(Object.keys(enrollments[0])).toEqual(['user_id', 'sis_course_id', 'sis_section_id']);
     });
   });
 });

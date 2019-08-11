@@ -42,9 +42,9 @@ describe('canvas.getCourses', () => {
     const courses = await getCourses();
     expect(Object.keys(courses[0])).toEqual([
       'id', // canvas id (used for enrollment queries)
-      'course_id', // sis course id
-      'short_name', // course id
-      'long_name', // course name
+      'sis_course_id', // sis course id
+      'course_code', // short name
+      'name', // course name
       'status', // active, deleted, completed
       'start_date',
       'end_date',
