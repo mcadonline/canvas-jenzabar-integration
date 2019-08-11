@@ -44,11 +44,11 @@ describe('toSisSectionsFromCanvasSections', () => {
   });
 
   it('sets section name to be the section_id', () => {
-    sisSections.forEach(s => expect(s.name === s.section_id));
+    sisSections.forEach(s => expect(s.name).toBe(s.section_id));
   });
 
   it('sets status as active', () => {
-    sisSections.forEach(s => expect(s.status === 'active'));
+    sisSections.forEach(s => expect(s.status).toBe('active'));
   });
 
   it('can convert a single section', () => {

@@ -38,7 +38,7 @@ const canvasEnrollments = [
 const sisEnrollments = toSisEnrollmentFromCanvasEnrollment(canvasEnrollments);
 
 describe('toSisEnrollmentFromCanvasEnrollment', () => {
-  it('creates course_id from sis_course_id', () => {
+  it('creates expected shape', () => {
     expect(sisEnrollments.length).toBe(2);
     sisEnrollments.forEach((sisEnrollment) => {
       expect(Object.keys(sisEnrollment)).toEqual([

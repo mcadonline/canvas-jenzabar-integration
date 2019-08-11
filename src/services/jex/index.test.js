@@ -23,7 +23,7 @@ describe('jex integration tests', () => {
 
       // ignore empty personal email
       Object.keys(first)
-        .filter(key => key !== 'personalEmail')
+        .filter(key => !['preferredName', 'personalEmail'].includes(key))
         .forEach(key => expect(first[key]).toBeTruthy());
       expect(typeof first.id).toBe('number');
       expect(first.mcadEmail).toMatch(/@/);
@@ -45,7 +45,10 @@ describe('jex integration tests', () => {
         'username',
       ]);
 
-      Object.values(first).forEach(value => expect(value).toBeTruthy());
+      // ignore empty personal email
+      Object.keys(first)
+        .filter(key => !['preferredName', 'personalEmail'].includes(key))
+        .forEach(key => expect(first[key]).toBeTruthy());
       expect(typeof first.id).toBe('number');
       expect(first.mcadEmail).toMatch(/@/);
       expect(students.length).toBeGreaterThan(10);
@@ -76,7 +79,14 @@ describe('jex integration tests', () => {
       const enrollment = await jex.getStudentEnrollment();
       const first = enrollment[0];
       expect(enrollment.length).toBeGreaterThan(100);
-      expect(Object.keys(first)).toEqual(['user_id', 'course_id']);
+      expect(Object.keys(first)).toEqual([
+        'id',
+        'username',
+        'courseCode',
+        'parentCourseCode',
+        'term',
+        'year',
+      ]);
     });
   });
 });

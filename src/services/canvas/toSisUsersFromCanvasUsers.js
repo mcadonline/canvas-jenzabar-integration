@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-export default ({
+const toSisUser = ({
   sis_user_id, login_id, sortable_name, email,
 }) => {
   const [last_name, first_name] = sortable_name.split(', ');
@@ -12,3 +12,5 @@ export default ({
     status: 'active',
   };
 };
+
+export default arr => (Array.isArray(arr) ? arr.map(toSisUser) : toSisUser(arr));
