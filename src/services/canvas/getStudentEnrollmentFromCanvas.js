@@ -19,7 +19,7 @@ const normalize = ({ sis_course_id, sis_user_id }) => ({
 const onlyThoseWithCourseAndUserId = x => x.sis_course_id && x.sis_user_id;
 
 async function getStudentEnrollmentForCourse({ id }) {
-  const url = `/courses/${id}/enrollments?type[]=StudentEnrollment&state[]=active`;
+  const url = `/courses/${id}/enrollments?type[]=StudentEnrollment&state[]=active&per_page=100`;
   try {
     const enrollment = await fetchFromCanvas(url);
     return enrollment.filter(onlyThoseWithCourseAndUserId).map(normalize);

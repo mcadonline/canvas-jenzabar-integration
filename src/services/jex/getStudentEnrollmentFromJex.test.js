@@ -1,6 +1,10 @@
 import getStudentEnrollmentFromJex from './getStudentEnrollmentFromJex';
 
 describe('getEnrollmentFromJex', () => {
+  it('returns a function given a jexService', () => {
+    const fn = getStudentEnrollmentFromJex(jest.fn());
+    expect(typeof fn).toBe('function');
+  });
   it('gets enrollment for active courses from Jex', async () => {
     const jexService = {
       query: jest.fn().mockResolvedValue([
@@ -27,7 +31,8 @@ describe('getEnrollmentFromJex', () => {
       ]),
     };
 
-    const enrollments = await getStudentEnrollmentFromJex(jexService);
+    const getStudentEnrollment = getStudentEnrollmentFromJex(jexService);
+    const enrollments = await getStudentEnrollment();
     expect(enrollments).toEqual([
       {
         user_id: 1,

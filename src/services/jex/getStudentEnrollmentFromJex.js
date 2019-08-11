@@ -46,7 +46,7 @@ function normalize(record) {
  * gets a list of enrollments from Jenzabar for
  * current and future courses.
  */
-export default async (jexService) => {
+export default jexService => async () => {
   try {
     const coursesByTerm = await getActiveCoursesByTermYear();
 

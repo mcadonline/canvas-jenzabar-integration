@@ -28,17 +28,17 @@ function normalize(record) {
   };
 }
 
-export default jexService => async (courseIdWhitelist) => {
+export default jexService => async () => {
   // get ALL sections in Jex which end after today
   const recordset = await jexService.query(baseSqlQuery);
-  const jexSections = recordset.map(normalize);
+  return recordset.map(normalize);
 
   // then we filter to include only those with parent courses
   // equal to a canvasCourseId
-  const canvasCourseIdLookup = courseIdWhitelist.reduce(
-    (acc, courseId) => ({ ...acc, [courseId]: true }),
-    {},
-  );
+  // const canvasCourseIdLookup = courseIdWhitelist.reduce(
+  //   (acc, courseId) => ({ ...acc, [courseId]: true }),
+  //   {},
+  // );
 
-  return jexSections.filter(s => canvasCourseIdLookup[s.parentCourseId]);
+  // return jexSections.filter(s => canvasCourseIdLookup[s.parentCourseId]);
 };

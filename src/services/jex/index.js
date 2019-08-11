@@ -3,7 +3,7 @@ import createSQLService from '../createSQLService';
 import getStudentsFromJex from './getStudentsFromJex';
 import getInstructorsFromJex from './getInstructorsFromJex';
 import getStudentEnrollmentFromJex from './getStudentEnrollmentFromJex';
-import getSectionsFromJex from './getSectionsFromJex';
+import getActiveCoursesFromJex from './getActiveCoursesFromJex';
 
 const jexService = createSQLService('jex');
 
@@ -23,7 +23,7 @@ const jex = {
   getStudents: getStudentsFromJex(jexService),
   getUsers: getUsers(jexService),
   getStudentEnrollment: getStudentEnrollmentFromJex(jexService),
-  getSections: getSectionsFromJex(jexService),
+  getActiveCourses: getActiveCoursesFromJex(jexService),
   close: jexService.close,
 };
 

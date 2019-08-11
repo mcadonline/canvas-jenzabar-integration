@@ -35,7 +35,7 @@ const baseSqlQuery = `
  * gets students from Jenzabar that are currently enrolled
  * or enrolled in a future course.
  */
-export default async function getStudentsFromJex(jexService) {
+export default jexService => async () => {
   try {
     const coursesByTerm = await getActiveCoursesByTermYear();
 
@@ -54,4 +54,4 @@ export default async function getStudentsFromJex(jexService) {
     console.error(error);
     throw error;
   }
-}
+};

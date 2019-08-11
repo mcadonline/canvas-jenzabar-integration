@@ -18,8 +18,13 @@ const jexService = {
 };
 
 describe('getInstructorsFromJex', () => {
+  it('returns a function given a jexService', () => {
+    const fn = getInstructorsFromJex(jexService);
+    expect(typeof fn).toBe('function');
+  });
   it('should match canvas user CSV', async () => {
-    const users = await getInstructorsFromJex(jexService);
+    const getInstructors = getInstructorsFromJex(jexService);
+    const users = await getInstructors();
 
     expect(Object.keys(users[0])).toEqual([
       'user_id', // SIS ID

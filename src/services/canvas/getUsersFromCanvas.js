@@ -22,7 +22,7 @@ const normalizeCanvasUserData = pipe(
 
 export default async function getUsers() {
   try {
-    const users = await fetchFromCanvas('/accounts/1/users?include[]=email');
+    const users = await fetchFromCanvas('/accounts/1/users?include[]=email&per_page=100');
     return users.map(normalizeCanvasUserData);
   } catch (err) {
     console.error(err.message);

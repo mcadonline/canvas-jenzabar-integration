@@ -28,9 +28,10 @@ const normalizeCanvasCourseData = ({
 
 export default async () => {
   try {
-    const url = '/accounts/1/courses?include[]=total_students';
+    const url = '/accounts/1/courses?include[]=total_students&per_page=100';
     const courses = await fetchFromCanvas(url);
-    return courses.map(normalizeCanvasCourseData);
+    const normalizedCourses = courses.map(normalizeCanvasCourseData);
+    return normalizedCourses;
   } catch (err) {
     error(err.message);
     throw err;
