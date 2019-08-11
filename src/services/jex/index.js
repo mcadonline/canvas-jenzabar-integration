@@ -14,6 +14,7 @@ export default {
     ]);
     return students.concat(faculty);
   },
+  // TODO: Make each function take jexService list getSections
   getStudentEnrollment: () => getStudentEnrollmentFromJex(jexService),
   getSections: getSectionsFromJex(jexService),
   close: () => jexService.close(),
