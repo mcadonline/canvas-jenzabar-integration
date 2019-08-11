@@ -16,7 +16,7 @@ export default async (url, config) => {
     // loop through paginated links
     while (nextPage) {
       /* eslint-disable no-await-in-loop */
-      const res = await fetch(nextPage, { headers, ...config });
+      const res = await fetch(encodeURI(nextPage), { headers, ...config });
       const payload = await res.json();
       collection = collection.concat(payload);
       const linkHeader = parseLinkHeader(res.headers.get('link'));

@@ -1,4 +1,4 @@
-import getEnrollmentFromJex from './getStudentEnrollmentFromJex';
+import getStudentEnrollmentFromJex from './getStudentEnrollmentFromJex';
 
 describe('getEnrollmentFromJex', () => {
   it('gets enrollment for active courses from Jex', async () => {
@@ -27,7 +27,7 @@ describe('getEnrollmentFromJex', () => {
       ]),
     };
 
-    const enrollments = await getEnrollmentFromJex(jexService);
+    const enrollments = await getStudentEnrollmentFromJex(jexService);
     expect(enrollments).toEqual([
       {
         user_id: 1,

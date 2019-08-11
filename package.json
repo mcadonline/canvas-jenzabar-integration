@@ -15,6 +15,7 @@
     "meow": "^5.0.0",
     "mssql": "4.3.7",
     "node-fetch": "2.6.0",
+    "p-map": "3.0.0",
     "p-map-series": "^1.0.0",
     "parse-link-header": "^1.0.1",
     "query-string": "6.6.0",

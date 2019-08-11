@@ -102,5 +102,88 @@ Can I assign the same sis_section_id to both sections?
 - No. You'll get an error that section is already in use.
 
 
+## Cross-listing
 
+Cross-listing appears to just move a section into a different course?
+
+
+## Assumptions for enrollment
+
+- An Active Canvas Section is one which:
+  - Is in a course with a sis_course_id set
+  - Has a sis_section_id set
+  - The course has a end_date in the future (or null) on Canvas
+- Canvas is the source of truth for which courses and sections are active and will be offered on Canvas.
+  - For every active course, 
+- Jenzabar is the source of truth for:
+  - which sections are children of an active parent course.
+  - which students should be enrolled
+  - which users (students AND faculty) need accounts.
+- If a course is active on Canvas, these generators will:
+  - Create sections CSVs for the parent section and any child sections (based on data in Jenzabar).
+  - Create users CSVs for students or faculty who are teaching any parent or child sections.
+  - Create enrollment add CSV to enroll students in their corresponding section.
+  - Create enrollment drops CSV to drop students who do not belong in the corresponding section.
+
+How to handle special cases:
+
+Courses that aren't officially cross-listed in Jenzabar can still be sync, provided the correct sections are setup. For example, IDM-6611, 6612, 6613 are unofficial children of GWD-6610. To include these enrollments, setup a section with a sis_section_id.
+
+## How to determine which courses are active:
+
+1. Get a list of all courses in Canvas with an sis_course_id set. Note: Include sections using include[]=sections as this data will be used in other functions.
+2. Filter list so that it contains only courses with a future or null end_date
+
+
+## How to determine which sections should be created
+1. Get a list of active courses in Canvas (see above).
+2. For each active course, get a list of all the courses in Jenzabar which has a parent course id equal to an active course.
+3. Also, for each active course, compile a list of sections which already exist in canvas.
+4. Compare the Jenzabar Section list to the canvasSectionList. If a section is on the jenzabarList, but not on the canvasSectionList, create the section.
+
+
+## How to determine which sections are active sections
+
+1. Get a list of active courses.
+2. for each course, get a list of sections with an sis_section_id set within it and add it to activeSectionList
+
+## How to determine which users need to be created/updated
+
+1. get a list of active sections
+2. For each section, get a list of students enrolled in Jenzabar.
+3. For each section, get a list of faculty teaching in Jenzabar.
+4. Aggregate faculty and student lists. Filter out any duplicates (in case faculty are both teaching and taking classes)
+5. This is the list of users who SHOULD be in Canvas.
+
+7. Get a list of all users in Canvas.
+8. Ignore users without sis_user_id set.
+  
+9. Compare the list of usersFromJex with the list of usersFromCanvas by jexId === sis_user_id
+10. If the user is in jex, but not in Canvas, the user should be added to our createOrUpdateList.
+11. If user is in both, but the properties in Canvas do not match the properties in Jex, then the user needs an update and should be added to our createOrUpdateList.
+
+The resultant list will be users which need to be created or updated.
+
+## How to determine which enrollments to add?
+
+1. Get a list of active sections in Canvas.
+2. For each section, get a list of students enrolled in Jenzabar.
+3. Also, for each section, get a list of students enrolled in Canvas.
+4. Compare lists. If a student is in a Jenzabar section, but not the corresponding Canvas section they should be added to our addList.
+
+## How to determine which enrollments to drop?
+
+1. Get a list of active sections in Canvas.
+2. For each section, get a list of students enrolled in Jenzabar.
+3. Also, for each section, get a list of students enrolled in Canvas.
+4. If a student is in Canvas, but not on the Jenzabar list (or the Jenzabar section does not exist), they should be added to our dropLIst.
+
+Special case:
+1. Faculty member asks for a course to remain open in Canvas. In this case, the course is included in the list of active sections. If the Jenzabar enrollment list filters sections by the end-date in Jenzabar, it's possible for the section list to NOT include the enrollments for the active course. This means that when the Canvas and Jenzabar list are compared, the students in Canvas won't be found in Jenzabar, and thus all students in the open course will be marked as inactive.
+
+For this reason **Jenzabar Enrollment should not be filtered by end date of course in Jenzabar**. Trust that the list of active sections is the source of truth for which sections we want enrollments for. 
+
+Ideally, if a course is to remain open for an incomplete. The student should be added to a new section, e.g. GWD-6610-20-F19-INCOMPLETES. That section should have special end dates set, which will override the course end dates.
+
+Still, we might want to have some sort of constraint on the query so that we don't accidentally get ALL enrollments for all users in Jenzabar? We could limit the number of results, or limit the end date to 1 year?
 

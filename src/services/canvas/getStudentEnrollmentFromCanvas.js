@@ -1,5 +1,5 @@
 import { flatten } from 'ramda';
-import pMapSeries from 'p-map-series';
+import pMap from 'p-map';
 import { DateTime } from 'luxon';
 import fetchFromCanvas from './fetchFromCanvas';
 import getCoursesFromCanvas from './getCoursesFromCanvas';
@@ -57,8 +57,10 @@ export default async () => {
   // see: isActiveCourse() for specifics
   const activeCourses = allCourses.filter(isActiveCourse);
 
-  // running in series to prevent Canvas throttling
-  const courseEnrollments = await pMapSeries(activeCourses, getStudentEnrollmentForCourse);
+  // limit concurrency prevent Canvas throttling
+  const courseEnrollments = await pMap(activeCourses, getStudentEnrollmentForCourse, {
+    concurrency: 8,
+  });
 
   // Parallel. Could be throttled by Canvas API?
   // const courseEnrollments = await Promise.all(activeCourses.map(getEnrollmentForCourse));
