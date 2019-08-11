@@ -2,14 +2,22 @@ import getInstructorsFromJex from './getInstructorsFromJex';
 
 const mockData = [
   {
-    sisId: 1,
+    id: 1,
     firstName: 'Elaine',
     preferredName: 'Laney',
-    middleName: null,
     lastName: 'Benis',
     personalEmail: 'elaine.benis@jpederman.com',
     mcadEmail: 'ebenis@mcad.edu',
     username: 'ebenis',
+  },
+  {
+    id: 2,
+    firstName: 'George',
+    preferredName: null,
+    lastName: 'Costanza',
+    personalEmail: 'art@vandelayindustries.com',
+    mcadEmail: null,
+    username: null,
   },
 ];
 
@@ -18,21 +26,20 @@ const jexService = {
 };
 
 describe('getInstructorsFromJex', () => {
-  it('returns a function given a jexService', () => {
-    const fn = getInstructorsFromJex(jexService);
-    expect(typeof fn).toBe('function');
+  let getInstructors;
+  beforeEach(() => {
+    getInstructors = getInstructorsFromJex(jexService);
   });
-  it('should match canvas user CSV', async () => {
-    const getInstructors = getInstructorsFromJex(jexService);
-    const users = await getInstructors();
 
-    expect(Object.keys(users[0])).toEqual([
-      'user_id', // SIS ID
-      'login_id', // Also SIS ID
-      'first_name', // preferred name or first name
-      'last_name',
-      'email', // instructors always use mcad email
-      'status', // active
-    ]);
+  it('returns a function given a jexService', () => {
+    expect(typeof getInstructors).toBe('function');
+  });
+  it('gets data', async () => {
+    const instructors = await getInstructors();
+    expect(instructors[0]).toEqual(mockData[0]);
+  });
+  it('filters out any users with null username', async () => {
+    const instructors = await getInstructors();
+    instructors.forEach(i => expect(i.username).toBeTruthy());
   });
 });

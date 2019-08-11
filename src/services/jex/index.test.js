@@ -12,20 +12,21 @@ describe('jex integration tests', () => {
       const first = instructors[0];
 
       expect(Object.keys(first)).toEqual([
-        'user_id',
-        'login_id',
-        'first_name',
-        'last_name',
-        'email',
-        'status',
+        'id',
+        'firstName',
+        'preferredName',
+        'lastName',
+        'personalEmail',
+        'mcadEmail',
+        'username',
       ]);
 
-      Object.values(first).forEach(value => expect(value).toBeTruthy());
-      expect(typeof first.user_id).toBe('number');
-      expect(typeof first.login_id).toBe('number');
-      expect(first.user_id).toEqual(first.login_id);
-      expect(first.email).toMatch(/@/);
-      expect(first.status).toBe('active');
+      // ignore empty personal email
+      Object.keys(first)
+        .filter(key => key !== 'personalEmail')
+        .forEach(key => expect(first[key]).toBeTruthy());
+      expect(typeof first.id).toBe('number');
+      expect(first.mcadEmail).toMatch(/@/);
       expect(instructors.length).toBeGreaterThan(10);
     });
   });
@@ -35,21 +36,18 @@ describe('jex integration tests', () => {
       const first = students[0];
 
       expect(Object.keys(first)).toEqual([
-        'user_id',
-        'login_id',
-        'first_name',
-        'last_name',
-        'email',
-        'status',
+        'id',
+        'firstName',
+        'preferredName',
+        'lastName',
+        'personalEmail',
+        'mcadEmail',
+        'username',
       ]);
 
       Object.values(first).forEach(value => expect(value).toBeTruthy());
-      expect(typeof first.user_id).toBe('number');
-      expect(typeof first.login_id).toBe('number');
-      expect(first.email).toMatch(/@/);
-
-      expect(first.user_id).toEqual(first.login_id);
-      expect(first.status).toBe('active');
+      expect(typeof first.id).toBe('number');
+      expect(first.mcadEmail).toMatch(/@/);
       expect(students.length).toBeGreaterThan(10);
     });
   });

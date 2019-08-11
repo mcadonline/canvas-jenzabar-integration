@@ -1,15 +1,10 @@
-import withCourseRestrictionsSQL from './withOnlyCoursesSql';
-import normalizeJexUserData from './normalizeJexUserData';
-import getActiveCoursesByTermYear from '../canvas/getActiveCoursesByTermYear';
-
-const baseSqlQuery = `
+const sqlQuery = `
 declare @today datetime;
 set @today = getdate();
 
-select distinct nm.ID_NUM as sisId
+select distinct nm.ID_NUM as id
     , rtrim(nm.first_name) as firstName
     , rtrim(nm.PREFERRED_NAME) as preferredName
-    , rtrim(nm.MIDDLE_NAME) as middleName
     , rtrim(nm.last_name) as lastName
     , rtrim(am_peml.addr_line_1) as personalEmail
     , rtrim(am_meml.addr_line_1) as mcadEmail
@@ -32,20 +27,11 @@ where sm.LAST_END_DTE >= @today
  */
 export default jexService => async () => {
   try {
-    const coursesByTerm = await getActiveCoursesByTermYear();
-
-    const sqlQuery = withCourseRestrictionsSQL({
-      baseQuery: baseSqlQuery,
-      courses: coursesByTerm,
-    });
-
     const recordset = await jexService.query(sqlQuery);
 
     // filtering here, rather than in query
     // seems to be faster?
-    const activeUsers = recordset.filter(({ username }) => !!username);
-
-    return activeUsers.map(normalizeJexUserData);
+    return recordset.filter(({ username }) => !!username);
   } catch (error) {
     console.error(error);
     throw error;
