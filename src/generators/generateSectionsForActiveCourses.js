@@ -4,6 +4,7 @@ import canvas from '../services/canvas';
 import jex from '../services/jex';
 import jsonToCSV from '../utils/jsonToCSV';
 import setMinus from '../utils/setMinus';
+import toCourseId from '../utils/toCourseId';
 
 export default async () => {
   const [activeCanvasCourses, activeCanvasSections, activeJexCourses] = await Promise.all([
@@ -35,9 +36,12 @@ export default async () => {
   // run through all the active jex courses
   // only keep the ones where the parentCourseId is in
   // the activeCanvasCourseLookup
-  const jexCoursesRunningInCanvas = activeJexCourses.filter(
-    c => !!activeCanvasCourseLookup[c.parentCourseId],
-  );
+  const jexCoursesRunningInCanvas = activeJexCourses.filter((jexCourse) => {
+    const { term, parentCourseCode, year } = jexCourse;
+    const parentCourseId = toCourseId({ courseCode: parentCourseCode, term, year });
+    const isInCanvas = !!activeCanvasCourseLookup[parentCourseId];
+    return isInCanvas;
+  });
 
   // to compare these lists, we need to change them
   // to a common format.
