@@ -70,7 +70,7 @@ describe('jex integration tests', () => {
       const sections = await jex.getActiveCourses();
       const first = sections[0];
       expect(sections.length).toBeGreaterThan(10);
-      expect(Object.keys(first)).toEqual(['courseId', 'parentCourseId']);
+      expect(Object.keys(first)).toEqual(['courseCode', 'term', 'year', 'parentCourseCode']);
     });
   });
 
