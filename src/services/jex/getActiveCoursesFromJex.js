@@ -11,7 +11,7 @@ const sqlQuery = `
       END
     , rtrim(x_listed_parnt_crs) as parentCourseCode
   from SECTION_MASTER sm
-  where sm.LAST_END_DTE >= @today
+  where DATEADD(month, 1, sm.last_end_dte) >= @today
 `;
 
 export default jexService => async () => {
