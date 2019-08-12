@@ -85,7 +85,11 @@ describe('canvas Integration Tests', () => {
     it('gets student enrollments for each course', async () => {
       const enrollments = await canvas.getStudentEnrollment();
       expect(enrollments.length).toBeGreaterThan(10);
-      expect(Object.keys(enrollments[0])).toEqual(['user_id', 'sis_course_id', 'sis_section_id']);
+      expect(Object.keys(enrollments[0])).toEqual([
+        'sis_user_id',
+        'sis_course_id',
+        'sis_section_id',
+      ]);
     });
   });
 });
