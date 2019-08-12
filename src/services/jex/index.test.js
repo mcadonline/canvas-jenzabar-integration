@@ -6,65 +6,6 @@
 import jex from './index';
 
 describe('jex integration tests', () => {
-  describe('jex.getInstructors', () => {
-    it('gets instructors from jex', async () => {
-      const instructors = await jex.getInstructors();
-      const first = instructors[0];
-
-      expect(Object.keys(first)).toEqual([
-        'id',
-        'firstName',
-        'preferredName',
-        'lastName',
-        'personalEmail',
-        'mcadEmail',
-        'username',
-      ]);
-
-      // ignore empty personal email
-      Object.keys(first)
-        .filter(key => !['preferredName', 'personalEmail'].includes(key))
-        .forEach(key => expect(first[key]).toBeTruthy());
-      expect(typeof first.id).toBe('number');
-      expect(first.mcadEmail).toMatch(/@/);
-      expect(instructors.length).toBeGreaterThan(10);
-    });
-  });
-  describe('jex.getStudents', () => {
-    it('gets students', async () => {
-      const students = await jex.getStudents();
-      const first = students[0];
-
-      expect(Object.keys(first)).toEqual([
-        'id',
-        'firstName',
-        'preferredName',
-        'lastName',
-        'personalEmail',
-        'mcadEmail',
-        'username',
-      ]);
-
-      // ignore empty personal email
-      Object.keys(first)
-        .filter(key => !['preferredName', 'personalEmail'].includes(key))
-        .forEach(key => expect(first[key]).toBeTruthy());
-      expect(typeof first.id).toBe('number');
-      expect(first.mcadEmail).toMatch(/@/);
-      expect(students.length).toBeGreaterThan(10);
-    });
-  });
-  describe('jex.getUsers', () => {
-    it('gets both students and faculty', async () => {
-      const [users, students, faculty] = await Promise.all([
-        jex.getUsers,
-        jex.getStudents,
-        jex.getInstructors,
-      ]);
-      expect(users.length).toEqual(students.length + faculty.length);
-    });
-  });
-
   describe('jex.getActiveCourses', () => {
     it('gets current and future sections', async () => {
       const sections = await jex.getActiveCourses();
@@ -81,6 +22,10 @@ describe('jex integration tests', () => {
       expect(enrollment.length).toBeGreaterThan(100);
       expect(Object.keys(first)).toEqual([
         'id',
+        'firstName',
+        'preferredName',
+        'lastName',
+        'mcadEmail',
         'username',
         'courseCode',
         'parentCourseCode',

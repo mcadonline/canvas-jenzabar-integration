@@ -23,6 +23,8 @@ export default async () => {
 
   // create a lookup table for checking if a course
   // exists in canvas
+  // TODO: Do we need activeCanvasCourses? Can't we
+  // just user activeCanvasSections?
   const activeCanvasCourseLookup = activeCanvasCourses
     .map(c => c.sis_course_id)
     .reduce(

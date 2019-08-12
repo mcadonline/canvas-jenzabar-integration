@@ -55,12 +55,13 @@ describe('canvas Integration Tests', () => {
       const first = users[0];
       expect(users.length).toBeGreaterThan(10);
       expect(Object.keys(first)).toEqual([
-        'user_id',
+        'id',
+        'name',
+        'sortable_name',
+        'short_name',
+        'sis_user_id',
         'login_id',
-        'first_name',
-        'last_name',
         'email',
-        'status',
       ]);
     });
   });
