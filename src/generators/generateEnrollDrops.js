@@ -1,24 +1,32 @@
+import canvas from '../services/canvas';
+import jex from '../services/jex';
 import setMinus from '../utils/setMinus';
 import jsonToCSV from '../utils/jsonToCSV';
 import settings from '../settings';
+import getActiveJexEnrollment from '../utils/getActiveJexEnrollment';
 
-export default async ({ jex, canvas, ignoreUsers = settings.ignoreUsers }) => {
-  const [currentJexStudentEnrollments, currentCanvasStudentEnrollments] = await Promise.all([
-    jex.getStudentEnrollment(),
+export default async ({ ignoreUsers = settings.ignoreUsers }) => {
+  const [activeCanvasSections, canvasEnrollment, jexEnrollment] = await Promise.all([
+    canvas.getActiveSections(),
     canvas.getStudentEnrollment(),
+    jex.getStudentEnrollment(),
   ]);
 
-  // some special users may need to be ignored
-  // since they're not on the official roster
-  // this is an escape hatch
-  const ignoreSpecialUsersFromSettings = enrollee => !ignoreUsers.some(u => u === enrollee.user_id);
+  // jex enrollees with an active canvas section
+  const activeJexEnrollment = getActiveJexEnrollment({
+    activeCanvasSections,
+    jexEnrollment,
+  });
 
-  const newCanvasEnrollments = setMinus(
-    currentCanvasStudentEnrollments,
-    currentJexStudentEnrollments,
-  )
-    .filter(ignoreSpecialUsersFromSettings)
-    .map(enrollee => ({ ...enrollee, status: 'inactive', role: 'student' }));
+  // These are the enrollments which SHOULD be in Canvas
+  const sisEnrollmentsFromJex = jex.toSisEnrollment(activeJexEnrollment);
 
-  return jsonToCSV(newCanvasEnrollments);
+  // Enrollments which currently ARE in Canvas
+  const sisEnrollmentsFromCanvas = canvas.toSisEnrollment(canvasEnrollment);
+
+  const enrollmentsToDrop = setMinus(sisEnrollmentsFromCanvas, sisEnrollmentsFromJex)
+    .filter(enrollment => !ignoreUsers.includes(enrollment.user_id))
+    .map(enrollment => ({ ...enrollment, status: 'deleted' }));
+
+  return jsonToCSV(enrollmentsToDrop);
 };

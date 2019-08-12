@@ -187,3 +187,47 @@ Ideally, if a course is to remain open for an incomplete. The student should be 
 
 Still, we might want to have some sort of constraint on the query so that we don't accidentally get ALL enrollments for all users in Jenzabar? We could limit the number of results, or limit the end date to 1 year?
 
+## What if I mark a student as inactive on one section when they're active in the other?
+
+```
+"course_id","section_id","user_id","role","status"
+"GWD-6610-20-F19","","1265947","student","inactive"
+```
+
+Shows both sections under section, but only says "Student" once under role. (Before it said "student" twice).
+
+What about grades?
+
+Previously entered grades are there.
+
+## What if I delete a student from one section while they're active in the other?
+
+```csv
+"course_id","section_id","user_id","role","status"
+"GWD-6610-20-F19","","1265947","student","deleted"
+```
+
+Now the student is only showing as a member of the active section
+
+What about grades?
+
+Grades remain in the gradebook.
+
+
+## What if I delete a student from a section, and the activate them later? Will their grades return?
+
+```csv
+"course_id","section_id","user_id","role","status"
+"GWD-6610-20-F19","GWD-6610-20-F19","1265947","student","deleted"
+```
+
+Grades and student gone.
+
+Now:
+
+```csv
+"course_id","section_id","user_id","role","status"
+"GWD-6610-20-F19","GWD-6610-20-F19","1265947","student","active"
+```
+
+Student and grades return!

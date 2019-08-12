@@ -8,7 +8,11 @@ const getTimestamp = () => DateTime.local()
   .split('-')
   .join('');
 
-const getShortHostname = hostname => hostname.split('.')[0];
+// get everything but the instructure.com
+const getShortHostname = hostname => hostname
+  .split('.')
+  .slice(0, -2)
+  .join('.');
 
 const normalizeString = str => str
   .split(' ')

@@ -11,7 +11,7 @@ async function getStudentEnrollmentForCourse({ id }) {
     const enrollment = await fetchFromCanvas(url);
     return enrollment
       .filter(onlyThoseWithCourseAndUserId)
-      .map(pick(['user_id', 'sis_course_id', 'sis_section_id']));
+      .map(pick(['sis_user_id', 'sis_course_id', 'sis_section_id']));
   } catch (err) {
     console.error(err.message);
     throw err;

@@ -2,34 +2,23 @@ import canvas from '../services/canvas';
 import jex from '../services/jex';
 import setMinus from '../utils/setMinus';
 import jsonToCSV from '../utils/jsonToCSV';
-import toCourseId from '../utils/toCourseId';
+import getActiveJexEnrollment from '../utils/getActiveJexEnrollment';
 
 export default async () => {
-  const [activeCanvasSections, studentEnrollment, canvasUsers] = await Promise.all([
+  const [activeCanvasSections, jexEnrollment, canvasUsers] = await Promise.all([
     canvas.getActiveSections(),
     jex.getStudentEnrollment(),
     canvas.getUsers(),
   ]);
 
-  // createa lookup table so that we can see which
-  // of our jex students may be in an active canvas section
-  const activeSectionIdLookup = activeCanvasSections
-    .map(s => s.sis_section_id)
-    .reduce((acc, id) => ({ ...acc, [id]: true }), {});
-
-  const jexEnrolleesWithActiveCanvasSections = studentEnrollment.filter(
-    ({ courseCode, term, year }) => {
-      const sectionId = toCourseId({ courseCode, term, year });
-      const isInActiveSection = !!activeSectionIdLookup[sectionId];
-      return isInActiveSection;
-    },
-  );
-
-  // to compare canvas and jex enrollees we need to convert to a common
-  // sis format
+  // jex enrollees with an active canvas section
+  const activeJexEnrollment = getActiveJexEnrollment({
+    activeCanvasSections,
+    jexEnrollment,
+  });
 
   // These are the users who SHOULD be in Canvas
-  const sisUsersFromJex = jex.toSisUsers(jexEnrolleesWithActiveCanvasSections);
+  const sisUsersFromJex = jex.toSisUsers(activeJexEnrollment);
 
   // These are the users who ARE in Canvas
   const sisUsersInCanvas = canvas.toSisUsers(canvasUsers);
