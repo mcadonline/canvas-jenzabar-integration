@@ -26,6 +26,9 @@ export default async ({ ignoreUsers = settings.ignoreUsers }) => {
 
   const enrollmentsToDrop = setMinus(sisEnrollmentsFromCanvas, sisEnrollmentsFromJex)
     .filter(enrollment => !ignoreUsers.includes(enrollment.user_id))
+    // as we transition to section_id enrollment from course_id
+    // we ignore summer 2019 drops from the null section
+    .filter(enrollment => !/-S19$/.test(enrollment.course_id))
     .map(enrollment => ({ ...enrollment, status: 'deleted' }));
 
   return jsonToCSV(enrollmentsToDrop);
