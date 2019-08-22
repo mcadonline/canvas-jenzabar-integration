@@ -55,6 +55,7 @@ async function cli() {
         users
         enrollment-adds
         enrollment-drops
+        sections
 
       Options
         --help              This help text.
