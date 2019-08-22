@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
-const toSis = ({ sis_course_id, sis_section_id, sis_user_id }) => ({
-  course_id: sis_course_id,
+const toSis = ({ sis_section_id, sis_user_id }) => ({
   section_id: sis_section_id,
   user_id: sis_user_id,
   role: 'student',

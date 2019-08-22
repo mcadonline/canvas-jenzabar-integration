@@ -41,13 +41,7 @@ describe('toSisEnrollmentFromCanvasEnrollment', () => {
   it('creates expected shape', () => {
     expect(sisEnrollments.length).toBe(2);
     sisEnrollments.forEach((sisEnrollment) => {
-      expect(Object.keys(sisEnrollment)).toEqual([
-        'course_id',
-        'section_id',
-        'user_id',
-        'role',
-        'status',
-      ]);
+      expect(Object.keys(sisEnrollment)).toEqual(['section_id', 'user_id', 'role', 'status']);
     });
   });
 

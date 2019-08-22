@@ -33,13 +33,7 @@ describe('toSisEnrollmentFromJexEnrollment', () => {
   it('creates expected object shape', () => {
     expect(sisEnrollments.length).toBe(3);
     sisEnrollments.forEach((sisEnrollment) => {
-      expect(Object.keys(sisEnrollment)).toEqual([
-        'course_id',
-        'section_id',
-        'user_id',
-        'role',
-        'status',
-      ]);
+      expect(Object.keys(sisEnrollment)).toEqual(['section_id', 'user_id', 'role', 'status']);
     });
   });
   it('sets role to student', () => {
@@ -52,13 +46,6 @@ describe('toSisEnrollmentFromJexEnrollment', () => {
 
   it('user_id is a string', () => {
     sisEnrollments.forEach(e => expect(typeof e.user_id).toBe('string'));
-  });
-
-  it('uses the parentCourseCode as the course_id', () => {
-    const xListedJexEnrollments = jexEnrollments.filter(e => e.courseCode !== e.parentCourseCode);
-    const xListedSisEnrollments = toSisEnrollmentFromJexEnrollment(xListedJexEnrollments);
-
-    xListedJexEnrollments.forEach(e => expect(e.course_id !== e.section_id));
   });
 
   it('converts a single enrollment', () => {
