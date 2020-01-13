@@ -20,9 +20,10 @@ describe('canvas Integration Tests', () => {
       ]);
       expect(typeof first.id).toBe('number');
 
-      // everything except course format should be truthy
+      const propsWithPossibleNonTruthyValues = ['course_format', 'total_students'];
+
       Object.keys(first)
-        .filter(key => key !== 'course_format')
+        .filter(key => !propsWithPossibleNonTruthyValues.includes(key))
         .map(key => first[key])
         .forEach(val => expect(val).toBeTruthy());
 
@@ -63,7 +64,7 @@ describe('canvas Integration Tests', () => {
         'login_id',
         'email',
       ]);
-    });
+    }, 10000);
   });
   // describe('getStudentEnrollment');
   describe('getActiveSections', () => {
