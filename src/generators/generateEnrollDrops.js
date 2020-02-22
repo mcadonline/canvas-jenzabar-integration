@@ -5,9 +5,7 @@ import jsonToCSV from '../utils/jsonToCSV';
 import settings from '../settings';
 import getActiveJexEnrollment from '../utils/getActiveJexEnrollment';
 
-// const defaultUsersToIgnore = settings.ignoreUsers;
-
-export default async ({ ignoreUsers } = { ignoreUsers: settings.ignoreUsers }) => {
+export default async ({ ignoreUsers = settings.ignoreUsers } = {}) => {
   const [activeCanvasSections, canvasEnrollment, jexEnrollment] = await Promise.all([
     canvas.getActiveSections(),
     canvas.getStudentEnrollment(),
