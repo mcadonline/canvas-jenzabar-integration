@@ -3,7 +3,7 @@ import settings from '../settings';
 
 sql.on('error', console.error);
 
-const queryService = poolPromise => async (sqlStatement) => {
+const queryService = poolPromise => async sqlStatement => {
   try {
     const pool = await poolPromise;
     const { recordset } = await pool.request().query(sqlStatement);
@@ -22,6 +22,7 @@ function getConfig(serviceName) {
     requestTimeout: 3000,
     options: {
       encrypt: true,
+      enableArithAbort: true,
     },
     ...restOfConfig,
   };
