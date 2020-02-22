@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import canvas from './index';
 
-describe('canvas Integration Tests', () => {
+describe.skip('canvas Integration Tests', () => {
   describe('canvas.getActiveCourses', () => {
     it('gets a list of courses with future end date', async () => {
       const courses = await canvas.getActiveCourses();
@@ -91,6 +91,6 @@ describe('canvas Integration Tests', () => {
         'sis_course_id',
         'sis_section_id',
       ]);
-    });
+    }, 10000);
   });
 });
