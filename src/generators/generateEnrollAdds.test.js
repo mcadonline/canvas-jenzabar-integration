@@ -2,12 +2,16 @@ import generateEnrollAdds from './generateEnrollAdds';
 import canvas from '../services/canvas';
 import jex from '../services/jex';
 
-// jest.mock('../services/canvas');
-// jest.mock('../services/jex');
-
-describe('generateEnrollAdds', () => {
+describe.only('generateEnrollAdds', () => {
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
   it('gets a list of new enrollments to add to Canvas', async () => {
-    canvas.getActiveSections = jest.fn().mockResolvedValue([
+    jest.spyOn(canvas, 'getActiveSections');
+    jest.spyOn(canvas, 'getStudentEnrollment');
+    jest.spyOn(jex, 'getStudentEnrollment');
+
+    canvas.getActiveSections.mockResolvedValue([
       {
         id: 155,
         name: 'GWD-6610-20-F18',
@@ -15,6 +19,7 @@ describe('generateEnrollAdds', () => {
         sis_section_id: 'GWD-6610-20-F18',
       },
     ]);
+
     canvas.getStudentEnrollment = jest.fn().mockResolvedValue([
       {
         sis_user_id: '1',

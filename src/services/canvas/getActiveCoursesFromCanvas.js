@@ -10,11 +10,12 @@ const onlyCoursesWithFutureEndDate = ({ end_date }) => {
 };
 
 const onlyCoursesEndingWithTerm = ({ sis_course_id }) => {
+  if (!sis_course_id) return false;
   const regexForTermYear = /-[FWS]\d{2}$/i;
   return regexForTermYear.test(sis_course_id);
 };
 
 export default async () => {
   const courses = await getCoursesFromCanvas();
-  return courses.filter(onlyCoursesEndingWithTerm).filter(onlyCoursesWithFutureEndDate);
+  return courses.filter(c => onlyCoursesEndingWithTerm(c) && onlyCoursesWithFutureEndDate(c));
 };
