@@ -32,13 +32,13 @@ export default async () => {
         ...acc,
         [sis_course_id]: true,
       }),
-      {},
+      {}
     );
 
   // run through all the active jex courses
   // only keep the ones where the parentCourseId is in
   // the activeCanvasCourseLookup
-  const jexCoursesRunningInCanvas = activeJexCourses.filter((jexCourse) => {
+  const jexCoursesRunningInCanvas = activeJexCourses.filter(jexCourse => {
     const { term, parentCourseCode, year } = jexCourse;
     const parentCourseId = toCourseId({ courseCode: parentCourseCode, term, year });
     const isInCanvas = !!activeCanvasCourseLookup[parentCourseId];
