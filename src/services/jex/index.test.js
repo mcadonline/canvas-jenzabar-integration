@@ -12,21 +12,19 @@ describe('jex integration tests', () => {
       const first = sections[0];
       expect(sections.length).toBeGreaterThan(10);
       expect(Object.keys(first)).toMatchInlineSnapshot(`
-                Array [
-                  "year",
-                  "term",
-                  "courseCode",
-                  "title",
-                  "startDate",
-                  "endDate",
-                  "courseFormat",
-                  "parentCourseCode",
-                  "instructorId",
-                  "instructorFirstName",
-                  "instructorPrefName",
-                  "instructorLastName",
-                ]
-            `);
+        Array [
+          "id",
+          "name",
+          "term",
+          "year",
+          "startDate",
+          "endDate",
+          "openDate",
+          "closeDate",
+          "courseFormat",
+          "instructor",
+        ]
+      `);
     });
   });
 
@@ -36,19 +34,19 @@ describe('jex integration tests', () => {
       const first = enrollment[0];
       expect(enrollment.length).toBeGreaterThan(100);
       expect(Object.keys(first)).toMatchInlineSnapshot(`
-        Array [
-          "id",
-          "firstName",
-          "preferredName",
-          "lastName",
-          "mcadEmail",
-          "username",
-          "courseCode",
-          "parentCourseCode",
-          "term",
-          "year",
-        ]
-      `);
+                        Array [
+                          "id",
+                          "firstName",
+                          "preferredName",
+                          "lastName",
+                          "mcadEmail",
+                          "username",
+                          "courseCode",
+                          "parentCourseCode",
+                          "term",
+                          "year",
+                        ]
+                  `);
     });
   });
 });

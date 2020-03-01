@@ -1,4 +1,5 @@
 import jexService from './jexService';
+import Course from '../../models/Course';
 
 const sqlQuery = `
 select distinct
@@ -30,7 +31,8 @@ from section_master sm
         and ss.TRM_CDE = sm.TRM_CDE
         and ss.YR_CDE = sm.YR_CDE
 where
-    DATEADD(month, 1, sm.last_end_dte) >= getDate()
+  sm.last_end_dte >= getDate()
+  and sm.crs_cde = sm.x_listed_parnt_crs
     and (
       ss.ROOM_CDE = 'OL'
     or (
@@ -45,7 +47,6 @@ where
             and sm.crs_cde not like 'CST %' -- CE Teen
       )
   )
-
 order by year
   , term
   , courseCode
@@ -54,5 +55,5 @@ order by year
 export default async () => {
   // get ALL sections in Jex which end after today
   const recordset = await jexService.query(sqlQuery);
-  return recordset;
+  return recordset.map(Course.fromJex);
 };
