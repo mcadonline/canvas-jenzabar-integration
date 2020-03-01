@@ -1,3 +1,5 @@
+import jexService from './jexService';
+
 const sqlQuery = `
 declare @today datetime;
 set @today = getdate();
@@ -40,7 +42,7 @@ where DATEADD(month, 1, sch.end_dte) >= @today
  * gets a list of enrollments from Jenzabar for
  * current and future courses.
  */
-export default jexService => async () => {
+export default async () => {
   try {
     const recordset = await jexService.query(sqlQuery);
     return recordset;

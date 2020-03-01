@@ -11,7 +11,22 @@ describe('jex integration tests', () => {
       const sections = await jex.getActiveCourses();
       const first = sections[0];
       expect(sections.length).toBeGreaterThan(10);
-      expect(Object.keys(first)).toEqual(['courseCode', 'term', 'year', 'parentCourseCode']);
+      expect(Object.keys(first)).toMatchInlineSnapshot(`
+                Array [
+                  "year",
+                  "term",
+                  "courseCode",
+                  "title",
+                  "startDate",
+                  "endDate",
+                  "courseFormat",
+                  "parentCourseCode",
+                  "instructorId",
+                  "instructorFirstName",
+                  "instructorPrefName",
+                  "instructorLastName",
+                ]
+            `);
     });
   });
 
@@ -20,18 +35,20 @@ describe('jex integration tests', () => {
       const enrollment = await jex.getStudentEnrollment();
       const first = enrollment[0];
       expect(enrollment.length).toBeGreaterThan(100);
-      expect(Object.keys(first)).toEqual([
-        'id',
-        'firstName',
-        'preferredName',
-        'lastName',
-        'mcadEmail',
-        'username',
-        'courseCode',
-        'parentCourseCode',
-        'term',
-        'year',
-      ]);
+      expect(Object.keys(first)).toMatchInlineSnapshot(`
+        Array [
+          "id",
+          "firstName",
+          "preferredName",
+          "lastName",
+          "mcadEmail",
+          "username",
+          "courseCode",
+          "parentCourseCode",
+          "term",
+          "year",
+        ]
+      `);
     });
   });
 });
