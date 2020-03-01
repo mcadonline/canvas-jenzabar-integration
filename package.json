@@ -21,6 +21,7 @@
     "query-string": "6.6.0",
     "ramda": "^0.25.0",
     "simple-ldap-search": "2.0.11",
+    "validator": "^12.2.0",
     "write": "^1.0.3"
   },
   "devDependencies": {
