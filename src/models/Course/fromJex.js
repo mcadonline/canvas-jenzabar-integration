@@ -49,6 +49,8 @@ export default jexCourse => {
   return {
     id: courseId,
     name: createCourseName(jexCourse),
+    courseCode,
+    parentCourseCode,
     term,
     year,
     startDate,

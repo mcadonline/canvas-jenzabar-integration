@@ -4,6 +4,8 @@
 const expectedKeys = [
   'id',
   'name',
+  'courseCode',
+  'parentCourseCode',
   'term',
   'year',
   'startDate',

@@ -28,16 +28,18 @@ describe('generateSectionsForActiveCourses', () => {
     // cross-listed with the parent course being AH-1000
     jex.getActiveCourses.mockResolvedValue([
       {
+        id: 'AH-1000-20-F20',
         courseCode: 'AH   1000 20',
+        parentCourseCode: 'AH   1000 20',
         term: 'FA',
         year: 2020,
-        parentCourseCode: 'AH   1000 20',
       },
       {
+        id: 'HS-1000-20-F20',
         courseCode: 'HS   1000 20',
+        parentCourseCode: 'AH   1000 20',
         term: 'FA',
         year: 2020,
-        parentCourseCode: 'AH   1000 20',
       },
     ]);
 

@@ -21,6 +21,7 @@ describe('fromJex', () => {
     expect(course).toMatchInlineSnapshot(`
       Object {
         "closeDate": "2019-12-31T23:59:59.000-06:00",
+        "courseCode": "GWD  6610 20",
         "courseFormat": "online",
         "endDate": "2019-12-15",
         "id": "GWD-6610-20-F19",
@@ -30,6 +31,7 @@ describe('fromJex', () => {
         },
         "name": "Web Development: HTML and CSS -- J. Johnson (Sect. 20 - Fall 2019)",
         "openDate": "2019-08-25",
+        "parentCourseCode": "GWD  6610 20",
         "startDate": "2019-09-01",
         "term": "FA",
         "year": 2019,

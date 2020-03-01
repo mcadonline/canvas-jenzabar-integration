@@ -5,6 +5,8 @@ const validCourse = {
   courseFormat: 'online',
   endDate: '2019-12-15',
   id: 'GWD-6610-20-F19',
+  courseCode: 'GWD  6610 20',
+  parentCourseCode: 'GWD  6610 20',
   instructor: {
     firstName: 'James',
     lastName: 'Johnson',
@@ -25,6 +27,8 @@ describe('isCourse', () => {
     const expectedKeys = [
       'id',
       'name',
+      'courseCode',
+      'parentCourseCode',
       'term',
       'year',
       'startDate',

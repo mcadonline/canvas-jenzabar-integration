@@ -19,6 +19,17 @@ const toShortTerm = term => {
 };
 
 export default function({ courseCode, term, year }) {
+  if (!courseCode) {
+    throw new Error(`${courseCode} is not a valid courseCode`);
+  }
+
+  if (!term) {
+    throw new Error(`${term} is not a valid term`);
+  }
+
+  if (!year) {
+    throw new Error(`${year} is not a valid year`);
+  }
   const [dept, courseNumber, section] = courseCode.split(/\s+/);
 
   return [dept, courseNumber, section, toShortTerm(term) + toShortYear(year)].join('-');
