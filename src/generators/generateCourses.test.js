@@ -6,7 +6,7 @@ describe('generateCourses', () => {
     const csv = await generateCourses();
     expect(isValidCSV(csv)).toBe(true);
   });
-  it.skip('matches CanvasCSV format', async () => {
+  it('matches CanvasCSV format', async () => {
     const csv = await generateCourses();
     const firstLine = csv.split('\n')[0];
     const expectedHeaders = [
@@ -17,10 +17,10 @@ describe('generateCourses', () => {
       'status',
       'start_date',
       'end_date',
-      'course_format',
+      // 'course_format',
       'blueprint_course_id',
     ];
     const expectedFirstLine = `"${expectedHeaders.join('","')}"`;
-    expect(firstLine).toBe(expectedFirstLine);
+    expect(firstLine).toEqual(expectedFirstLine);
   });
 });

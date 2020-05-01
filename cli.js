@@ -14,6 +14,7 @@ const generatorDict = {
   users: generators.users,
   'enrollment-adds': generators.enrollAdds,
   'enrollment-drops': generators.enrollDrops,
+  courses: generators.courses,
   sections: generators.sections,
 };
 
@@ -70,7 +71,7 @@ async function cli() {
         file: { type: 'boolean' },
         upload: { type: 'boolean' },
       },
-    },
+    }
   );
 
   let generatorKey = input ? input[0] : null;
@@ -79,7 +80,7 @@ async function cli() {
   // if input is given and invalid, error
   if (generatorKey && !isValidGenerator(generatorKey)) {
     warn(
-      `\n❌  Error: ${generatorKey} is not a valid generator. Use --help option to see valid generators.`,
+      `\n❌  Error: ${generatorKey} is not a valid generator. Use --help option to see valid generators.`
     );
   }
   // if no generator given as cli input

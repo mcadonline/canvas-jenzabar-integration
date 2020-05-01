@@ -1,6 +1,6 @@
 const csvRegExLine = /^("[^"]+"(,"[^"]+")*)$/;
 
-const getNumEntries = record => record.split(',').length + 1;
+const getNumEntries = record => record.split('","').length + 1;
 
 export default str => {
   const lines = str.split('\n');
@@ -8,6 +8,8 @@ export default str => {
   return lines
     .map(_ => _.trim())
     .every(line => {
-      return getNumEntries(line) === entriesInFirstLine && csvRegExLine.test(line);
+      const isValidNumberOfEntries = getNumEntries(line) === entriesInFirstLine;
+      const isValidCsvLine = csvRegExLine.test(line);
+      return isValidCsvLine && isValidNumberOfEntries;
     });
 };

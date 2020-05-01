@@ -1,17 +1,36 @@
+import { DateTime } from 'luxon';
 import jsonToCSV from '../utils/jsonToCSV';
+import jex from '../services/jex';
 
-const courses = [
-  {
-    id: 'GWD-6610-20-W20',
-    name: 'Web Development -- J. Johnson (Sect. 20 - Spring 2020)',
-    term: 'SP',
-    year: 2020,
-    startDate: '2020-01-20',
-    endDate: '2020-05-31',
-    isOnline: true,
-  },
-];
+const onlyParentCourses = course => course.courseCode === course.parentCourseCode;
+
+const noCoursesTwoWeeksAfterStartDate = course => {
+  const startDate = DateTime.fromISO(course.startDate);
+  const twoWeeksAfterStartDate = startDate.plus({ weeks: 2 });
+  const now = DateTime.local();
+  return now < twoWeeksAfterStartDate;
+};
+
+const toCanvasCsvFormat = course => ({
+  course_id: course.id,
+  short_name: course.id,
+  long_name: course.name,
+  term_id: `${course.year}-${course.term}`,
+  status: 'active',
+  start_date: course.openDate,
+  end_date: course.closeDate,
+  blueprint_course_id: 'TEMPLATE-ENHANCEDCOURSE',
+});
 
 export default async () => {
-  return Promise.resolve(jsonToCSV(courses));
+  const courses = await jex.getActiveCourses();
+
+  // only parent courses should have a course shell
+  const canvasCsvCourses = courses
+    .filter(noCoursesTwoWeeksAfterStartDate)
+    .filter(onlyParentCourses)
+    .map(toCanvasCsvFormat);
+
+  const csv = jsonToCSV(canvasCsvCourses);
+  return csv;
 };
