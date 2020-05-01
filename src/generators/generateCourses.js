@@ -25,6 +25,8 @@ const toCanvasCsvFormat = course => ({
 export default async () => {
   const courses = await jex.getActiveCourses();
 
+  console.log(courses[0]);
+
   // only parent courses should have a course shell
   const canvasCsvCourses = courses
     .filter(noCoursesTwoWeeksAfterStartDate)
