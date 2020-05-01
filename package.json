@@ -1,13 +1,13 @@
 {
   "name": "canvas-jenzabar-integration",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Integrate Jenzabar SIS with Canvas LMS",
   "main": "index.js",
   "bin": {
     "canvas-jenzabar": "cli.js"
   },
   "dependencies": {
-    "@types/luxon": "^1.21.0",
+    "@types/luxon": "^1.22.0",
     "acorn": "6.1.1",
     "dotenv": "6.2.0",
     "esm": "3.2.25",
@@ -33,14 +33,14 @@
     "babel-jest": "24.8.0",
     "eslint": "5.16.0",
     "eslint-config-airbnb-base": "13.2.0",
-    "eslint-config-prettier": "^6.9.0",
+    "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "2.17.3",
-    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-prettier": "^3.1.3",
     "jest": "24.8.0",
     "nodemon": "1.19.1",
     "prettier": "1.19.1",
     "regenerator-runtime": "^0.12.1",
-    "uuid": "^3.3.2"
+    "uuid": "^3.4.0"
   },
   "scripts": {
     "start": "node cli.js",
