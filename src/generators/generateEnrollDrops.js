@@ -5,11 +5,24 @@ import jsonToCSV from '../utils/jsonToCSV';
 import settings from '../settings';
 import getActiveJexEnrollment from '../utils/getActiveJexEnrollment';
 
+function onlyEnrollmentFromActiveJexCourse(activeJexCourses = []) {
+  const jexCourseLookup = {};
+
+  activeJexCourses.forEach(jexCourse => {
+    jexCourseLookup[jexCourse.id] = true;
+  });
+
+  return enrollment => {
+    return !!jexCourseLookup[enrollment.section_id];
+  };
+}
+
 export default async ({ ignoreUsers = settings.ignoreUsers } = {}) => {
-  const [activeCanvasSections, canvasEnrollment, jexEnrollment] = await Promise.all([
+  const [activeCanvasSections, canvasEnrollment, jexEnrollment, jexCourses] = await Promise.all([
     canvas.getActiveSections(),
     canvas.getStudentEnrollment(),
     jex.getStudentEnrollment(),
+    jex.getActiveCourses(),
   ]);
 
   // jex enrollees with an active canvas section
@@ -25,6 +38,8 @@ export default async ({ ignoreUsers = settings.ignoreUsers } = {}) => {
   const sisEnrollmentsFromCanvas = canvas.toSisEnrollment(canvasEnrollment);
 
   const enrollmentsToDrop = setMinus(sisEnrollmentsFromCanvas, sisEnrollmentsFromJex)
+    // ignore drops from courses no longer active in Jex
+    .filter(onlyEnrollmentFromActiveJexCourse(jexCourses))
     .filter(enrollment => !ignoreUsers.includes(enrollment.user_id))
     // only process drops from truthy section ids
     // ignoring any null or "" sections
