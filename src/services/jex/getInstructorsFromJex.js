@@ -29,7 +29,11 @@ where sm.LAST_END_DTE >= @today
  */
 export default async () => {
   try {
-    return jexService.query(sqlQuery);
+    const recordset = await jexService.query(sqlQuery);
+
+    // filtering here, rather than in query
+    // seems to be faster?
+    return recordset.filter(({ username }) => !!username);
   } catch (error) {
     console.error(error);
   }

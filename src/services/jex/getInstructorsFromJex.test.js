@@ -28,6 +28,24 @@ describe('getInstructorsFromJex', () => {
     jexService.query.mockResolvedValue(mockData);
 
     const instructors = await getInstructorsFromJex();
-    expect(instructors).toEqual(mockData);
+    expect(instructors).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "firstName": "Elaine",
+          "id": 1,
+          "lastName": "Benis",
+          "mcadEmail": "ebenis@mcad.edu",
+          "personalEmail": "elaine.benis@jpederman.com",
+          "preferredName": "Laney",
+          "username": "ebenis",
+        },
+      ]
+    `);
+  });
+  it('filters out any users with null username', async () => {
+    jest.spyOn(jexService, 'query');
+    jexService.query.mockResolvedValue(mockData);
+    const instructors = await getInstructorsFromJex();
+    instructors.forEach(i => expect(i.username).toBeTruthy());
   });
 });
