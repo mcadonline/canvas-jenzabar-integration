@@ -27,6 +27,7 @@ describe('fromJex', () => {
         "id": "GWD-6610-20-F19",
         "instructor": Object {
           "firstName": "James",
+          "id": 123,
           "lastName": "Johnson",
         },
         "name": "Web Development: HTML and CSS -- J. Johnson (Sect. 20 - Fall 2019)",

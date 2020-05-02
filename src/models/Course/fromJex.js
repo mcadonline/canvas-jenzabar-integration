@@ -59,6 +59,7 @@ export default jexCourse => {
     closeDate: getEndOfMonth(endDate),
     courseFormat,
     instructor: {
+      id: instructorId,
       firstName: instructorPrefName || instructorFirstName,
       lastName: instructorLastName,
     },
