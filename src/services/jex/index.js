@@ -4,8 +4,10 @@ import toSisEnrollment from './toSisEnrollmentFromJexEnrollment';
 import toSisUsers from './toSisUsersFromJexEnrollment';
 import toSisSections from './toSisSectionsFromJexCourses';
 import jexService from './jexService';
+import getInstructorsFromJex from './getInstructorsFromJex';
 
 const jex = {
+  getInstructors: getInstructorsFromJex,
   getStudentEnrollment: getStudentEnrollmentFromJex,
   getActiveCourses: getActiveCoursesFromJex,
   close: jexService.close,

@@ -1,3 +1,5 @@
+import jexService from './jexService';
+
 const sqlQuery = `
 declare @today datetime;
 set @today = getdate();
@@ -25,15 +27,10 @@ where sm.LAST_END_DTE >= @today
  * gets students from Jenzabar that are currently enrolled
  * or enrolled in a future course.
  */
-export default jexService => async () => {
+export default async () => {
   try {
-    const recordset = await jexService.query(sqlQuery);
-
-    // filtering here, rather than in query
-    // seems to be faster?
-    return recordset.filter(({ username }) => !!username);
+    return jexService.query(sqlQuery);
   } catch (error) {
     console.error(error);
-    throw error;
   }
 };

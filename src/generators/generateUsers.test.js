@@ -8,21 +8,8 @@ describe('generateUsers', () => {
   });
 
   it('creates a list of new users to add to Canvas', async () => {
-    jest.spyOn(canvas, 'getActiveSections');
-    jest.spyOn(jex, 'getStudentEnrollment');
-    jest.spyOn(canvas, 'getUsers');
-
-    // for each active canvas section
-    canvas.getActiveSections.mockResolvedValue([
-      {
-        id: 155,
-        name: 'AH-1000-20-F20',
-        sis_course_id: 'AH-1000-20-F20',
-        sis_section_id: 'AH-1000-20-F20',
-      },
-    ]);
-
     // it will look at jex to determine the users who need accounts
+    jest.spyOn(jex, 'getStudentEnrollment');
     jex.getStudentEnrollment.mockResolvedValue([
       {
         id: 1,
@@ -49,6 +36,21 @@ describe('generateUsers', () => {
         year: '2020',
       },
     ]);
+
+    jest.spyOn(jex, 'getInstructors');
+    jex.getInstructors.mockResolvedValue([
+      {
+        id: 3,
+        firstName: 'Elaine',
+        preferredName: 'Laney',
+        lastName: 'Benis',
+        personalEmail: 'elaine.benis@jpederman.com',
+        mcadEmail: 'ebenis@mcad.edu',
+        username: 'ebenis',
+      },
+    ]);
+
+    jest.spyOn(canvas, 'getUsers');
     canvas.getUsers.mockResolvedValue([]);
 
     const csv = await generateUsers();
@@ -57,25 +59,13 @@ describe('generateUsers', () => {
         `"user_id","login_id","first_name","last_name","email","status"`,
         `"1","1","User","One","user1@mcad.edu","active"`,
         `"2","2","User","Two","user2@mcad.edu","active"`,
+        `"3","3","Laney","Benis","ebenis@mcad.edu","active"`,
       ].join('\n')
     );
   });
   it('uses preferred names instead of first names', async () => {
-    jest.spyOn(canvas, 'getActiveSections');
-    jest.spyOn(jex, 'getStudentEnrollment');
-    jest.spyOn(canvas, 'getUsers');
-
-    // for each active canvas section
-    canvas.getActiveSections.mockResolvedValue([
-      {
-        id: 155,
-        name: 'AH-1000-20-F20',
-        sis_course_id: 'AH-1000-20-F20',
-        sis_section_id: 'AH-1000-20-F20',
-      },
-    ]);
-
     // it will look at jex to determine the users who need accounts
+    jest.spyOn(jex, 'getStudentEnrollment');
     jex.getStudentEnrollment.mockResolvedValue([
       {
         id: 1,
@@ -90,6 +80,11 @@ describe('generateUsers', () => {
         year: '2020',
       },
     ]);
+
+    jest.spyOn(jex, 'getInstructors');
+    jex.getInstructors.mockResolvedValue([]);
+
+    jest.spyOn(canvas, 'getUsers');
     canvas.getUsers.mockResolvedValue([]);
 
     const csv = await generateUsers();
@@ -101,21 +96,8 @@ describe('generateUsers', () => {
     );
   });
   it('does not include users who already have accounts in Canvas', async () => {
-    jest.spyOn(canvas, 'getActiveSections');
-    jest.spyOn(jex, 'getStudentEnrollment');
-    jest.spyOn(canvas, 'getUsers');
-
-    // for each active canvas section
-    canvas.getActiveSections.mockResolvedValue([
-      {
-        id: 155,
-        name: 'AH-1000-20-F20',
-        sis_course_id: 'AH-1000-20-F20',
-        sis_section_id: 'AH-1000-20-F20',
-      },
-    ]);
-
     // it will look at jex to determine the users who need accounts
+    jest.spyOn(jex, 'getStudentEnrollment');
     jex.getStudentEnrollment.mockResolvedValue([
       {
         id: 1,
@@ -142,6 +124,21 @@ describe('generateUsers', () => {
         year: '2020',
       },
     ]);
+
+    jest.spyOn(jex, 'getInstructors');
+    jex.getInstructors.mockResolvedValue([
+      {
+        id: 3,
+        firstName: 'Elaine',
+        preferredName: 'Laney',
+        lastName: 'Benis',
+        personalEmail: 'elaine.benis@jpederman.com',
+        mcadEmail: 'ebenis@mcad.edu',
+        username: 'ebenis',
+      },
+    ]);
+
+    jest.spyOn(canvas, 'getUsers');
     canvas.getUsers.mockResolvedValue([
       {
         id: 1,
@@ -151,6 +148,15 @@ describe('generateUsers', () => {
         sis_user_id: '1',
         email: 'user1@mcad.edu',
         login_id: '1',
+      },
+      {
+        id: 3,
+        name: 'Laney Benis',
+        sortable_name: 'Benis, Laney',
+        short_name: 'Laney',
+        sis_user_id: '3',
+        email: 'ebenis@mcad.edu',
+        login_id: '3',
       },
     ]);
 
@@ -162,62 +168,9 @@ describe('generateUsers', () => {
       ].join('\n')
     );
   });
-  it('ignores users without a username set in Jex', async () => {
-    jest.spyOn(canvas, 'getActiveSections');
-    jest.spyOn(jex, 'getStudentEnrollment');
-    jest.spyOn(canvas, 'getUsers');
-
-    // for each active canvas section
-    canvas.getActiveSections.mockResolvedValue([
-      {
-        id: 155,
-        name: 'AH-1000-20-F20',
-        sis_course_id: 'AH-1000-20-F20',
-        sis_section_id: 'AH-1000-20-F20',
-      },
-    ]);
-
-    // it will look at jex to determine the users who need accounts
-    jex.getStudentEnrollment.mockResolvedValue([
-      {
-        id: 1,
-        username: null,
-        firstName: 'User',
-        preferredName: null,
-        lastName: 'One',
-        mcadEmail: 'user1@mcad.edu',
-        courseCode: 'AH   1000 20',
-        parentCourseCode: 'AH   1000 20',
-        term: 'FA',
-        year: '2020',
-      },
-    ]);
-    canvas.getUsers.mockResolvedValue([]);
-
-    const csv = await generateUsers();
-    expect(csv).toEqual(
-      [
-        `"user_id","login_id","first_name","last_name","email","status"`,
-        `"1","1","User","One","user1@mcad.edu","active"`,
-      ].join('\n')
-    );
-  });
   it('includes users who need updates (e.g. last name change)', async () => {
-    jest.spyOn(canvas, 'getActiveSections');
-    jest.spyOn(jex, 'getStudentEnrollment');
-    jest.spyOn(canvas, 'getUsers');
-
-    // for each active canvas section
-    canvas.getActiveSections.mockResolvedValue([
-      {
-        id: 155,
-        name: 'AH-1000-20-F20',
-        sis_course_id: 'AH-1000-20-F20',
-        sis_section_id: 'AH-1000-20-F20',
-      },
-    ]);
-
     // it will look at jex to determine the users who need accounts
+    jest.spyOn(jex, 'getStudentEnrollment');
     jex.getStudentEnrollment.mockResolvedValue([
       {
         id: 1,
@@ -231,6 +184,10 @@ describe('generateUsers', () => {
         term: 'FA',
         year: '2020',
       },
+    ]);
+
+    jest.spyOn(jex, 'getInstructors');
+    jex.getInstructors.mockResolvedValue([
       {
         id: 2,
         username: 'user2',
@@ -238,13 +195,10 @@ describe('generateUsers', () => {
         preferredName: null,
         lastName: 'Two',
         mcadEmail: 'new_email@mcad.edu',
-        courseCode: 'AH   1000 20',
-        parentCourseCode: 'AH   1000 20',
-        term: 'FA',
-        year: '2020',
       },
     ]);
 
+    jest.spyOn(canvas, 'getUsers');
     canvas.getUsers.mockResolvedValue([
       {
         id: 1,

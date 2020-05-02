@@ -1,3 +1,4 @@
+import jexService from './jexService';
 import getInstructorsFromJex from './getInstructorsFromJex';
 
 const mockData = [
@@ -21,25 +22,12 @@ const mockData = [
   },
 ];
 
-const jexService = {
-  query: jest.fn().mockResolvedValue(mockData),
-};
-
 describe('getInstructorsFromJex', () => {
-  let getInstructors;
-  beforeEach(() => {
-    getInstructors = getInstructorsFromJex(jexService);
-  });
-
-  it('returns a function given a jexService', () => {
-    expect(typeof getInstructors).toBe('function');
-  });
   it('gets data', async () => {
-    const instructors = await getInstructors();
-    expect(instructors[0]).toEqual(mockData[0]);
-  });
-  it('filters out any users with null username', async () => {
-    const instructors = await getInstructors();
-    instructors.forEach(i => expect(i.username).toBeTruthy());
+    jest.spyOn(jexService, 'query');
+    jexService.query.mockResolvedValue(mockData);
+
+    const instructors = await getInstructorsFromJex();
+    expect(instructors).toEqual(mockData);
   });
 });
