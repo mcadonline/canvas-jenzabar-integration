@@ -4,11 +4,17 @@ import jex from '../services/jex';
 
 const onlyParentCourses = course => course.courseCode === course.parentCourseCode;
 
-const noCoursesTwoWeeksAfterStartDate = course => {
+const noCoursesTwoWeeksAfterStartDate = ({ today }) => course => {
   const startDate = DateTime.fromISO(course.startDate);
   const twoWeeksAfterStartDate = startDate.plus({ weeks: 2 });
-  const now = DateTime.local();
+  const now = today ? DateTime.fromISO(today) : DateTime.local();
   return now < twoWeeksAfterStartDate;
+};
+
+const byStartDate = (course1, course2) => {
+  const start1 = DateTime.fromISO(course1.startDate);
+  const start2 = DateTime.fromISO(course2.startDate);
+  return start1 <= start2 ? -1 : 1;
 };
 
 const toCanvasCsvFormat = course => ({
@@ -22,14 +28,20 @@ const toCanvasCsvFormat = course => ({
   blueprint_course_id: 'TEMPLATE-ENHANCEDCOURSE',
 });
 
-export default async () => {
+/**
+ * @param today - pretend like this is today's date
+ */
+export default async ({ today = null }) => {
   const courses = await jex.getActiveCourses();
 
   // only parent courses should have a course shell
   const canvasCsvCourses = courses
-    .filter(noCoursesTwoWeeksAfterStartDate)
+    .filter(noCoursesTwoWeeksAfterStartDate({ today }))
     .filter(onlyParentCourses)
+    .sort(byStartDate)
     .map(toCanvasCsvFormat);
+
+  console.log(canvasCsvCourses);
 
   const csv = jsonToCSV(canvasCsvCourses);
   return csv;
