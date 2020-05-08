@@ -84,6 +84,15 @@ async function cli() {
       `\n❌  Error: ${generatorKey} is not a valid generator. Use --help option to see valid generators.`
     );
   }
+
+  // to stderr to keep stdout clean
+  // TODO: Better logging
+  warn(`
+  🌕  CANVAS HOST:\t${settings.canvas.hostname}
+  🔵  JENZABAR HOST:\t${settings.jex.server}
+  🕐  DATETIME:\t\t${new Date()}
+  `);
+
   // if no generator given as cli input
   // prompt user for generator and destination
   if (!generatorKey) {
