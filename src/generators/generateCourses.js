@@ -31,7 +31,7 @@ const toCanvasCsvFormat = course => ({
 /**
  * @param today - pretend like this is today's date
  */
-export default async ({ today = null }) => {
+export default async ({ today = null } = {}) => {
   const courses = await jex.getActiveCourses();
 
   // only parent courses should have a course shell
@@ -40,8 +40,6 @@ export default async ({ today = null }) => {
     .filter(onlyParentCourses)
     .sort(byStartDate)
     .map(toCanvasCsvFormat);
-
-  console.log(canvasCsvCourses);
 
   const csv = jsonToCSV(canvasCsvCourses);
   return csv;

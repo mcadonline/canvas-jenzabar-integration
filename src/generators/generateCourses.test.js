@@ -25,7 +25,7 @@ describe('generateCourses', () => {
     expect(firstLine).toEqual(expectedFirstLine);
   });
 
-  it.only('outputs courses in order of start date', async () => {
+  it('outputs courses in order of start date', async () => {
     jest.spyOn(jex, 'getActiveCourses');
     jex.getActiveCourses.mockResolvedValue([
       {
