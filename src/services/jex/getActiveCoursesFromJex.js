@@ -32,7 +32,6 @@ from section_master sm
         and ss.YR_CDE = sm.YR_CDE
 where
   sm.last_end_dte >= getDate()
-  and sm.crs_cde = sm.x_listed_parnt_crs
     and (
       ss.ROOM_CDE = 'OL'
     or (
