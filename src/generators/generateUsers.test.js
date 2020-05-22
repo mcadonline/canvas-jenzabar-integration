@@ -54,14 +54,12 @@ describe('generateUsers', () => {
     canvas.getUsers.mockResolvedValue([]);
 
     const csv = await generateUsers();
-    expect(csv).toEqual(
-      [
-        `"user_id","login_id","first_name","last_name","email","status"`,
-        `"1","1","User","One","user1@mcad.edu","active"`,
-        `"2","2","User","Two","user2@mcad.edu","active"`,
-        `"3","3","Laney","Benis","ebenis@mcad.edu","active"`,
-      ].join('\n')
-    );
+    expect(csv).toMatchInlineSnapshot(`
+      "user_id,login_id,first_name,last_name,email,status
+      1,1,User,One,user1@mcad.edu,active
+      2,2,User,Two,user2@mcad.edu,active
+      3,3,Laney,Benis,ebenis@mcad.edu,active"
+    `);
   });
   it('uses preferred names instead of first names', async () => {
     // it will look at jex to determine the users who need accounts
@@ -88,12 +86,10 @@ describe('generateUsers', () => {
     canvas.getUsers.mockResolvedValue([]);
 
     const csv = await generateUsers();
-    expect(csv).toEqual(
-      [
-        `"user_id","login_id","first_name","last_name","email","status"`,
-        `"1","1","Preferred","One","user1@mcad.edu","active"`,
-      ].join('\n')
-    );
+    expect(csv).toMatchInlineSnapshot(`
+      "user_id,login_id,first_name,last_name,email,status
+      1,1,Preferred,One,user1@mcad.edu,active"
+    `);
   });
   it('does not include users who already have accounts in Canvas', async () => {
     // it will look at jex to determine the users who need accounts
@@ -161,12 +157,10 @@ describe('generateUsers', () => {
     ]);
 
     const csv = await generateUsers();
-    expect(csv).toEqual(
-      [
-        `"user_id","login_id","first_name","last_name","email","status"`,
-        `"2","2","User","Two","user2@mcad.edu","active"`,
-      ].join('\n')
-    );
+    expect(csv).toMatchInlineSnapshot(`
+      "user_id,login_id,first_name,last_name,email,status
+      2,2,User,Two,user2@mcad.edu,active"
+    `);
   });
   it('includes users who need updates (e.g. last name change)', async () => {
     // it will look at jex to determine the users who need accounts
@@ -221,13 +215,10 @@ describe('generateUsers', () => {
     ]);
 
     const csv = await generateUsers();
-    expect(csv).toEqual(
-      [
-        `"user_id","login_id","first_name","last_name","email","status"`,
-        `"1","1","New","One","user1@mcad.edu","active"`,
-        `"2","2","User","Two","new_email@mcad.edu","active"`,
-      ].join('\n')
-    );
+    expect(csv).toMatchInlineSnapshot(`
+      "user_id,login_id,first_name,last_name,email,status
+      1,1,New,One,user1@mcad.edu,active
+      2,2,User,Two,new_email@mcad.edu,active"
+    `);
   });
-  it.todo('includes faculty users');
 });

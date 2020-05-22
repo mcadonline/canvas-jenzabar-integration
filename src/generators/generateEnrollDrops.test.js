@@ -56,11 +56,10 @@ describe('generateEnrollDrops', () => {
 
     const csv = await generateEnrollDrops();
 
-    expect(csv).toEqual(
-      [`"section_id","user_id","role","status"`, `"GWD-6610-20-F18","2","student","deleted"`].join(
-        '\n'
-      )
-    );
+    expect(csv).toMatchInlineSnapshot(`
+      "section_id,user_id,role,status
+      GWD-6610-20-F18,2,student,deleted"
+    `);
   });
   it('does not drop students after the jex end date', async () => {
     // jest.spyOn(canvas, 'getStudentEnrollment');
@@ -167,11 +166,9 @@ describe('generateEnrollDrops', () => {
     ]);
 
     const csv = await generateEnrollDrops();
-    const expectedCsv = [
-      `"section_id","user_id","role","status"`,
-      `"AH-1702-05-W20","444","student","deleted"`,
-    ].join('\n');
-
-    expect(csv).toEqual(expectedCsv);
+    expect(csv).toMatchInlineSnapshot(`
+      "section_id,user_id,role,status
+      AH-1702-05-W20,444,student,deleted"
+    `);
   });
 });

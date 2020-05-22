@@ -52,13 +52,11 @@ describe('generateSectionsForActiveCourses', () => {
     canvas.getActiveSections.mockResolvedValue([]);
 
     const csv = await generateSectionsForActiveCourses();
-    expect(csv).toEqual(
-      [
-        `"section_id","course_id","name","status"`,
-        `"AH-1000-20-F20","AH-1000-20-F20","AH-1000-20-F20","active"`,
-        `"HS-1000-20-F20","AH-1000-20-F20","HS-1000-20-F20","active"`,
-      ].join('\n')
-    );
+    expect(csv).toMatchInlineSnapshot(`
+      "section_id,course_id,name,status
+      AH-1000-20-F20,AH-1000-20-F20,AH-1000-20-F20,active
+      HS-1000-20-F20,AH-1000-20-F20,HS-1000-20-F20,active"
+    `);
   });
 
   it('ignores sections that are already created', async () => {
@@ -109,11 +107,9 @@ describe('generateSectionsForActiveCourses', () => {
     // this generator should try to create sections for
     // ONLY HS-1000-20  in Canvas.
     const csv = await generateSectionsForActiveCourses();
-    expect(csv).toEqual(
-      [
-        `"section_id","course_id","name","status"`,
-        `"HS-1000-20-F20","AH-1000-20-F20","HS-1000-20-F20","active"`,
-      ].join('\n')
-    );
+    expect(csv).toMatchInlineSnapshot(`
+      "section_id,course_id,name,status
+      HS-1000-20-F20,AH-1000-20-F20,HS-1000-20-F20,active"
+    `);
   });
 });

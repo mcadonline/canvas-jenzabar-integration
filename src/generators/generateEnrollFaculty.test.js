@@ -5,7 +5,7 @@ describe('generateEnrollFaculty', () => {
   afterEach(() => {
     jest.resetAllMocks();
   });
-  it.only('gets a list of new enrollments to add to Canvas', async () => {
+  it('gets a list of new enrollments to add to Canvas', async () => {
     jest.spyOn(jex, 'getActiveCourses');
     jex.getActiveCourses.mockResolvedValue([
       {
@@ -27,8 +27,8 @@ describe('generateEnrollFaculty', () => {
     const enrollFacultyCsv = await generateEnrollFaculty();
 
     expect(enrollFacultyCsv).toMatchInlineSnapshot(`
-      "\\"course_id\\",\\"user_id\\",\\"role\\",\\"status\\"
-      \\"2D-3303-20-F20\\",\\"1175109\\",\\"teacher\\",\\"active\\""
+      "course_id,user_id,role,status
+      2D-3303-20-F20,1175109,teacher,active"
     `);
   });
 });

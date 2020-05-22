@@ -57,10 +57,9 @@ describe.only('generateEnrollAdds', () => {
 
     const enrollAddsCsv = await generateEnrollAdds();
 
-    expect(enrollAddsCsv).toEqual(
-      [`"section_id","user_id","role","status"`, `"GWD-6610-20-F18","2","student","active"`].join(
-        '\n'
-      )
-    );
+    expect(enrollAddsCsv).toMatchInlineSnapshot(`
+      "section_id,user_id,role,status
+      GWD-6610-20-F18,2,student,active"
+    `);
   });
 });
