@@ -5,9 +5,9 @@ const jexEnrollment = [
     id: 1,
     firstName: 'Elaine',
     preferredName: 'Laney',
-    lastName: 'Benis',
-    mcadEmail: 'ebenis@mcad.edu',
-    username: 'ebenis',
+    lastName: 'benes',
+    mcadEmail: 'ebenes@mcad.edu',
+    username: 'ebenes',
     courseCode: 'GWD  6610 20',
     parentCourseCode: 'GWD  6610 20',
     term: 'FA',
@@ -17,9 +17,9 @@ const jexEnrollment = [
     id: 1,
     firstName: 'Elaine',
     preferredName: 'Laney',
-    lastName: 'Benis',
-    mcadEmail: 'ebenis@mcad.edu',
-    username: 'ebenis',
+    lastName: 'benes',
+    mcadEmail: 'ebenes@mcad.edu',
+    username: 'ebenes',
     courseCode: 'AH   1701 01',
     parentCourseCode: 'AH   1701 01',
     term: 'FA',
@@ -43,14 +43,16 @@ const sisUsers = toSisUsersFromJexEnrollment(jexEnrollment);
 
 describe('toSisUsersFromJexUser', () => {
   it('has the expected properties', () => {
-    sisUsers.forEach(user => expect(Object.keys(user)).toEqual([
-      'user_id',
-      'login_id',
-      'first_name',
-      'last_name',
-      'email',
-      'status',
-    ]));
+    sisUsers.forEach(user =>
+      expect(Object.keys(user)).toEqual([
+        'user_id',
+        'login_id',
+        'first_name',
+        'last_name',
+        'email',
+        'status',
+      ])
+    );
   });
 
   it('removes duplicate users', () => {

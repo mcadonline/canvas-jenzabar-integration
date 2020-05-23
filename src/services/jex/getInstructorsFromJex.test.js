@@ -6,10 +6,10 @@ const mockData = [
     id: 1,
     firstName: 'Elaine',
     preferredName: 'Laney',
-    lastName: 'Benis',
-    personalEmail: 'elaine.benis@jpederman.com',
-    mcadEmail: 'ebenis@mcad.edu',
-    username: 'ebenis',
+    lastName: 'benes',
+    personalEmail: 'elaine.benes@jpederman.com',
+    mcadEmail: 'ebenes@mcad.edu',
+    username: 'ebenes',
   },
   {
     id: 2,
@@ -33,11 +33,11 @@ describe('getInstructorsFromJex', () => {
         Object {
           "firstName": "Elaine",
           "id": 1,
-          "lastName": "Benis",
-          "mcadEmail": "ebenis@mcad.edu",
-          "personalEmail": "elaine.benis@jpederman.com",
+          "lastName": "benes",
+          "mcadEmail": "ebenes@mcad.edu",
+          "personalEmail": "elaine.benes@jpederman.com",
           "preferredName": "Laney",
-          "username": "ebenis",
+          "username": "ebenes",
         },
       ]
     `);

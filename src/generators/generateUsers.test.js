@@ -43,10 +43,10 @@ describe('generateUsers', () => {
         id: 3,
         firstName: 'Elaine',
         preferredName: 'Laney',
-        lastName: 'Benis',
-        personalEmail: 'elaine.benis@jpederman.com',
-        mcadEmail: 'ebenis@mcad.edu',
-        username: 'ebenis',
+        lastName: 'benes',
+        personalEmail: 'elaine.benes@jpederman.com',
+        mcadEmail: 'ebenes@mcad.edu',
+        username: 'ebenes',
       },
     ]);
 
@@ -58,7 +58,7 @@ describe('generateUsers', () => {
       "user_id,login_id,first_name,last_name,email,status
       1,1,User,One,user1@mcad.edu,active
       2,2,User,Two,user2@mcad.edu,active
-      3,3,Laney,Benis,ebenis@mcad.edu,active"
+      3,3,Laney,benes,ebenes@mcad.edu,active"
     `);
   });
   it('uses preferred names instead of first names', async () => {
@@ -127,10 +127,10 @@ describe('generateUsers', () => {
         id: 3,
         firstName: 'Elaine',
         preferredName: 'Laney',
-        lastName: 'Benis',
-        personalEmail: 'elaine.benis@jpederman.com',
-        mcadEmail: 'ebenis@mcad.edu',
-        username: 'ebenis',
+        lastName: 'benes',
+        personalEmail: 'elaine.benes@jpederman.com',
+        mcadEmail: 'ebenes@mcad.edu',
+        username: 'ebenes',
       },
     ]);
 
@@ -147,11 +147,11 @@ describe('generateUsers', () => {
       },
       {
         id: 3,
-        name: 'Laney Benis',
-        sortable_name: 'Benis, Laney',
+        name: 'Laney benes',
+        sortable_name: 'benes, Laney',
         short_name: 'Laney',
         sis_user_id: '3',
-        email: 'ebenis@mcad.edu',
+        email: 'ebenes@mcad.edu',
         login_id: '3',
       },
     ]);

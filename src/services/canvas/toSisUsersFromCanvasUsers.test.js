@@ -9,15 +9,15 @@ import toSisUsersFromCanvasUsers from './toSisUsersFromCanvasUsers';
 const canvasUsers = [
   {
     id: 123,
-    name: 'Elaine Benis',
+    name: 'Elaine benes',
     created_at: '2018-12-02T11:32:08-06:00',
-    sortable_name: 'Benis, Elaine',
-    short_name: 'Elaine Benis',
+    sortable_name: 'benes, Elaine',
+    short_name: 'Elaine benes',
     sis_user_id: '1234567',
     integration_id: null,
     sis_import_id: 5,
     login_id: '1234567',
-    email: 'ebenis@gmail.com',
+    email: 'ebenes@gmail.com',
   },
   {
     id: 456,
@@ -42,17 +42,19 @@ describe('toSisUserFromCanvasUser', () => {
   it('makes first_name and last_name from sortable_name', () => {
     const { first_name, last_name } = sisUsers[0];
     expect(first_name).toBe('Elaine');
-    expect(last_name).toBe('Benis');
+    expect(last_name).toBe('benes');
   });
   it('has the expected properties', () => {
-    sisUsers.forEach(u => expect(Object.keys(u)).toEqual([
-      'user_id',
-      'login_id',
-      'first_name',
-      'last_name',
-      'email',
-      'status',
-    ]));
+    sisUsers.forEach(u =>
+      expect(Object.keys(u)).toEqual([
+        'user_id',
+        'login_id',
+        'first_name',
+        'last_name',
+        'email',
+        'status',
+      ])
+    );
   });
   it('converts a single user', () => {
     const singleSisUser = toSisUsersFromCanvasUsers(canvasUsers[0]);
