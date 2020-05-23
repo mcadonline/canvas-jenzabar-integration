@@ -4,14 +4,6 @@ import jsonToCSV from '../utils/jsonToCSV';
 import jex from '../services/jex';
 import canvas from '../services/canvas';
 
-const toCanvasCsvFormat = course => ({
-  course_id: course.id,
-  short_name: course.id,
-  long_name: course.name,
-  status: 'active',
-  blueprint_course_id: 'TEMPLATE-ENHANCEDCOURSE',
-});
-
 const getOnlineWorkshopAttendeeUsernames = async () => {
   // get all students enrolled in current and upcoming courses
   // then identify only those students enrolled in a workshop like
@@ -74,15 +66,13 @@ export default async () => {
   );
 
   // only parent courses should have a course shell
-  const canvasCsvCourses = needsNewSandboxUsernames
-    .map(username => ({
-      course_id: `SANDBOX-${username}`.toUpperCase(),
-      short_name: `SANDBOX-${username}`.toUpperCase(),
-      long_name: `SANDBOX: ${username.toUpperCase()}`,
-      status: 'active',
-      blueprint_course_id: 'TEMPLATE-ENHANCEDCOURSE',
-    }))
-    .map(toCanvasCsvFormat);
+  const canvasCsvCourses = needsNewSandboxUsernames.map(username => ({
+    course_id: `SANDBOX-${username}`.toUpperCase(),
+    short_name: `SANDBOX-${username}`.toUpperCase(),
+    long_name: `SANDBOX: ${username.toUpperCase()}`,
+    status: 'active',
+    blueprint_course_id: 'TEMPLATE-ENHANCEDCOURSE',
+  }));
 
   const csv = jsonToCSV(canvasCsvCourses);
   return csv;
