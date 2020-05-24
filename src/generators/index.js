@@ -3,6 +3,7 @@ import generateEnrollDrops from './generateEnrollDrops';
 import generateUsers from './generateUsers';
 import generateSectionsForActiveCourses from './generateSectionsForActiveCourses';
 import generateCourses from './generateCourses';
+import generateCourseUpdates from './generateCourseUpdates';
 import generateEnrollFaculty from './generateEnrollFaculty';
 import generateSandboxes from './generateSandboxes';
 import generateEnrollSandbox from './generateEnrollSandbox';
@@ -15,5 +16,6 @@ export default {
   users: generateUsers,
   sections: generateSectionsForActiveCourses,
   courses: generateCourses,
+  courseUpdates: generateCourseUpdates,
   sandboxes: generateSandboxes,
 };

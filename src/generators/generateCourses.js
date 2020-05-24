@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
 import jsonToCSV from '../utils/jsonToCSV';
 import jex from '../services/jex';
+import canvas from '../services/canvas';
 
 const onlyParentCourses = course => course.courseCode === course.parentCourseCode;
 
@@ -17,29 +18,42 @@ const byStartDate = (course1, course2) => {
   return start1 <= start2 ? -1 : 1;
 };
 
-const toCanvasCsvFormat = course => ({
-  course_id: course.id,
-  short_name: course.id,
-  long_name: course.name,
-  term_id: `${course.year}-${course.term}`,
-  status: 'active',
-  start_date: course.openDate,
-  end_date: course.closeDate,
-  blueprint_course_id: 'TEMPLATE-ENHANCEDCOURSE',
-});
+const toCanvasCsvFormat = ({ blueprintCourseId }) => course => {
+  const canvasCsvCourse = {
+    course_id: course.id,
+    short_name: course.id,
+    long_name: course.name,
+    term_id: `${course.year}-${course.term}`,
+    status: 'active',
+    start_date: course.openDate,
+    end_date: course.closeDate,
+  };
+
+  if (!blueprintCourseId) return canvasCsvCourse;
+
+  return { ...canvasCsvCourse, blueprint_course_id: blueprintCourseId };
+};
 
 /**
  * @param today - pretend like this is today's date
  */
-export default async ({ today = null } = {}) => {
-  const courses = await jex.getActiveCourses();
+export default async ({ today = null, blueprintCourseId = 'TEMPLATE-ENHANCEDCOURSE' } = {}) => {
+  const [coursesFromJex, coursesFromCanvas] = await Promise.all([
+    jex.getActiveCourses(),
+    canvas.getCourses(),
+  ]);
 
-  // only parent courses should have a course shell
-  const canvasCsvCourses = courses
+  const canvasSisCourseIds = coursesFromCanvas.map(c => c.sis_course_id);
+  const canvasCourseIdSet = new Set(canvasSisCourseIds);
+
+  const canvasCsvCourses = coursesFromJex
     .filter(noCoursesTwoWeeksAfterStartDate({ today }))
+    // only parent courses should have a course shell
     .filter(onlyParentCourses)
+    // online courses that don't yet exist in canvas
+    .filter(jexCourse => !canvasCourseIdSet.has(jexCourse.id))
     .sort(byStartDate)
-    .map(toCanvasCsvFormat);
+    .map(toCanvasCsvFormat({ blueprintCourseId }));
 
   const csv = jsonToCSV(canvasCsvCourses);
   return csv;
