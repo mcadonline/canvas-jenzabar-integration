@@ -39,8 +39,8 @@ describe('generateSandboxes', () => {
     const csv = await generateSandboxes();
     expect(csv).toMatchInlineSnapshot(`
       "course_id,short_name,long_name,status,blueprint_course_id
-      SANDBOX-EBENES,SANDBOX-EBENES,SANDBOX: Laney Benes,active,TEMPLATE-ENHANCEDCOURSE
-      SANDBOX-GCOSTANZA,SANDBOX-GCOSTANZA,SANDBOX: George Costanza,active,TEMPLATE-ENHANCEDCOURSE"
+      SANDBOX-EBENES,SANDBOX-EBENES,SANDBOX: Laney Benes,active,TEMPLATE-SANDBOXCOURSE
+      SANDBOX-GCOSTANZA,SANDBOX-GCOSTANZA,SANDBOX: George Costanza,active,TEMPLATE-SANDBOXCOURSE"
     `);
   });
 
@@ -80,7 +80,7 @@ describe('generateSandboxes', () => {
     const csv = await generateSandboxes();
     expect(csv).toMatchInlineSnapshot(`
       "course_id,short_name,long_name,status,blueprint_course_id
-      SANDBOX-EBENES,SANDBOX-EBENES,SANDBOX: Laney Benes,active,TEMPLATE-ENHANCEDCOURSE"
+      SANDBOX-EBENES,SANDBOX-EBENES,SANDBOX: Laney Benes,active,TEMPLATE-SANDBOXCOURSE"
     `);
   });
 
@@ -119,7 +119,7 @@ describe('generateSandboxes', () => {
     const csv = await generateSandboxes();
     expect(csv).toMatchInlineSnapshot(`
       "course_id,short_name,long_name,status,blueprint_course_id
-      SANDBOX-EBENES,SANDBOX-EBENES,SANDBOX: Laney Benes,active,TEMPLATE-ENHANCEDCOURSE"
+      SANDBOX-EBENES,SANDBOX-EBENES,SANDBOX: Laney Benes,active,TEMPLATE-SANDBOXCOURSE"
     `);
   });
 
@@ -169,7 +169,7 @@ describe('generateSandboxes', () => {
     const csv = await generateSandboxes();
     expect(csv).toMatchInlineSnapshot(`
       "course_id,short_name,long_name,status,blueprint_course_id
-      SANDBOX-GCOSTANZA,SANDBOX-GCOSTANZA,SANDBOX: George Costanza,active,TEMPLATE-ENHANCEDCOURSE"
+      SANDBOX-GCOSTANZA,SANDBOX-GCOSTANZA,SANDBOX: George Costanza,active,TEMPLATE-SANDBOXCOURSE"
     `);
   });
 
@@ -194,7 +194,7 @@ describe('generateSandboxes', () => {
     const csv = await generateSandboxes();
     expect(csv).toMatchInlineSnapshot(`
       "course_id,short_name,long_name,status,blueprint_course_id
-      SANDBOX-USERNAME,SANDBOX-USERNAME,SANDBOX: Preferred Last,active,TEMPLATE-ENHANCEDCOURSE"
+      SANDBOX-USERNAME,SANDBOX-USERNAME,SANDBOX: Preferred Last,active,TEMPLATE-SANDBOXCOURSE"
     `);
   });
 
@@ -219,7 +219,7 @@ describe('generateSandboxes', () => {
     const csv = await generateSandboxes();
     expect(csv).toMatchInlineSnapshot(`
       "course_id,short_name,long_name,status,blueprint_course_id
-      SANDBOX-USERNAME,SANDBOX-USERNAME,SANDBOX: PreferredName LastName,active,TEMPLATE-ENHANCEDCOURSE"
+      SANDBOX-USERNAME,SANDBOX-USERNAME,SANDBOX: PreferredName LastName,active,TEMPLATE-SANDBOXCOURSE"
     `);
   });
 });

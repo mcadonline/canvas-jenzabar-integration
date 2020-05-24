@@ -41,7 +41,7 @@ export default async () => {
       short_name: `SANDBOX-${username}`.toUpperCase(),
       long_name: `SANDBOX: ${preferredName || firstName} ${lastName}`,
       status: 'active',
-      blueprint_course_id: 'TEMPLATE-ENHANCEDCOURSE',
+      blueprint_course_id: 'TEMPLATE-SANDBOXCOURSE',
     })
   );
 
