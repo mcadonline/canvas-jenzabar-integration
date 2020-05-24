@@ -113,7 +113,6 @@ async function cli() {
   try {
     const csv = await main(generatorFn);
     log(csv);
-
     warn(destinations);
 
     if (csv.length === 0) {
@@ -136,7 +135,6 @@ async function cli() {
     }
   } catch (err) {
     console.error(`\n ❌ ${err.message}`);
-    throw err;
   }
 }
 
