@@ -4,8 +4,9 @@ import jex from '../services/jex';
 
 describe.only('generateEnrollAdds', () => {
   afterEach(() => {
-    jest.resetAllMocks();
+    jest.restoreAllMocks();
   });
+
   it('gets a list of new enrollments to add to Canvas', async () => {
     jest.spyOn(canvas, 'getActiveSections');
     jest.spyOn(canvas, 'getStudentEnrollment');

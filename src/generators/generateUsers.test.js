@@ -4,9 +4,8 @@ import jex from '../services/jex';
 
 describe('generateUsers', () => {
   afterEach(() => {
-    jest.resetAllMocks();
+    jest.restoreAllMocks();
   });
-
   it('creates a list of new users to add to Canvas', async () => {
     // it will look at jex to determine the users who need accounts
     jest.spyOn(jex, 'getStudentEnrollment');

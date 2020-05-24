@@ -4,7 +4,7 @@ import jex from '../services/jex';
 
 describe('generateSectionsForActiveCourses', () => {
   afterEach(() => {
-    jest.resetAllMocks();
+    jest.restoreAllMocks();
   });
   it('creates section csv for x-listed courses', async () => {
     jest.spyOn(canvas, 'getActiveCourses');

@@ -3,7 +3,7 @@ import jex from '../services/jex';
 
 describe('generateEnrollFaculty', () => {
   afterEach(() => {
-    jest.resetAllMocks();
+    jest.restoreAllMocks();
   });
   it('gets a list of new enrollments to add to Canvas', async () => {
     jest.spyOn(jex, 'getActiveCourses');

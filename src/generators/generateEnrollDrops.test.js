@@ -4,7 +4,7 @@ import jex from '../services/jex';
 
 describe('generateEnrollDrops', () => {
   afterEach(() => {
-    jest.resetAllMocks();
+    jest.restoreAllMocks();
   });
   it('generates CSV of students to drop from sections in Canvas', async () => {
     jest.spyOn(canvas, 'getActiveSections');

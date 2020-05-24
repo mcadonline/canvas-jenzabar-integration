@@ -23,6 +23,9 @@ const mockData = [
 ];
 
 describe('getInstructorsFromJex', () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
   it('gets data', async () => {
     jest.spyOn(jexService, 'query');
     jexService.query.mockResolvedValue(mockData);

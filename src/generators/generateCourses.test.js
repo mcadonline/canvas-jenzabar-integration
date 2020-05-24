@@ -2,6 +2,9 @@ import generateCourses from './generateCourses';
 import jex from '../services/jex';
 
 describe('generateCourses', () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
   it('matches CanvasCSV format', async () => {
     const csv = await generateCourses();
     const firstLine = csv.split('\n')[0];
