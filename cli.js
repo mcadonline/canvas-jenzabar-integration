@@ -17,9 +17,18 @@ const generatorDict = {
   'enrollment-faculty': generators.enrollFaculty,
   courses: generators.courses,
   sections: generators.sections,
+  sandboxes: generators.sandboxes,
 };
 
 const isValidGenerator = str => Object.keys(generatorDict).includes(str);
+
+const listGeneratorsInCLI = ({ indentSize = 8, indentFirst = true }) =>
+  Object.keys(generatorDict)
+    // should the first generator be indented?
+    // this is helpful if this function generates a list
+    // in another string template
+    .map((str, i) => (!indentFirst && i === 0 ? str : ' '.repeat(indentSize) + str))
+    .join('\n');
 
 async function promptUser() {
   const answers = await inquirer.prompt([
@@ -54,10 +63,7 @@ async function cli() {
    
 
       Generators
-        users
-        enrollment-adds
-        enrollment-drops
-        sections
+        ${listGeneratorsInCLI({ indentSize: 8, indentFirst: false })}
 
       Options
         --help              This help text.
