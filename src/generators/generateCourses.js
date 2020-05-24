@@ -18,26 +18,21 @@ const byStartDate = (course1, course2) => {
   return start1 <= start2 ? -1 : 1;
 };
 
-const toCanvasCsvFormat = ({ blueprintCourseId }) => course => {
-  const canvasCsvCourse = {
-    course_id: course.id,
-    short_name: course.id,
-    long_name: course.name,
-    term_id: `${course.year}-${course.term}`,
-    status: 'active',
-    start_date: course.openDate,
-    end_date: course.closeDate,
-  };
-
-  if (!blueprintCourseId) return canvasCsvCourse;
-
-  return { ...canvasCsvCourse, blueprint_course_id: blueprintCourseId };
-};
+const toCanvasCsvFormat = course => ({
+  course_id: course.id,
+  short_name: course.id,
+  long_name: course.name,
+  term_id: `${course.year}-${course.term}`,
+  status: 'active',
+  start_date: course.openDate,
+  end_date: course.closeDate,
+  blueprint_course_id: 'TEMPLATE-ENHANCEDCOURSE',
+});
 
 /**
  * @param today - pretend like this is today's date
  */
-export default async ({ today = null, blueprintCourseId = 'TEMPLATE-ENHANCEDCOURSE' } = {}) => {
+export default async ({ today = null } = {}) => {
   const [coursesFromJex, coursesFromCanvas] = await Promise.all([
     jex.getActiveCourses(),
     canvas.getCourses(),
@@ -53,7 +48,7 @@ export default async ({ today = null, blueprintCourseId = 'TEMPLATE-ENHANCEDCOUR
     // online courses that don't yet exist in canvas
     .filter(jexCourse => !canvasCourseIdSet.has(jexCourse.id))
     .sort(byStartDate)
-    .map(toCanvasCsvFormat({ blueprintCourseId }));
+    .map(toCanvasCsvFormat);
 
   const csv = jsonToCSV(canvasCsvCourses);
   return csv;
