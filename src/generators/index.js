@@ -2,7 +2,7 @@ import generateEnrollAdds from './generateEnrollAdds';
 import generateEnrollDrops from './generateEnrollDrops';
 import generateUsers from './generateUsers';
 import generateSectionsForActiveCourses from './generateSectionsForActiveCourses';
-import generateCourses from './generateCourses';
+import generateCourseShells from './generateCourseShells';
 import generateCourseUpdates from './generateCourseUpdates';
 import generateEnrollFaculty from './generateEnrollFaculty';
 import generateSandboxes from './generateSandboxes';
@@ -15,7 +15,7 @@ export default {
   enrollSandbox: generateEnrollSandbox,
   users: generateUsers,
   sections: generateSectionsForActiveCourses,
-  courses: generateCourses,
+  courseShells: generateCourseShells,
   courseUpdates: generateCourseUpdates,
   sandboxes: generateSandboxes,
 };
