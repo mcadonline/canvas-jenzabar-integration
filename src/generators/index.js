@@ -17,5 +17,5 @@ export default {
   sections: generateSectionsForActiveCourses,
   courseShells: generateCourseShells,
   courseUpdates: generateCourseUpdates,
-  sandboxes: generateSandboxes,
+  courseSandboxes: generateSandboxes,
 };

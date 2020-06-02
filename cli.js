@@ -17,9 +17,9 @@ const generatorDict = {
   'enrollment-faculty': generators.enrollFaculty,
   'enrollment-sandboxes': generators.enrollSandbox,
   'course-shells': generators.courseShells,
+  'course-sandboxes': generators.courseSandboxes,
   // 'course-updates': generators.courseUpdates,
   sections: generators.sections,
-  sandboxes: generators.sandboxes,
 };
 
 const isValidGenerator = str => Object.keys(generatorDict).includes(str);
