@@ -94,7 +94,12 @@ describe('generateCourseUpdates', () => {
       const csv = await generateCourseUpdates({ today: now });
       expect(csv).toMatchInlineSnapshot(`""`);
     });
-    it.todo('course not open (jex) => no change to publish state');
+    // not 100% sure this is what we want
+    // setting status to "unpublished" in CSV does not seem to unpublish
+    // a course (even when override_sis_stickiness = true)
+    it.todo(
+      'dont attempt to update status when course is published in canvas but not officially open'
+    );
     it.todo('after end date (jex) => no action taken');
     it.todo('open (jex) and does not exist on canvas => ignore');
   });
