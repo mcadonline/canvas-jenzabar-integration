@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable no-console */
 require = require('esm')(module); // eslint-disable-line no-global-assign
 const meow = require('meow');
 const inquirer = require('inquirer');
@@ -8,7 +9,12 @@ const generators = require('./src/generators').default;
 const services = require('./src/services').default;
 const settings = require('./src/settings').default;
 
-const { log, warn } = console;
+const logger = {
+  log: msg => console.log(msg),
+  info: msg => console.warn(`\n ℹ️ Info: ${msg}`),
+  warn: msg => console.warn(`\n⚠️  Warning: ${msg}\n`),
+  error: msg => console.error(`\n❌  Error: ${msg}\n`),
+};
 
 const generatorDict = {
   users: generators.users,
@@ -85,9 +91,10 @@ async function cli() {
         ${listGeneratorsInCLI({ indentSize: 8, indentFirst: false })}
 
       Options
-        --help                  This help text.
-        --file                  save csv to a file in \`./tmp\` folder
-        --upload                upload csv to Canvas via SIS Imports
+        --help                      help and options
+        --file                      save csv to a file in \`./tmp\` folder
+        --upload                    upload csv to Canvas via SIS Imports
+        --override-sis-stickiness   on csv upload, override any sis stickiness
    
       Example
         $ canvas-jenzabar users --upload
@@ -96,9 +103,15 @@ async function cli() {
       flags: {
         file: { type: 'boolean' },
         upload: { type: 'boolean' },
+        overrideSisStickiness: { type: 'boolean' },
       },
     }
   );
+
+  if (flags.overrideSisStickiness && !flags.upload) {
+    logger.error(`option '--override-sis-stickiness' can only be used with '--upload`);
+    process.exit();
+  }
 
   let generatorKey = input ? input[0] : null;
   let destinations = {
@@ -107,19 +120,17 @@ async function cli() {
   };
 
   let uploadOptions = {
-    overrideSisStickiness: flags['override-sis-stickiness'],
+    override_sis_stickiness: flags.overrideSisStickiness,
   };
 
   // if input is given and invalid, error
   if (generatorKey && !isValidGenerator(generatorKey)) {
-    warn(
-      `\n❌  Error: ${generatorKey} is not a valid generator. Use --help option to see valid generators.`
+    logger.error(
+      `${generatorKey} is not a valid generator. Use --help option to see valid generators.`
     );
   }
 
-  // to stderr to keep stdout clean
-  // TODO: Better logging
-  warn(`
+  logger.log(`
   🌕  CANVAS HOST:\t${settings.canvas.hostname}
   🔵  JENZABAR HOST:\t${settings.jex.server}
   🕐  DATETIME:\t\t${new Date()}
@@ -136,33 +147,33 @@ async function cli() {
 
   try {
     const csv = await main(generatorFn);
-    log(csv);
-    warn(destinations);
+    logger.log(csv);
+    logger.info(JSON.stringify(destinations));
 
     if (csv.length === 0) {
-      warn('🤓  No data generated. Done!');
+      logger.log('🤓  No data generated. Done!');
       return;
     }
 
     if (destinations.file) {
       // save to file
       const fileDest = await writeToFile(csv, { filenamePrefix: generatorKey });
-      warn(`\n👍  Saving to file: ${fileDest}`);
+      logger.log(`👍  Saving to file: ${fileDest}`);
     }
 
     if (destinations.upload) {
       // upload to canvas
-      log(`\n⤴️  Uploading Data to: ${settings.canvas.hostname}`);
+      logger.log(`⤴️  Uploading Data to: ${settings.canvas.hostname}`);
       const uploadUrl = [
         `/accounts/1/sis_imports?extensions=csv`,
         uploadOptions.override_sis_stickiness ? `&override_sis_stickiness=true` : '',
       ].join('');
 
       const res = await services.canvas.post(uploadUrl, csv);
-      warn(`Response: ${JSON.stringify(res)}`);
+      logger.info(`Response: ${JSON.stringify(res)}`);
     }
   } catch (err) {
-    console.error(`\n ❌ ${err.message}`);
+    console.error(err.message);
   }
 }
 
