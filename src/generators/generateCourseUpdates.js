@@ -30,8 +30,8 @@ const jexCourseToCanvasCsvFormat = (jexCourse, currentDateTimeISO) => {
     // See TODO in canvasApiCourseToCanvasCsvFormat
     // term_id: `${jexCourse.year}-${jexCourse.term}`,
     status: shouldBePublished ? 'published' : 'active',
-    start_date: jexCourse.openDate,
-    end_date: jexCourse.closeDate,
+    start_date: DateTime.fromISO(jexCourse.openDate).toISO(),
+    end_date: DateTime.fromISO(jexCourse.closeDate).toISO(),
   };
 };
 
@@ -62,8 +62,8 @@ const canvasApiCourseToCanvasCsvFormat = canvasCourse => {
     // if we want to get ti term ids.
     // term_id: canvasCourse.term.sis_term_id,
     status: workflowStateToCanvasCsvStatus(canvasCourse.workflow_state),
-    start_date: canvasCourse.start_at,
-    end_date: canvasCourse.end_at,
+    start_date: DateTime.fromISO(canvasCourse.start_date).toISO(),
+    end_date: DateTime.fromISO(canvasCourse.end_date).toISO(),
   };
 };
 
@@ -92,24 +92,31 @@ export default async ({ today = DateTime.local().toISO() } = {}) => {
   // appear in both lists. These are the ids of courses to reconcile.
   const courseIdsInBoth = intersection(keys(jexCoursesIndexedById), keys(canvasCoursesIndexedById));
 
-  const coursesToUpdate = courseIdsInBoth.reduce((acc, courseId) => {
-    // get both courses and convert both courses to common format
-    const jexCourseInCsvFormat = jexCourseToCanvasCsvFormat(jexCoursesIndexedById[courseId], today);
-    const canvasCourseInCsvFormat = canvasApiCourseToCanvasCsvFormat(
-      canvasCoursesIndexedById[courseId]
-    );
+  const coursesToUpdate = courseIdsInBoth
+    // .filter(id => id === '2D-3303-20-F20')
+    .reduce((acc, courseId) => {
+      // get both courses and convert both courses to common format
+      const jexCourse = jexCoursesIndexedById[courseId];
+      const jexCourseInCsvFormat = jexCourseToCanvasCsvFormat(jexCourse, today);
+      // console.log(jexCourse);
 
-    const isUpToDate = equals(jexCourseInCsvFormat, canvasCourseInCsvFormat);
+      const canvasCourse = canvasCoursesIndexedById[courseId];
+      const canvasCourseInCsvFormat = canvasApiCourseToCanvasCsvFormat(canvasCourse);
+      // console.log(canvasCourse);
 
-    return isUpToDate
-      ? acc
-      : [
-          ...acc,
-          // jex is our source of truth
-          // so this course represents what should be
-          jexCourseInCsvFormat,
-        ];
-  }, []);
+      const isUpToDate = equals(jexCourseInCsvFormat, canvasCourseInCsvFormat);
+      // console.log('JEX', JSON.stringify(jexCourseInCsvFormat, ' ', 2));
+      // console.log('CANVAS', JSON.stringify(canvasCourseInCsvFormat, ' ', 2));
+
+      return isUpToDate
+        ? acc
+        : [
+            ...acc,
+            // jex is our source of truth
+            // so this course represents what should be
+            jexCourseInCsvFormat,
+          ];
+    }, []);
 
   return jsonToCsv(coursesToUpdate);
 };

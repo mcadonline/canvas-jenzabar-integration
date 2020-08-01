@@ -9,7 +9,7 @@ describe('generateCourseUpdates', () => {
 
   describe('update course publish state', () => {
     it('course open (jex) and unpublished (canvas) => update to publish', async () => {
-      const now = '2020-01-01T00:00:00.000-05:00';
+      const now = '2020-01-01T00:00:00.000-06:00';
 
       // course is open according to jex
       jest.spyOn(jex, 'getActiveCourses');
@@ -23,7 +23,7 @@ describe('generateCourseUpdates', () => {
           year: 2020,
           startDate: '2020-01-02',
           endDate: '2020-12-11',
-          openDate: '2020-01-01T00:00:00.000-05:00',
+          openDate: '2020-01-01T00:00:00.000-06:00',
           closeDate: '2020-12-31T23:59:59.000-06:00',
           courseFormat: 'on_campus',
           instructor: { id: 114, firstName: 'George', lastName: 'Costanza' },
@@ -36,8 +36,8 @@ describe('generateCourseUpdates', () => {
         {
           id: 2,
           name: 'Foundation: 2D -- G. Costanza (Sect. 07 - Fall 2020)',
-          start_at: '2020-01-01T00:00:00.000-05:00',
-          end_at: '2020-12-31T23:59:59.000-06:00',
+          start_date: '2020-01-01T00:00:00.000-06:00',
+          end_date: '2020-12-31T23:59:59.000-06:00',
           course_code: 'FDN-1111-07-F20',
           sis_course_id: 'FDN-1111-07-F20',
           sis_import_id: null,
@@ -49,12 +49,12 @@ describe('generateCourseUpdates', () => {
       const csv = await generateCourseUpdates({ today: now });
       expect(csv).toMatchInlineSnapshot(`
         "course_id,short_name,long_name,status,start_date,end_date
-        FDN-1111-07-F20,FDN-1111-07-F20,Foundation: 2D -- G. Costanza (Sect. 07 - Fall 2020),published,2020-01-01T00:00:00.000-05:00,2020-12-31T23:59:59.000-06:00"
+        FDN-1111-07-F20,FDN-1111-07-F20,Foundation: 2D -- G. Costanza (Sect. 07 - Fall 2020),published,2020-01-01T00:00:00.000-06:00,2020-12-31T23:59:59.000-06:00"
       `);
     });
 
     it('course open (jex) and published (canvas) => no action taken', async () => {
-      const now = '2020-01-01T00:00:00.000-05:00';
+      const now = '2020-01-01T00:00:00.000-06:00';
 
       // course is OPEN according to jex
       jest.spyOn(jex, 'getActiveCourses');
@@ -68,7 +68,7 @@ describe('generateCourseUpdates', () => {
           year: 2020,
           startDate: '2020-01-02',
           endDate: '2020-12-11',
-          openDate: '2020-01-01T00:00:00.000-05:00',
+          openDate: '2020-01-01T00:00:00.000-06:00',
           closeDate: '2020-12-31T23:59:59.000-06:00',
           courseFormat: 'on_campus',
           instructor: { id: 114, firstName: 'George', lastName: 'Costanza' },
@@ -81,12 +81,12 @@ describe('generateCourseUpdates', () => {
         {
           id: 2,
           name: 'Foundation: 2D -- G. Costanza (Sect. 07 - Fall 2020)',
-          start_at: '2020-01-01T00:00:00.000-05:00',
-          end_at: '2020-12-31T23:59:59.000-06:00',
+          start_date: '2020-01-01T00:00:00.000-06:00',
+          end_date: '2020-12-31T23:59:59.000-06:00',
           course_code: 'FDN-1111-07-F20',
           sis_course_id: 'FDN-1111-07-F20',
           sis_import_id: null,
-          workflow_state: 'published',
+          workflow_state: 'available',
           course_format: 'on_campus',
         },
       ]);
