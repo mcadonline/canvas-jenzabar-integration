@@ -90,12 +90,12 @@ describe('generateCourses', () => {
       {
         id: 2,
         name: 'Foundation: 2D -- G. Costanza (Sect. 07 - Fall 2020)',
-        start_at: '2020-08-23T00:00:00.000-05:00',
-        end_at: '2020-12-31T23:59:59.000-06:00',
+        start_date: '2020-08-23T00:00:00.000-05:00',
+        end_date: '2020-12-31T23:59:59.000-06:00',
         course_code: 'FDN-1111-07-F20',
         sis_course_id: 'FDN-1111-07-F20',
         sis_import_id: null,
-        workflow_state: 'available',
+        workflow_state: 'unpublished',
         course_format: 'on_campus',
       },
     ]);
