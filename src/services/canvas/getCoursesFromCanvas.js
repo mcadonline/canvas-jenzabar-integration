@@ -19,7 +19,7 @@ const normalizeCanvasCourseData = ({
   sis_course_id,
   course_code,
   name,
-  status: workflow_state,
+  workflow_state,
   start_date: start_at,
   end_date: end_at,
   course_format,

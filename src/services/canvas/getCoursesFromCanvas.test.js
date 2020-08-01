@@ -45,7 +45,7 @@ describe('canvas.getCourses', () => {
       'sis_course_id', // sis course id
       'course_code', // short name
       'name', // course name
-      'status', // active, deleted, completed
+      'workflow_state',
       'start_date',
       'end_date',
       'course_format', // online, on_campus, blended
