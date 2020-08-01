@@ -33,7 +33,7 @@ const listGeneratorsInCLI = ({ indentSize = 8, indentFirst = true }) =>
     .join('\n');
 
 async function promptUser() {
-  const answers = await inquirer.prompt([
+  const { generatorKey, destinations } = await inquirer.prompt([
     {
       type: 'list',
       name: 'generatorKey',
@@ -48,11 +48,28 @@ async function promptUser() {
     },
   ]);
 
-  return {
-    generatorKey: answers.generatorKey,
+  const userChoices = {
+    generatorKey,
     destinations: {
-      upload: answers.destinations.some(dest => dest === 'upload'),
-      file: answers.destinations.some(dest => dest === 'file'),
+      file: destinations.includes('file'),
+      upload: destinations.includes('upload'),
+    },
+  };
+
+  if (!userChoices.destinations.upload) return userChoices;
+
+  const followups = await inquirer.prompt([
+    {
+      type: 'checkbox',
+      name: 'uploadOptions',
+      message: 'Upload Options?',
+      choices: ['override_sis_stickiness'],
+    },
+  ]);
+  return {
+    ...userChoices,
+    uploadOptions: {
+      override_sis_stickiness: followups.uploadOptions.includes('override_sis_stickiness'),
     },
   };
 }
@@ -68,9 +85,9 @@ async function cli() {
         ${listGeneratorsInCLI({ indentSize: 8, indentFirst: false })}
 
       Options
-        --help              This help text.
-        --file              save csv to a file in \`./tmp\` folder
-        --upload            upload csv to Canvas via SIS Imports
+        --help                  This help text.
+        --file                  save csv to a file in \`./tmp\` folder
+        --upload                upload csv to Canvas via SIS Imports
    
       Example
         $ canvas-jenzabar users --upload
@@ -84,7 +101,14 @@ async function cli() {
   );
 
   let generatorKey = input ? input[0] : null;
-  let destinations = flags;
+  let destinations = {
+    file: flags.file,
+    upload: flags.upload,
+  };
+
+  let uploadOptions = {
+    overrideSisStickiness: flags['override-sis-stickiness'],
+  };
 
   // if input is given and invalid, error
   if (generatorKey && !isValidGenerator(generatorKey)) {
@@ -105,7 +129,7 @@ async function cli() {
   // prompt user for generator and destination
   if (!generatorKey) {
     const answers = await promptUser();
-    ({ generatorKey, destinations } = answers);
+    ({ generatorKey, destinations, uploadOptions } = answers);
   }
 
   const generatorFn = generatorDict[generatorKey];
@@ -129,8 +153,12 @@ async function cli() {
     if (destinations.upload) {
       // upload to canvas
       log(`\n⤴️  Uploading Data to: ${settings.canvas.hostname}`);
-      const url = '/accounts/1/sis_imports?extension=csv';
-      const res = await services.canvas.post(url, csv);
+      const uploadUrl = [
+        `/accounts/1/sis_imports?extensions=csv`,
+        uploadOptions.override_sis_stickiness ? `&override_sis_stickiness=true` : '',
+      ].join('');
+
+      const res = await services.canvas.post(uploadUrl, csv);
       warn(`Response: ${JSON.stringify(res)}`);
     }
   } catch (err) {
