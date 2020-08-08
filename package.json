@@ -49,5 +49,8 @@
     "test:watch": "jest --watch"
   },
   "author": "James Johnson <james_johnson@mcad.edu>",
-  "license": "ISC"
+  "license": "ISC",
+  "jest": {
+    "testEnvironment": "node"
+  }
 }

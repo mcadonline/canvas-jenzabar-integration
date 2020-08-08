@@ -3,7 +3,7 @@ import jex from '../services/jex';
 import setMinus from '../utils/setMinus';
 import jsonToCSV from '../utils/jsonToCSV';
 import settings from '../settings';
-import getActiveJexEnrollment from '../utils/getActiveJexEnrollment';
+import filterForEnrollmentInActiveCanvasSections from '../utils/filterForEnrollmentInActiveCanvasSections';
 
 function onlyEnrollmentFromActiveJexCourse(activeJexCourses = []) {
   const jexCourseLookup = {};
@@ -26,7 +26,7 @@ export default async ({ ignoreUsers = settings.ignoreUsers } = {}) => {
   ]);
 
   // jex enrollees with an active canvas section
-  const activeJexEnrollment = getActiveJexEnrollment({
+  const activeJexEnrollment = filterForEnrollmentInActiveCanvasSections({
     activeCanvasSections,
     jexEnrollment,
   });
