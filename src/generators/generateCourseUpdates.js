@@ -11,43 +11,18 @@ import canvas from '../services/canvas';
  * @link https://canvas.instructure.com/doc/api/file.sis_csv.html
  *
  * @param {Object} jexCourse - the course to convert in jex format
- * @param {string} currentDateTimeISO  – current date time. If past the
- * open datetime, then the course will published.
  */
-const jexCourseToCanvasCsvFormat = (jexCourse, currentDateTimeISO) => {
+const jexCourseToCanvasCsvFormat = jexCourse => {
   if (!jexCourse) throw Error(`missing required argument jexCourse`);
-  if (!currentDateTimeISO) throw Error(`missing required argument currentDateTimeISO`);
-
-  // should this course be published?
-  const now = DateTime.fromISO(currentDateTimeISO);
-  const openDate = DateTime.fromISO(jexCourse.openDate);
-  const shouldBePublished = now >= openDate;
 
   return {
     course_id: jexCourse.id,
     short_name: jexCourse.id,
     long_name: jexCourse.name,
-    // See TODO in canvasApiCourseToCanvasCsvFormat
-    // term_id: `${jexCourse.year}-${jexCourse.term}`,
-    status: shouldBePublished ? 'published' : 'unpublished',
+    status: 'active',
     start_date: DateTime.fromISO(jexCourse.openDate).toISO(),
     end_date: DateTime.fromISO(jexCourse.closeDate).toISO(),
   };
-};
-
-const workflowStateToCanvasCsvStatus = workflowState => {
-  switch (workflowState) {
-    case 'unpublished':
-      return 'unpublished'; // also 'active' works
-    case 'available':
-      return 'published';
-    case 'completed':
-      return 'completed';
-    case 'deleted':
-      return 'deleted';
-    default:
-      return workflowState;
-  }
 };
 
 const canvasApiCourseToCanvasCsvFormat = canvasCourse => {
@@ -57,11 +32,7 @@ const canvasApiCourseToCanvasCsvFormat = canvasCourse => {
     course_id: canvasCourse.sis_course_id,
     short_name: canvasCourse.course_code,
     long_name: canvasCourse.name,
-    // TODO:
-    // need to include[]=term in Canvas API call
-    // if we want to get ti term ids.
-    // term_id: canvasCourse.term.sis_term_id,
-    status: workflowStateToCanvasCsvStatus(canvasCourse.workflow_state),
+    status: 'active',
     start_date: DateTime.fromISO(canvasCourse.start_date).toISO(),
     end_date: DateTime.fromISO(canvasCourse.end_date).toISO(),
   };
@@ -78,43 +49,31 @@ const canvasApiCourseToCanvasCsvFormat = canvasCourse => {
  *
  * @returns {Object[]} - a list of courses in Canvas CSV format
  */
-export default async ({ today = DateTime.local().toISO() } = {}) => {
+export default async () => {
   const [jexCourses, canvasCourses] = await Promise.all([
     jex.getActiveCourses(),
     canvas.getCourses(),
   ]);
 
-  const jexCoursesIndexedById = indexBy(c => c.id, jexCourses);
-  const canvasCoursesIndexedById = indexBy(c => c.sis_course_id, canvasCourses);
+  const normalizedCourseFromJex = jexCourses.map(jexCourseToCanvasCsvFormat);
+  const normalizedCourseFromCanvas = canvasCourses.map(canvasApiCourseToCanvasCsvFormat);
 
-  // compare the courseIds in the list of jexCourses with the
-  // courseIds in canvasCourses. Get a list of courseIds that
-  // appear in both lists. These are the ids of courses to reconcile.
+  const jexCoursesIndexedById = indexBy(c => c.id, normalizedCourseFromJex);
+  const canvasCoursesIndexedById = indexBy(c => c.sis_course_id, normalizedCourseFromCanvas);
+
+  // Get a list of courseIds that appear in both lists.
+  // These are the ids of courses to reconcile.
   const courseIdsInBoth = intersection(keys(jexCoursesIndexedById), keys(canvasCoursesIndexedById));
 
-  const coursesToUpdate = courseIdsInBoth.reduce((acc, courseId) => {
-    // get both courses and convert both courses to common format
-    const jexCourse = jexCoursesIndexedById[courseId];
-    const jexCourseInCsvFormat = jexCourseToCanvasCsvFormat(jexCourse, today);
+  const coursesToUpdate = courseIdsInBoth
+    .filter(courseId => {
+      const jexCourse = jexCoursesIndexedById[courseId];
+      const canvasCourse = canvasCoursesIndexedById[courseId];
 
-    const canvasCourse = canvasCoursesIndexedById[courseId];
-    const canvasCourseInCsvFormat = canvasApiCourseToCanvasCsvFormat(canvasCourse);
-
-    // NOTE:
-    // Perhaps we should just ignore comparing status when a canvasCourse
-    // is published? Once published it seems that the SIS import cannot
-    // be used to unpublish, even when override_sis_stickiness = true
-    const isUpToDate = equals(jexCourseInCsvFormat, canvasCourseInCsvFormat);
-
-    return isUpToDate
-      ? acc
-      : [
-          ...acc,
-          // jex is our source of truth
-          // so this course represents what should be
-          jexCourseInCsvFormat,
-        ];
-  }, []);
+      // include in update list if these aren't equal
+      return !equals(jexCourse, canvasCourse);
+    })
+    .map(courseId => jexCoursesIndexedById[courseId]);
 
   return jsonToCsv(coursesToUpdate);
 };
