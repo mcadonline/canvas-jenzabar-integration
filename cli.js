@@ -3,6 +3,7 @@
 require = require('esm')(module); // eslint-disable-line no-global-assign
 const meow = require('meow');
 const inquirer = require('inquirer');
+const { DateTime } = require('luxon');
 const main = require('./src/main').default;
 const writeToFile = require('./src/utils/writeToFile').default;
 const generators = require('./src/generators').default;
@@ -25,6 +26,7 @@ const generatorDict = {
   'course-shells': generators.courseShells,
   'course-sandboxes': generators.courseSandboxes,
   'course-updates': generators.courseUpdates,
+  'courses-to-publish': generators.coursesToPublish,
   sections: generators.sections,
 };
 
@@ -95,6 +97,7 @@ async function cli() {
         --file                      save csv to a file in \`./tmp\` folder
         --upload                    upload csv to Canvas via SIS Imports
         --override-sis-stickiness   on csv upload, override any sis stickiness
+        --current-date-time [dt]     use given iso datetime for current datetime
    
       Example
         $ canvas-jenzabar users --upload
@@ -104,6 +107,10 @@ async function cli() {
         file: { type: 'boolean' },
         upload: { type: 'boolean' },
         overrideSisStickiness: { type: 'boolean' },
+        currentDateTime: {
+          type: 'string',
+          default: DateTime.local().toISO(),
+        },
       },
     }
   );
@@ -112,8 +119,6 @@ async function cli() {
     logger.error(`option '--override-sis-stickiness' can only be used with '--upload`);
     process.exit();
   }
-
-  let generatorKey = input ? input[0] : null;
   let destinations = {
     file: flags.file,
     upload: flags.upload,
@@ -124,6 +129,7 @@ async function cli() {
   };
 
   // if input is given and invalid, error
+  let generatorKey = input ? input[0] : null;
   if (generatorKey && !isValidGenerator(generatorKey)) {
     logger.error(
       `${generatorKey} is not a valid generator. Use --help option to see valid generators.`
@@ -133,7 +139,7 @@ async function cli() {
   logger.log(`
   🌕  CANVAS HOST:\t${settings.canvas.hostname}
   🔵  JENZABAR HOST:\t${settings.jex.server}
-  🕐  DATETIME:\t\t${new Date()}
+  🕐  DATETIME:\t\t${flags.currentDateTime}
   `);
 
   // if no generator given as cli input
@@ -143,10 +149,13 @@ async function cli() {
     ({ generatorKey, destinations, uploadOptions } = answers);
   }
 
+  console.log(flags);
+
   const generatorFn = generatorDict[generatorKey];
+  const generatorFnBoundToFlags = generatorFn.bind(null, flags);
 
   try {
-    const csv = await main(generatorFn);
+    const csv = await main(generatorFnBoundToFlags);
     logger.log(csv);
     logger.info(JSON.stringify(destinations));
 

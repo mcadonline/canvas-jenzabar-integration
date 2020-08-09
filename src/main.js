@@ -5,7 +5,7 @@ export default async function main(generatorFn) {
     throw new TypeError(`Invalid function: ${JSON.stringify(generatorFn)}`);
   }
 
-  const csv = await generatorFn(services);
+  const csv = await generatorFn();
   services.jex.close();
   return csv;
 }

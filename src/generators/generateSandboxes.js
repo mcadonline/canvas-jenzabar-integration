@@ -14,9 +14,6 @@ const getUsernamesWhoAlreadyHaveSandbox = async () => {
     });
 };
 
-/**
- * @param today - pretend like this is today's date
- */
 export default async () => {
   // get a list of all usernames of the peeps
   // who need a sandbox in Canvas

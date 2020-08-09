@@ -7,6 +7,7 @@ import generateCourseUpdates from './generateCourseUpdates';
 import generateEnrollFaculty from './generateEnrollFaculty';
 import generateSandboxes from './generateSandboxes';
 import generateEnrollSandbox from './generateEnrollSandbox';
+import generateCoursesToPublish from './generateCoursesToPublish';
 
 export default {
   enrollAdds: generateEnrollAdds,
@@ -18,4 +19,5 @@ export default {
   courseShells: generateCourseShells,
   courseUpdates: generateCourseUpdates,
   courseSandboxes: generateSandboxes,
+  coursesToPublish: generateCoursesToPublish,
 };

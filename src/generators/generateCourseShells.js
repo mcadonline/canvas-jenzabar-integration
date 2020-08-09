@@ -5,10 +5,10 @@ import canvas from '../services/canvas';
 
 const onlyParentCourses = course => course.courseCode === course.parentCourseCode;
 
-const noCoursesTwoWeeksAfterStartDate = ({ today }) => course => {
+const noCoursesTwoWeeksAfterStartDate = ({ currentDateTime }) => course => {
   const startDate = DateTime.fromISO(course.startDate);
   const twoWeeksAfterStartDate = startDate.plus({ weeks: 2 });
-  const now = today ? DateTime.fromISO(today) : DateTime.local();
+  const now = currentDateTime ? DateTime.fromISO(currentDateTime) : DateTime.local();
   return now < twoWeeksAfterStartDate;
 };
 
@@ -30,9 +30,10 @@ const toCanvasCsvFormat = course => ({
 });
 
 /**
- * @param today - pretend like this is today's date
+ * @param opts.currentDateTime - the current datetime in iso format
  */
-export default async ({ today = null } = {}) => {
+export default async ({ currentDateTime }) => {
+  if (!currentDateTime) throw new Error(`invalid argument currentDateTime: ${currentDateTime}`);
   const [coursesFromJex, coursesFromCanvas] = await Promise.all([
     jex.getActiveCourses(),
     canvas.getCourses(),
@@ -42,7 +43,7 @@ export default async ({ today = null } = {}) => {
   const canvasCourseIdSet = new Set(canvasSisCourseIds);
 
   const canvasCsvCourses = coursesFromJex
-    .filter(noCoursesTwoWeeksAfterStartDate({ today }))
+    .filter(noCoursesTwoWeeksAfterStartDate({ currentDateTime }))
     // only parent courses should have a course shell
     .filter(onlyParentCourses)
     // online courses that don't yet exist in canvas

@@ -43,7 +43,7 @@ describe('generateCourses', () => {
     jest.spyOn(canvas, 'getCourses');
     canvas.getCourses.mockResolvedValue([]);
 
-    const csv = await generateCourseShells({ today: '2020-01-01' });
+    const csv = await generateCourseShells({ currentDateTime: '2020-01-01' });
     expect(csv).toMatchInlineSnapshot(`
       "course_id,short_name,long_name,term_id,status,start_date,end_date,blueprint_course_id
       AH-1000-01-W20,AH-1000-01-W20,,2020-SP,active,2020-01-01,,TEMPLATE-ENHANCEDCOURSE
@@ -100,7 +100,7 @@ describe('generateCourses', () => {
       },
     ]);
 
-    const csv = await generateCourseShells();
+    const csv = await generateCourseShells({ currentDateTime: '2020-01-01' });
     expect(csv).toMatchInlineSnapshot(`
       "course_id,short_name,long_name,term_id,status,start_date,end_date,blueprint_course_id
       AH-1000-01-F20,AH-1000-01-F20,Art History -- C. Kramer (Sect. 01 - Fall 2020),2020-FA,active,2020-08-23T00:00:00.000-05:00,2020-12-31T23:59:59.000-06:00,TEMPLATE-ENHANCEDCOURSE"

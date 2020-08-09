@@ -41,12 +41,6 @@ const canvasApiCourseToCanvasCsvFormat = canvasCourse => {
 /**
  * generates a list of canvas courses to update in Canvas CSV SIS upload format,
  * checking name, startDate, endDate, publish state against the SIS.
- *
- * @param {Object} opts - options
- * @param {string} [opt.today=now] - the curent date time in ISO
- * format. Defaults to current datetime.  Used to decide whether the course
- * should be published or not
- *
  * @returns {Object[]} - a list of courses in Canvas CSV format
  */
 export default async () => {
