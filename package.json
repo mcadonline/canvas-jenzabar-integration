@@ -1,6 +1,6 @@
 {
   "name": "canvas-jenzabar-integration",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Integrate Jenzabar SIS with Canvas LMS",
   "main": "index.js",
   "bin": {
