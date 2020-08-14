@@ -149,12 +149,9 @@ async function cli() {
     ({ generatorKey, destinations, uploadOptions } = answers);
   }
 
-  console.log(flags);
-
-  const generatorFn = generatorDict[generatorKey];
-  const generatorFnBoundToFlags = generatorFn.bind(null, flags);
-
   try {
+    const generatorFn = generatorDict[generatorKey];
+    const generatorFnBoundToFlags = generatorFn.bind(null, flags);
     const csv = await main(generatorFnBoundToFlags);
     logger.log(csv);
     logger.info(JSON.stringify(destinations));
