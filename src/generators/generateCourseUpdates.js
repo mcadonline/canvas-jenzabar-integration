@@ -52,8 +52,8 @@ export default async () => {
   const normalizedCourseFromJex = jexCourses.map(jexCourseToCanvasCsvFormat);
   const normalizedCourseFromCanvas = canvasCourses.map(canvasApiCourseToCanvasCsvFormat);
 
-  const jexCoursesIndexedById = indexBy(c => c.id, normalizedCourseFromJex);
-  const canvasCoursesIndexedById = indexBy(c => c.sis_course_id, normalizedCourseFromCanvas);
+  const jexCoursesIndexedById = indexBy(c => c.course_id, normalizedCourseFromJex);
+  const canvasCoursesIndexedById = indexBy(c => c.course_id, normalizedCourseFromCanvas);
 
   // Get a list of courseIds that appear in both lists.
   // These are the ids of courses to reconcile.

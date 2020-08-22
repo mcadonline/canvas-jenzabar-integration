@@ -7,7 +7,6 @@ describe('generateCourseUpdates', () => {
     jest.restoreAllMocks();
   });
   it('lists courses with names that need updating', async () => {
-    // course is OPEN according to jex
     jest.spyOn(jex, 'getActiveCourses');
     jex.getActiveCourses.mockResolvedValue([
       {
@@ -26,7 +25,6 @@ describe('generateCourseUpdates', () => {
       },
     ]);
 
-    // course is PUBLISHED in Canvas
     jest.spyOn(canvas, 'getCourses');
     canvas.getCourses.mockResolvedValue([
       {
