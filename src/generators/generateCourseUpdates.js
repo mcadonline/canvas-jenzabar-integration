@@ -1,5 +1,4 @@
 import { intersection, indexBy, keys, equals } from 'ramda';
-import { DateTime } from 'luxon';
 import jsonToCsv from '../utils/jsonToCSV';
 import jex from '../services/jex';
 import canvas from '../services/canvas';
@@ -20,8 +19,8 @@ const jexCourseToCanvasCsvFormat = jexCourse => {
     short_name: jexCourse.id,
     long_name: jexCourse.name,
     status: 'active',
-    start_date: DateTime.fromISO(jexCourse.openDate).toISO(),
-    end_date: DateTime.fromISO(jexCourse.closeDate).toISO(),
+    // start_date: DateTime.fromISO(jexCourse.openDate).toISO(),
+    // end_date: DateTime.fromISO(jexCourse.closeDate).toISO(),
   };
 };
 
@@ -33,8 +32,8 @@ const canvasApiCourseToCanvasCsvFormat = canvasCourse => {
     short_name: canvasCourse.course_code,
     long_name: canvasCourse.name,
     status: 'active',
-    start_date: DateTime.fromISO(canvasCourse.start_date).toISO(),
-    end_date: DateTime.fromISO(canvasCourse.end_date).toISO(),
+    // start_date: DateTime.fromISO(canvasCourse.start_date).toISO(),
+    // end_date: DateTime.fromISO(canvasCourse.end_date).toISO(),
   };
 };
 

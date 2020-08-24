@@ -5,10 +5,11 @@ import canvas from '../services/canvas';
 
 const onlyParentCourses = course => course.courseCode === course.parentCourseCode;
 
-const noCoursesTwoWeeksAfterStartDate = ({ currentDateTime }) => course => {
+const noCoursesTwoWeeksAfterStartDate = currentDateTime => course => {
+  if (!currentDateTime) throw Error('currentDateTime is required');
   const startDate = DateTime.fromISO(course.startDate);
   const twoWeeksAfterStartDate = startDate.plus({ weeks: 2 });
-  const now = currentDateTime ? DateTime.fromISO(currentDateTime) : DateTime.local();
+  const now = DateTime.fromISO(currentDateTime);
   return now < twoWeeksAfterStartDate;
 };
 
@@ -24,15 +25,13 @@ const toCanvasCsvFormat = course => ({
   long_name: course.name,
   term_id: `${course.year}-${course.term}`,
   status: 'active',
-  start_date: course.openDate,
-  end_date: course.closeDate,
   blueprint_course_id: 'TEMPLATE-ENHANCEDCOURSE',
 });
 
 /**
  * @param opts.currentDateTime - the current datetime in iso format
  */
-export default async ({ currentDateTime }) => {
+export default async ({ currentDateTime = DateTime.local().toISO() } = {}) => {
   if (!currentDateTime) throw new Error(`invalid argument currentDateTime: ${currentDateTime}`);
   const [coursesFromJex, coursesFromCanvas] = await Promise.all([
     jex.getActiveCourses(),
@@ -43,7 +42,7 @@ export default async ({ currentDateTime }) => {
   const canvasCourseIdSet = new Set(canvasSisCourseIds);
 
   const canvasCsvCourses = coursesFromJex
-    .filter(noCoursesTwoWeeksAfterStartDate({ currentDateTime }))
+    .filter(noCoursesTwoWeeksAfterStartDate(currentDateTime))
     // only parent courses should have a course shell
     .filter(onlyParentCourses)
     // online courses that don't yet exist in canvas
