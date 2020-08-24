@@ -24,7 +24,7 @@ describe('generateEnrollFaculty', () => {
       },
     ]);
 
-    const enrollFacultyCsv = await generateEnrollFaculty();
+    const enrollFacultyCsv = await generateEnrollFaculty({ currentDateTime: '2020-08-22' });
 
     expect(enrollFacultyCsv).toMatchInlineSnapshot(`
       "course_id,user_id,role,status

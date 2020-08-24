@@ -4,9 +4,11 @@ import jsonToCSV from '../utils/jsonToCSV';
 
 const onlyParentCourses = course => course.courseCode === course.parentCourseCode;
 
-const onlyCoursesThatHaventStarted = course => {
+const onlyCoursesThatHaventStarted = currentDateTime => course => {
+  if (!currentDateTime) throw Error(`currentDateTime is required`);
+
   const startDate = DateTime.fromISO(course.startDate);
-  const now = DateTime.local();
+  const now = DateTime.fromISO(currentDateTime);
   return now < startDate;
 };
 
@@ -17,13 +19,13 @@ const toCanvasCsvFormat = course => ({
   status: 'active',
 });
 
-export default async () => {
+export default async ({ currentDateTime = DateTime.local().toISO() } = {}) => {
   const courses = await jex.getActiveCourses();
-  // only parent courses should have a course shell
 
+  // only parent courses should have a course shell
   const upcomingParentCourses = courses
     .filter(onlyParentCourses)
-    .filter(onlyCoursesThatHaventStarted);
+    .filter(onlyCoursesThatHaventStarted(currentDateTime));
 
   const canvasCsvEnrollment = upcomingParentCourses.map(toCanvasCsvFormat);
 
