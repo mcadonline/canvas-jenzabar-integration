@@ -9,16 +9,19 @@ const convertToUser = ({ id, firstName, preferredName, lastName, username }) => 
   username,
 });
 
-const getOnlineWorkshopAttendeeUsers = async () => {
+const isInOnlineWorkshop = ({ courseCode }) => /^OL\s+0\d{3} \w+/.test(courseCode);
+const hasValidUsername = ({ username }) => !!username;
+const isInOlTeachingCertCourse = ({ courseCode }) => /^CSLA 605[1-3] \w+/.test(courseCode);
+const enrolleeShouldHaveSandbox = enrollment =>
+  hasValidUsername(enrollment) &&
+  (isInOlTeachingCertCourse(enrollment) || isInOnlineWorkshop(enrollment));
+
+const getStudentsNeedingSandboxes = async () => {
   // get all students enrolled in current and upcoming courses
   // then identify only those students enrolled in a workshop like
   // OL-0xxx.
   const allStudentEnrollment = await jex.getStudentEnrollment();
-  const olWorkshopCourseCodeRegEx = /^OL\s+0\d{3} \w+/;
-  const workshopAttendeesWithUsername = allStudentEnrollment.filter(
-    ({ courseCode, username }) => olWorkshopCourseCodeRegEx.test(courseCode) && !!username
-  );
-  return workshopAttendeesWithUsername.map(convertToUser);
+  return allStudentEnrollment.filter(enrolleeShouldHaveSandbox).map(convertToUser);
 };
 
 const getInstructorUsers = async () => {
@@ -32,7 +35,7 @@ const getInstructorUsers = async () => {
  */
 export default async () => {
   const [onlineWorkshopAttendeeUsers, instructorUsers] = await Promise.all([
-    getOnlineWorkshopAttendeeUsers(),
+    getStudentsNeedingSandboxes(),
     getInstructorUsers(),
   ]);
 
