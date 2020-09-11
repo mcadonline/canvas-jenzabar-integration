@@ -15,7 +15,7 @@
     "luxon": "1.16.0",
     "meow": "^6.1.1",
     "mssql": "4.3.7",
-    "node-fetch": "2.6.0",
+    "node-fetch": "2.6.1",
     "p-map": "3.0.0",
     "p-map-series": "^1.0.0",
     "papaparse": "^5.2.0",
