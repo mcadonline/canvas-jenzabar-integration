@@ -2,6 +2,10 @@
   "name": "canvas-jenzabar-integration",
   "version": "1.2.1",
   "description": "Integrate Jenzabar SIS with Canvas LMS",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mcadonline/canvas-jenzabar-integration.git"
+  },
   "main": "index.js",
   "bin": {
     "canvas-jenzabar": "cli.js"
