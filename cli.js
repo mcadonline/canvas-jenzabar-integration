@@ -22,6 +22,7 @@ const generatorDict = {
   'enrollment-adds': generators.enrollAdds,
   'enrollment-drops': generators.enrollDrops,
   'enrollment-faculty': generators.enrollFaculty,
+  'enrollment-faculty-senate': generators.enrollFacultySenate,
   'enrollment-sandboxes': generators.enrollSandbox,
   'course-shells': generators.courseShells,
   'course-sandboxes': generators.courseSandboxes,
