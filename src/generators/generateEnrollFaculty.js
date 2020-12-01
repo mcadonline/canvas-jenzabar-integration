@@ -13,7 +13,7 @@ const onlyCoursesThatHaventStarted = currentDateTime => course => {
 };
 
 const toCanvasCsvFormat = course => ({
-  course_id: course.id,
+  section_id: course.id,
   user_id: course.instructor.id,
   role: 'teacher',
   status: 'active',

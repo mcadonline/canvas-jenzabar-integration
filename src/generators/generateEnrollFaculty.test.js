@@ -27,7 +27,7 @@ describe('generateEnrollFaculty', () => {
     const enrollFacultyCsv = await generateEnrollFaculty({ currentDateTime: '2020-08-22' });
 
     expect(enrollFacultyCsv).toMatchInlineSnapshot(`
-      "course_id,user_id,role,status
+      "section_id,user_id,role,status
       2D-3303-20-F20,1175109,teacher,active"
     `);
   });
