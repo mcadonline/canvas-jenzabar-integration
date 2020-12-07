@@ -6,6 +6,7 @@
 import jex from './index';
 
 describe('jex integration tests', () => {
+  afterAll(() => jex.close());
   describe('jex.getActiveCourses', () => {
     it('gets current and future sections', async () => {
       const sections = await jex.getActiveCourses();
