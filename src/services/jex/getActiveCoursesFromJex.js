@@ -32,20 +32,12 @@ from section_master sm
         and ss.YR_CDE = sm.YR_CDE
 where
   sm.last_end_dte >= getDate()
-    and (
-      ss.ROOM_CDE = 'OL'
-    or (
-          ss.ROOM_CDE <> 'OL'
-            and sm.crs_cde not like '% IN99 %' -- Internships
-            and sm.crs_cde not like '% EX99 %' -- Externships
-            and sm.crs_cde not like '% IS99 %' -- Independent Studies
-            and sm.crs_cde not like 'OC %' -- off campus
-            and sm.crs_cde not like '% GM99 %' -- Graduate Mentored Credits
-            and sm.crs_cde not like 'DT %' -- Preregistration courses
-            and sm.crs_cde not like 'CSK %' -- CE Kids
-            and sm.crs_cde not like 'CST %' -- CE Teen
-      )
-  )
+  and sm.crs_cde not like '% IN99 %' -- Internships
+  and sm.crs_cde not like '% EX99 %' -- Externships
+  and sm.crs_cde not like '% IS99 %' -- Independent Studies
+  and sm.crs_cde not like 'OC %' -- off campus
+  and sm.crs_cde not like '% GM99 %' -- Graduate Mentored Credits
+  and sm.crs_cde not like 'DT %' -- Preregistration courses
 order by year
   , term
   , courseCode
