@@ -1,12 +1,9 @@
-<header style="text-align: center; font-size: 3rem;margin: 6rem 0; line-height: 1;">
-  Canvas LMS ↔️ Jenzabar SIS<br>
-</header>
+# Canvas LMS ↔️ Jenzabar SIS
 
 > Create student users, handle enrollment add/drops in Canvas LMS
 
-This is currently being used as part of the pilot of Canvas LMS at MCAD.
 
-# Usage
+## Usage
 
 ```sh
 $ canvas-jenzabar <generator> <options>
@@ -44,7 +41,7 @@ $ canvas-jenzabar
 - `--file` – saves the output to a file in `./tmp`
 - `--upload` – uploads the file to canvas instance
 
-# Installation
+## Installation
 
 Prerequisites:
 
@@ -69,14 +66,14 @@ $ canvas-jenzabar users --file
 
 Note that canvas-jenzabar will use `.env` file in repo dir.
 
-# Resources
+## Resources
 
 - [Canvas API](https://canvas.instructure.com/doc/api/)
 - [Canvas APIs: Getting Started, the practical ins and outs,...](https://community.canvaslms.com/docs/DOC-14390-canvas-apis-getting-started-the-practical-ins-and-outs-gotchas-tips-and-tricks)
 - [Canvas Oauth2](https://canvas.instructure.com/doc/api/file.oauth.html)
 - [The ABCs of Canvas Dev](https://community.canvaslms.com/thread/17419-the-abcs-of-canvas-dev)
 
-# Author
+## Author
 
 [James Johnson](https://www.jjohnson.me)<br>
 Director, Online Learning<br>
