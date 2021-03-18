@@ -48,9 +48,10 @@
     "uuid": "^3.4.0"
   },
   "scripts": {
-    "start": "node cli.js",
+    "start": "node ./cli.js",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "test:detectOpenHandles": "jest --watch --runInBand --detectOpenHandles"
   },
   "author": "James Johnson <james_johnson@mcad.edu>",
   "license": "ISC",
