@@ -45,6 +45,10 @@ order by year
 
 export default async () => {
   // get ALL sections in Jex which end after today
-  const recordset = await jexService.query(sqlQuery);
-  return recordset.map(Course.fromJex);
+  try {
+    const recordset = await jexService.query(sqlQuery);
+    return recordset.map(Course.fromJex);
+  } catch (err) {
+    console.error(err.message);
+  }
 };
