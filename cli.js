@@ -11,10 +11,10 @@ const services = require('./src/services').default;
 const settings = require('./src/settings').default;
 
 const logger = {
-  log: msg => console.log(msg),
-  info: msg => console.warn(`\n ℹ️ Info: ${msg}`),
-  warn: msg => console.warn(`\n⚠️  Warning: ${msg}\n`),
-  error: msg => console.error(`\n❌  Error: ${msg}\n`),
+  log: (msg) => console.log(msg),
+  info: (msg) => console.warn(`\n ℹ️ Info: ${msg}`),
+  warn: (msg) => console.warn(`\n⚠️  Warning: ${msg}\n`),
+  error: (msg) => console.error(`\n❌  Error: ${msg}\n`),
 };
 
 const generatorDict = {
@@ -31,7 +31,7 @@ const generatorDict = {
   sections: generators.sections,
 };
 
-const isValidGenerator = str => Object.keys(generatorDict).includes(str);
+const isValidGenerator = (str) => Object.keys(generatorDict).includes(str);
 
 const listGeneratorsInCLI = ({ indentSize = 8, indentFirst = true }) =>
   Object.keys(generatorDict)

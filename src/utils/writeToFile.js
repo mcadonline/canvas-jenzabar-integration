@@ -1,23 +1,14 @@
 import path from 'path';
-import { promise as write } from 'write';
+import write from 'write';
 import { DateTime } from 'luxon';
 import settings from '../settings';
 
-const getTimestamp = () => DateTime.local()
-  .toISODate()
-  .split('-')
-  .join('');
+const getTimestamp = () => DateTime.local().toISODate().split('-').join('');
 
 // get everything but the instructure.com
-const getShortHostname = hostname => hostname
-  .split('.')
-  .slice(0, -2)
-  .join('.');
+const getShortHostname = (hostname) => hostname.split('.').slice(0, -2).join('.');
 
-const normalizeString = str => str
-  .split(' ')
-  .join('')
-  .toLowerCase();
+const normalizeString = (str) => str.split(' ').join('').toLowerCase();
 
 export default async function writeToFile(contents, { filenamePrefix = 'ff' }) {
   const filename = [
