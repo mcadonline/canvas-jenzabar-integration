@@ -2,13 +2,13 @@
 /* eslint-disable no-console */
 
 import meow from 'meow';
-import { prompt } from 'inquirer';
+import inquirer from 'inquirer';
 import { DateTime } from 'luxon';
-import main from './src/main';
-import writeToFile from './src/utils/writeToFile';
-import generators from './src/generators';
-import services from './src/services';
-import settings from './src/settings';
+import main from './main.js';
+import writeToFile from './utils/writeToFile.js';
+import generators from './generators/index.js';
+import services from './services/index.js';
+import settings from './settings.js';
 
 const logger = {
   log: (msg) => console.log(msg),
@@ -42,7 +42,7 @@ const listGeneratorsInCLI = ({ indentSize = 8, indentFirst = true }) =>
     .join('\n');
 
 async function promptUser() {
-  const { generatorKey, destinations } = await prompt([
+  const { generatorKey, destinations } = await inquirer.prompt([
     {
       type: 'list',
       name: 'generatorKey',
@@ -67,7 +67,7 @@ async function promptUser() {
 
   if (!userChoices.destinations.upload) return userChoices;
 
-  const followups = await prompt([
+  const followups = await inquirer.prompt([
     {
       type: 'checkbox',
       name: 'uploadOptions',
