@@ -2,6 +2,8 @@ import { DateTime } from 'luxon';
 import getCoursesFromCanvas from './getCoursesFromCanvas';
 import getActiveCoursesFromCanvas from './getActiveCoursesFromCanvas';
 
+jest.mock('./getCoursesFromCanvas', () => jest.fn());
+
 const completedCourse = {
   id: 1,
   name: 'Completed Course',
@@ -13,24 +15,16 @@ const completedCourse = {
 const currentCourse = {
   id: 2,
   name: 'Open Currently Course',
-  start_date: DateTime.utc()
-    .plus({ months: -2 })
-    .toString(),
-  end_date: DateTime.utc()
-    .plus({ months: 2 })
-    .toString(),
+  start_date: DateTime.utc().plus({ months: -2 }).toString(),
+  end_date: DateTime.utc().plus({ months: 2 }).toString(),
   sis_course_id: 'SIS-OPEN-F20',
 };
 
 const upcomingCourse = {
   id: 3,
   name: 'Upcoming Course',
-  start_date: DateTime.utc()
-    .plus({ months: 4 })
-    .toString(),
-  end_date: DateTime.utc()
-    .plus({ months: 8 })
-    .toString(),
+  start_date: DateTime.utc().plus({ months: 4 }).toString(),
+  end_date: DateTime.utc().plus({ months: 8 }).toString(),
   sis_course_id: 'SIS-UPCOMING-F99',
 };
 
@@ -49,8 +43,6 @@ const noSISIdCourse = {
   end_date: null,
   sis_course_id: null,
 };
-
-jest.mock('./getCoursesFromCanvas', () => jest.fn());
 
 describe('getActiveCoursesFromCanvas', () => {
   it('correctly gets mock courses', async () => {

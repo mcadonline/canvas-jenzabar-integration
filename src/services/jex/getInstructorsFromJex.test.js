@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import jexService from './jexService';
 import getInstructorsFromJex from './getInstructorsFromJex';
 
@@ -49,6 +50,6 @@ describe('getInstructorsFromJex', () => {
     jest.spyOn(jexService, 'query');
     jexService.query.mockResolvedValue(mockData);
     const instructors = await getInstructorsFromJex();
-    instructors.forEach(i => expect(i.username).toBeTruthy());
+    instructors.forEach((i) => expect(i.username).toBeTruthy());
   });
 });

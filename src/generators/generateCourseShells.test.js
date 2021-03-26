@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import generateCourseShells from './generateCourseShells';
 import jex from '../services/jex';
 import canvas from '../services/canvas';

@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import generateEnrollFaculty from './generateEnrollFaculty';
 import jex from '../services/jex';
 

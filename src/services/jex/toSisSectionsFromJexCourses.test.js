@@ -1,4 +1,5 @@
 import toSisSectionsFromJexCourses from './toSisSectionsFromJexCourses';
+import jex from './jexService';
 
 const jexCourses = [
   {
@@ -24,15 +25,19 @@ const jexCourses = [
 const sisSections = toSisSectionsFromJexCourses(jexCourses);
 
 describe('toSisSectionsFromJexCourses', () => {
+  afterAll(() => jex.close());
+
   it('includes the correct properties', () => {
-    sisSections.forEach(s => expect(Object.keys(s)).toEqual(['section_id', 'course_id', 'name', 'status']));
+    sisSections.forEach((s) =>
+      expect(Object.keys(s)).toEqual(['section_id', 'course_id', 'name', 'status'])
+    );
   });
   it('sets section name to be the section_id', () => {
-    sisSections.forEach(s => expect(s.name).toBe(s.section_id));
+    sisSections.forEach((s) => expect(s.name).toBe(s.section_id));
   });
 
   it('sets status as active', () => {
-    sisSections.forEach(s => expect(s.status).toBe('active'));
+    sisSections.forEach((s) => expect(s.status).toBe('active'));
   });
 
   it('can convert a single section', () => {

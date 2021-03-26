@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import generateSectionsForActiveCourses from './generateSectionsForActiveCourses';
 import canvas from '../services/canvas';
 import jex from '../services/jex';

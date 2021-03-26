@@ -1,7 +1,8 @@
-import fetch from 'node-fetch';
+import fetch from 'isomorphic-fetch';
+// import { afterAll, jest } from '@jest/globals';
 import getUsers from './getUsersFromCanvas';
 
-jest.mock('node-fetch');
+jest.mock('isomorphic-fetch');
 
 const mockDataFromApi = [
   {
@@ -25,18 +26,20 @@ const mockDataFromApi = [
 ];
 
 describe('getUser', () => {
-  beforeEach(() => {
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
+
+  it('should return user data ignoring users with null sis_user_id', async () => {
+    // jest.spyOn(fetch);
     fetch.mockResolvedValue({
       json: () => mockDataFromApi,
       headers: {
         get: () => undefined,
       },
     });
-  });
-
-  it('should return user data ignoring users with null sis_user_id', async () => {
     const users = await getUsers();
-    const expected = mockDataFromApi.filter(u => !!u.sis_user_id);
+    const expected = mockDataFromApi.filter((u) => !!u.sis_user_id);
     expect(users).toEqual(expected);
   });
 });

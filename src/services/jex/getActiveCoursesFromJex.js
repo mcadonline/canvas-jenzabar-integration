@@ -1,5 +1,5 @@
 import jexService from './jexService';
-import Course from '../../models/Course';
+import fromJexToNormalizedCourse, { isValidJexCourse } from '../../models/Course/fromJex';
 
 const sqlQuery = `
 select distinct
@@ -47,8 +47,9 @@ export default async () => {
   // get ALL sections in Jex which end after today
   try {
     const recordset = await jexService.query(sqlQuery);
-    return recordset.map(Course.fromJex);
+    return recordset.filter(isValidJexCourse).map(fromJexToNormalizedCourse);
   } catch (err) {
-    console.error(err.message);
+    console.error(`Cannot get active courses from Jex: ${err.message}`);
+    return [];
   }
 };

@@ -32,6 +32,8 @@ describe('jex integration tests', () => {
   });
 
   describe('jex.getStudentEnrollment', () => {
+    afterAll(() => jex.close());
+
     it('gets enrollment for current and future sections', async () => {
       const enrollment = await jex.getStudentEnrollment();
       const first = enrollment[0];

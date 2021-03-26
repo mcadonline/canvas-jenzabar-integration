@@ -25,7 +25,7 @@ describe('getActiveSectionsFromCanvas', () => {
     expect(getActiveCoursesFromCanvas).toBeCalled();
     expect(fetchFromCanvas).toBeCalledWith('/courses/sis_course_id:GWD-6610-20-F19/sections');
 
-    const gwd6610 = activeSections.filter(s => s.sis_course_id === 'GWD-6610-20-F19');
+    const gwd6610 = activeSections.filter((s) => s.sis_course_id === 'GWD-6610-20-F19');
     expect(gwd6610).toEqual([mockSection]);
   });
   it('should filter out sections with null sis_section_ids', async () => {

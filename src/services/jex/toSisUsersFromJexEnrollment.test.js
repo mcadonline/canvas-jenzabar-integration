@@ -1,4 +1,5 @@
 import toSisUsersFromJexEnrollment from './toSisUsersFromJexEnrollment';
+import jex from './jexService';
 
 const jexEnrollment = [
   {
@@ -42,8 +43,10 @@ const jexEnrollment = [
 const sisUsers = toSisUsersFromJexEnrollment(jexEnrollment);
 
 describe('toSisUsersFromJexUser', () => {
+  afterAll(() => jex.close());
+
   it('has the expected properties', () => {
-    sisUsers.forEach(user =>
+    sisUsers.forEach((user) =>
       expect(Object.keys(user)).toEqual([
         'user_id',
         'login_id',

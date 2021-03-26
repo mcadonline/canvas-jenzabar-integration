@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import generateUsers from './generateUsers';
 import canvas from '../services/canvas';
 import jex from '../services/jex';

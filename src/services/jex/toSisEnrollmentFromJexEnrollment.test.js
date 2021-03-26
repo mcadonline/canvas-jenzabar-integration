@@ -1,4 +1,5 @@
 import toSisEnrollmentFromJexEnrollment from './toSisEnrollmentFromJexEnrollment';
+import jex from './jexService';
 
 const jexEnrollments = [
   {
@@ -30,6 +31,7 @@ const jexEnrollments = [
 const sisEnrollments = toSisEnrollmentFromJexEnrollment(jexEnrollments);
 
 describe('toSisEnrollmentFromJexEnrollment', () => {
+  afterAll(() => jex.close());
   it('creates expected object shape', () => {
     expect(sisEnrollments.length).toBe(3);
     sisEnrollments.forEach((sisEnrollment) => {
@@ -37,15 +39,15 @@ describe('toSisEnrollmentFromJexEnrollment', () => {
     });
   });
   it('sets role to student', () => {
-    expect(sisEnrollments.every(e => e.role === 'student')).toBe(true);
+    expect(sisEnrollments.every((e) => e.role === 'student')).toBe(true);
   });
 
   it('has active status', () => {
-    expect(sisEnrollments.every(e => e.status === 'active')).toBe(true);
+    expect(sisEnrollments.every((e) => e.status === 'active')).toBe(true);
   });
 
   it('user_id is a string', () => {
-    sisEnrollments.forEach(e => expect(typeof e.user_id).toBe('string'));
+    sisEnrollments.forEach((e) => expect(typeof e.user_id).toBe('string'));
   });
 
   it('converts a single enrollment', () => {

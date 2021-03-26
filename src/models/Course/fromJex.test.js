@@ -1,3 +1,4 @@
+import { describe } from '@jest/globals';
 import fromJex from './fromJex';
 
 const jexCourse = {
@@ -39,7 +40,8 @@ describe('fromJex', () => {
       }
     `);
   });
-
+});
+describe('isValidJexCourse', () => {
   it('requires valid courseCode', () => {
     const invalidCourse = {
       ...jexCourse,

@@ -1,22 +1,28 @@
 import path from 'path';
+import dotenv from 'dotenv';
 
-require('dotenv').config({
-  path: path.resolve(__dirname, '../.env'),
+// path relative to __dirname
+const pathname = path.resolve('./.env');
+
+dotenv.config({
+  path: pathname,
 });
 
 const settings = {
   jex: {
-    username: process.env.jex_username,
+    user: process.env.jex_username,
     password: process.env.jex_password,
     server: process.env.jex_server,
     database: process.env.jex_database,
+    options: {
+      useUTC: false,
+      enableArithAbort: true,
+    },
   },
   canvas: {
     hostname: process.env.canvas_hostname,
     token: process.env.canvas_token,
   },
-  // users to ignore when processing drops
-  ignoreUsers: ['mlisa'],
 };
 
 export default settings;

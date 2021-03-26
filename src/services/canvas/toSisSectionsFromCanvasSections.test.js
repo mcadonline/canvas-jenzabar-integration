@@ -37,18 +37,20 @@ const sisSections = toSisSectionsFromCanvasSections(canvasSections);
 
 describe('toSisSectionsFromCanvasSections', () => {
   it('includes the correct properties', () => {
-    sisSections.forEach(s => expect(Object.keys(s)).toEqual(['section_id', 'course_id', 'name', 'status']));
+    sisSections.forEach((s) =>
+      expect(Object.keys(s)).toEqual(['section_id', 'course_id', 'name', 'status'])
+    );
   });
   it('should ignore sections where no sis_section_id is set', () => {
-    expect(sisSections.filter(s => s.section_id === null)).toEqual([]);
+    expect(sisSections.filter((s) => s.section_id === null)).toEqual([]);
   });
 
   it('sets section name to be the section_id', () => {
-    sisSections.forEach(s => expect(s.name).toBe(s.section_id));
+    sisSections.forEach((s) => expect(s.name).toBe(s.section_id));
   });
 
   it('sets status as active', () => {
-    sisSections.forEach(s => expect(s.status).toBe('active'));
+    sisSections.forEach((s) => expect(s.status).toBe('active'));
   });
 
   it('can convert a single section', () => {

@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 import generateEnrollAdds from './generateEnrollAdds';
 import canvas from '../services/canvas';
 import jex from '../services/jex';

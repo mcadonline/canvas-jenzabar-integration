@@ -1,7 +1,7 @@
-import fetch from 'node-fetch';
+import fetch from 'isomorphic-fetch';
 import getCourses from './getCoursesFromCanvas';
 
-jest.mock('node-fetch');
+jest.mock('isomorphic-fetch');
 
 const mockCoursesFromCanvasApi = [
   {
@@ -31,7 +31,7 @@ const mockCoursesFromCanvasApi = [
 describe('canvas.getCourses', () => {
   beforeEach(() => {
     fetch.mockResolvedValue({
-      json: () => mockCoursesFromCanvasApi,
+      json: async () => mockCoursesFromCanvasApi,
       headers: {
         get: () => undefined,
       },

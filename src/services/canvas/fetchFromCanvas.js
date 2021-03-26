@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import fetch from 'isomorphic-fetch';
 import parseLinkHeader from 'parse-link-header';
 import settings from '../../settings';
 

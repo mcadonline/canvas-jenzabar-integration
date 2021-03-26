@@ -8,13 +8,11 @@ import filterForEnrollmentInActiveCanvasSections from '../utils/filterForEnrollm
 function onlyEnrollmentFromActiveJexCourse(activeJexCourses = []) {
   const jexCourseLookup = {};
 
-  activeJexCourses.forEach(jexCourse => {
+  activeJexCourses.forEach((jexCourse) => {
     jexCourseLookup[jexCourse.id] = true;
   });
 
-  return enrollment => {
-    return !!jexCourseLookup[enrollment.section_id];
-  };
+  return (enrollment) => !!jexCourseLookup[enrollment.section_id];
 }
 
 export default async ({ ignoreUsers = settings.ignoreUsers } = {}) => {
@@ -40,11 +38,10 @@ export default async ({ ignoreUsers = settings.ignoreUsers } = {}) => {
   const enrollmentsToDrop = setMinus(sisEnrollmentsFromCanvas, sisEnrollmentsFromJex)
     // ignore drops from courses no longer active in Jex
     .filter(onlyEnrollmentFromActiveJexCourse(jexCourses))
-    .filter(enrollment => !ignoreUsers.includes(enrollment.user_id))
     // only process drops from truthy section ids
     // ignoring any null or "" sections
-    .filter(enrollment => !!enrollment.section_id)
-    .map(enrollment => ({ ...enrollment, status: 'deleted' }));
+    .filter((enrollment) => !!enrollment.section_id)
+    .map((enrollment) => ({ ...enrollment, status: 'deleted' }));
 
   return jsonToCSV(enrollmentsToDrop);
 };

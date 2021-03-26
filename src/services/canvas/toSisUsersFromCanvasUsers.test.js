@@ -45,7 +45,7 @@ describe('toSisUserFromCanvasUser', () => {
     expect(last_name).toBe('benes');
   });
   it('has the expected properties', () => {
-    sisUsers.forEach(u =>
+    sisUsers.forEach((u) =>
       expect(Object.keys(u)).toEqual([
         'user_id',
         'login_id',

@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
-require = require('esm')(module); // eslint-disable-line no-global-assign
-const meow = require('meow');
-const inquirer = require('inquirer');
-const { DateTime } = require('luxon');
-const main = require('./src/main').default;
-const writeToFile = require('./src/utils/writeToFile').default;
-const generators = require('./src/generators').default;
-const services = require('./src/services').default;
-const settings = require('./src/settings').default;
+
+import meow from 'meow';
+import { prompt } from 'inquirer';
+import { DateTime } from 'luxon';
+import main from './src/main';
+import writeToFile from './src/utils/writeToFile';
+import generators from './src/generators';
+import services from './src/services';
+import settings from './src/settings';
 
 const logger = {
   log: (msg) => console.log(msg),
@@ -42,7 +42,7 @@ const listGeneratorsInCLI = ({ indentSize = 8, indentFirst = true }) =>
     .join('\n');
 
 async function promptUser() {
-  const { generatorKey, destinations } = await inquirer.prompt([
+  const { generatorKey, destinations } = await prompt([
     {
       type: 'list',
       name: 'generatorKey',
@@ -67,7 +67,7 @@ async function promptUser() {
 
   if (!userChoices.destinations.upload) return userChoices;
 
-  const followups = await inquirer.prompt([
+  const followups = await prompt([
     {
       type: 'checkbox',
       name: 'uploadOptions',
