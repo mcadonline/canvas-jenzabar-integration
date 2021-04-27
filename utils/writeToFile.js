@@ -1,6 +1,7 @@
 import path from 'path';
 import write from 'write';
 import { DateTime } from 'luxon';
+import { fileURLToPath } from 'url';
 import settings from '../settings.js';
 
 const getTimestamp = () => DateTime.local().toISODate().split('-').join('');
@@ -18,7 +19,9 @@ export default async function writeToFile(contents, { filenamePrefix = 'ff' }) {
   ]
     .join('-')
     .concat('.csv');
-  const fileDest = path.join(__dirname, '../tmp', filename);
+
+  const dirname = path.dirname(fileURLToPath(import.meta.url));
+  const fileDest = path.join(dirname, '../tmp', filename);
   try {
     await write(fileDest, contents);
     return fileDest;
