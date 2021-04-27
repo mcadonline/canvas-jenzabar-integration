@@ -19,8 +19,8 @@ const jexCourseToCanvasCsvFormat = (jexCourse) => {
     short_name: jexCourse.id,
     long_name: jexCourse.name,
     status: 'active',
-    // start_date: DateTime.fromISO(jexCourse.openDate).toISO(),
-    // end_date: DateTime.fromISO(jexCourse.closeDate).toISO(),
+    start_date: '', // start_date field required for end_date to "take" in SIS Import
+    end_date: jexCourse.closeDate,
   };
 };
 

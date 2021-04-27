@@ -43,8 +43,8 @@ describe('generateCourseUpdates', () => {
 
     const csv = await generateCourseUpdates();
     expect(csv).toMatchInlineSnapshot(`
-      "course_id,short_name,long_name,status
-      FDN-1111-07-F20,FDN-1111-07-F20,Correct Name,active"
+      "course_id,short_name,long_name,status,start_date,end_date
+      FDN-1111-07-F20,FDN-1111-07-F20,Correct Name,active,,2020-12-31T23:59:59.000-06:00"
     `);
   });
   it.todo('lists courses with open dates that need updating');
