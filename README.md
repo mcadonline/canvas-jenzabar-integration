@@ -2,7 +2,6 @@
 
 > Create student users, handle enrollment add/drops in Canvas LMS
 
-
 ## Usage
 
 ```sh
@@ -58,9 +57,21 @@ $ npm ci
 $ cd canvas-jenzabar-integration
 $ cp .env.example .env
 $ nano .env
+```
 
-# run
+## Running:
+
+```sh
+$ npm start
+```
+
+Or create a link with `npm link` and run using the `canvas-jenzabar` command:
+
+```sh
+# link one time
 $ npm link
+
+# now you can run using the canvas-jenzabar command
 $ canvas-jenzabar users --file
 ```
 
