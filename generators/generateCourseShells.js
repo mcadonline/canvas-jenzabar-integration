@@ -24,6 +24,7 @@ const toCanvasCsvFormat = (course) => ({
   short_name: course.id,
   long_name: course.name,
   term_id: `${course.year}-${course.term}`,
+  start_date: '', // start_date field required for end_date to "take" in SIS Import
   end_date: course.closeDate,
   status: 'active',
   blueprint_course_id: 'TEMPLATE-ENHANCEDCOURSE',

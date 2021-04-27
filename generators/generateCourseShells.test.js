@@ -58,8 +58,8 @@ describe('generateCourses', () => {
 
     const csv = await generateCourseShells({ currentDateTime: '2020-01-01' });
     expect(csv).toMatchInlineSnapshot(`
-      "course_id,short_name,long_name,term_id,end_date,status,blueprint_course_id
-      AH-1000-01-F20,AH-1000-01-F20,Art History -- C. Kramer (Sect. 01 - Fall 2020),2020-FA,2020-12-31T23:59:59.000-06:00,active,TEMPLATE-ENHANCEDCOURSE"
+      "course_id,short_name,long_name,term_id,start_date,end_date,status,blueprint_course_id
+      AH-1000-01-F20,AH-1000-01-F20,Art History -- C. Kramer (Sect. 01 - Fall 2020),2020-FA,,2020-12-31T23:59:59.000-06:00,active,TEMPLATE-ENHANCEDCOURSE"
     `);
   });
 });
