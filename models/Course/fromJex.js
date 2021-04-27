@@ -3,7 +3,8 @@ import createValidator from './createValidator.js';
 import toCourseId from '../../utils/toCourseId.js';
 import createCourseName from './createCourseName.js';
 import getSundayBefore from './getSundayBefore.js';
-import getEndOfMonth from './getEndOfMonth.js';
+import endOfDay from './endOfDay.js';
+import threeWeeksLater from './threeWeeksLater.js';
 
 const isTerm = (x) => /^(FA|SP|SU)$/.test(x);
 const isYear = (x) => Number.isInteger(x) && x >= 1900;
@@ -83,7 +84,7 @@ export default (jexCourse) => {
     startDate,
     endDate,
     openDate: getSundayBefore(startDate),
-    closeDate: getEndOfMonth(endDate),
+    closeDate: threeWeeksLater(endOfDay(endDate)),
     courseFormat,
     instructor: {
       id: instructorId,

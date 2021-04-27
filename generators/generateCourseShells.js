@@ -24,6 +24,7 @@ const toCanvasCsvFormat = (course) => ({
   short_name: course.id,
   long_name: course.name,
   term_id: `${course.year}-${course.term}`,
+  end_date: course.closeDate,
   status: 'active',
   blueprint_course_id: 'TEMPLATE-ENHANCEDCOURSE',
 });
