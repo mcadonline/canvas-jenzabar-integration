@@ -59,6 +59,8 @@ $ cp .env.example .env
 $ nano .env
 ```
 
+Note that canvas-jenzabar will use `.env` file in repo dir.
+
 ## Running:
 
 ```sh
@@ -75,7 +77,12 @@ $ npm link
 $ canvas-jenzabar users --file
 ```
 
-Note that canvas-jenzabar will use `.env` file in repo dir.
+## Updating
+
+```sh
+$ git pull
+$ npm ci
+```
 
 ## Resources
 
