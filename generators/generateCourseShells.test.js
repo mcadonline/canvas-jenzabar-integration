@@ -21,7 +21,7 @@ describe('generateCourses', () => {
         startDate: '2020-08-24',
         endDate: '2020-12-11',
         openDate: '2020-08-23T00:00:00.000-05:00',
-        closeDate: '2020-12-31T23:59:59.000-06:00',
+        closeDate: '2021-01-01T23:59:59.000-06:00',
         courseFormat: 'on_campus',
         instructor: { id: 114, firstName: 'George', lastName: 'Costanza' },
       },
@@ -36,7 +36,7 @@ describe('generateCourses', () => {
         startDate: '2020-08-24',
         endDate: '2020-12-11',
         openDate: '2020-08-23T00:00:00.000-05:00',
-        closeDate: '2020-12-31T23:59:59.000-06:00',
+        closeDate: '2021-01-01T23:59:59.000-06:00',
         courseFormat: 'on_campus',
       },
     ]);
@@ -59,7 +59,7 @@ describe('generateCourses', () => {
     const csv = await generateCourseShells({ currentDateTime: '2020-01-01' });
     expect(csv).toMatchInlineSnapshot(`
       "course_id,short_name,long_name,term_id,start_date,end_date,status,blueprint_course_id
-      AH-1000-01-F20,AH-1000-01-F20,Art History -- C. Kramer (Sect. 01 - Fall 2020),2020-FA,,2020-12-31T23:59:59.000-06:00,active,TEMPLATE-ENHANCEDCOURSE"
+      AH-1000-01-F20,AH-1000-01-F20,Art History -- C. Kramer (Sect. 01 - Fall 2020),2020-FA,,2021-01-01T23:59:59.000-06:00,active,TEMPLATE-ENHANCEDCOURSE"
     `);
   });
 });
