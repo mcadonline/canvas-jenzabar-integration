@@ -1,7 +1,7 @@
 import { jest } from '@jest/globals';
-import jex from '../services/jex';
-import canvas from '../services/canvas';
-import generateCourseUpdates from './generateCourseUpdates';
+import jex from '../services/jex/index.js';
+import canvas from '../services/canvas/index.js';
+import generateCourseUpdates from './generateCourseUpdates.js';
 
 describe('generateCourseUpdates', () => {
   afterEach(() => {
