@@ -30,7 +30,7 @@
     "query-string": "7.0.0",
     "ramda": "^0.27.1",
     "simple-ldap-search": "3.0.1",
-    "validator": "^13.6.0",
+    "validator": "^13.7.0",
     "write": "^2.0.0"
   },
   "devDependencies": {
