@@ -14,8 +14,8 @@ select distinct
 , convert(varchar(10), first_begin_dte,120) as startDate
 , convert(varchar(10), last_end_dte,120) as endDate
 , courseFormat = 
-    CASE 
-        WHEN ss.ROOM_CDE IN('OL', 'OLS', 'OLA') THEN 'online'
+    CASE ss.ROOM_CDE
+        WHEN 'OL' THEN 'online'
         ELSE 'on_campus'
     END
 , rtrim(x_listed_parnt_crs) as parentCourseCode
