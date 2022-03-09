@@ -11,8 +11,9 @@ import services from './services/index.js';
 import settings from './settings.js';
 
 const logger = {
+  // log and info = stdout | warn and error = stderr
   log: (msg) => console.log(msg),
-  info: (msg) => console.warn(`\n ℹ️ Info: ${msg}`),
+  info: (msg) => console.info(`\n ℹ️ Info: ${msg}`),
   warn: (msg) => console.warn(`\n⚠️  Warning: ${msg}\n`),
   error: (msg) => console.error(`\n❌  Error: ${msg}\n`),
 };
