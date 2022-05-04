@@ -36,7 +36,6 @@ where
   and sm.crs_cde not like '% EX99 %' -- Externships
   and sm.crs_cde not like '% IS99 %' -- Independent Studies
   and sm.crs_cde not like 'OC %' -- off campus
-  and sm.crs_cde not like '% GM99 %' -- Graduate Mentored Credits
   and sm.crs_cde not like 'DT %' -- Preregistration courses
 order by year
   , term
