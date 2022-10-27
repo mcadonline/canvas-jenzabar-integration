@@ -1,7 +1,12 @@
-const sqlite3 = require('sqlite3').verbose();
-let db = {};
 
-function initiateDb() {
+import sqlite from 'sqlite3';
+const sqlite3 = sqlite.verbose()
+import migrations from '../migrations/index.js';
+
+
+export const db = {};
+
+export function initiateDb() {
     db.connection = new sqlite3.Database('./db/courses.db', sqlite3.OPEN_READWRITE, (err) => {
         if (err) {
           console.error(err.message);
@@ -9,8 +14,10 @@ function initiateDb() {
         console.log('Connected to the courses database.');
     });
     console.log(db);
-
-    require('../migrations')(db.connection);
+   migrations(db.connection);
 }
 
-module.exports = { initiateDb, db };
+// export default { initiateDb, db }
+
+// exports.initiateDb = initiateDb;
+// exports.db = db;
