@@ -21,13 +21,18 @@ class RunnersDropDown extends React.Component {
   };
 
   handleRunnerClick() {
-    API({
-      method: 'post',
-      api: this.props.api,
-      data: { runner: this.state.currentRunner }
-    }).then(response => {
-      alert('Intiated Runenr');
-    })
+    if (this.state.currentRunner) {
+      API({
+        method: 'post',
+        api: this.props.api,
+        data: { runner: this.state.currentRunner }
+      }).then(response => {
+        alert(`Intiated Runner`);
+      })
+    } else {
+      alert('Select a runner')
+    }
+    
   }
 
   componentDidMount() {
