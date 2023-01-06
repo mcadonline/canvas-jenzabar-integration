@@ -24,7 +24,7 @@ select distinct
 , rtrim(nm.preferred_name) as instructorPrefName
 , rtrim(nm.last_name) as instructorLastName
 from section_master sm
-    join name_master nm
+    join nameMaster nm
     on sm.LEAD_INSTRUCTR_ID = nm.ID_NUM
     join section_schedules ss
     on ss.CRS_CDE = sm.CRS_CDE
