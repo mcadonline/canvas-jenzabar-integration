@@ -37,7 +37,7 @@ where DATEADD(month, 1, sch.end_dte) >= @today
   -- exclude waitlisted students
   and sch.TRANSACTION_STS <> 'W'
   -- only include students with username
-  and nmu.user_name is not null
+  and nmu.mcad_username is not null
 `;
 
 /**
