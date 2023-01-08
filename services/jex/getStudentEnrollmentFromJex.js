@@ -9,7 +9,7 @@ select distinct sch.ID_NUM as id
   , rtrim(nm.PREFERRED_NAME) as preferredName
   , rtrim(nm.last_name) as lastName
   , rtrim(am_meml.AlternateContact) as mcadEmail
-  , rtrim(name_usr.user_name) as username
+  , rtrim(nmu.mcad_username) as username
   , rtrim(sch.crs_cde) as courseCode
   , rtrim(sm.X_LISTED_PARNT_CRS) as parentCourseCode
   , rtrim(sch.trm_cde) as term
@@ -28,8 +28,8 @@ join section_master sm
 left join AlternateContactMethod am_meml
     on sch.id_num = am_meml.id_num
     and am_meml.addr_cde = 'MEML'
-left join name_master_udf name_usr
-    on nm.id_num = name_usr.id_num
+left join name_master_udf nmu
+    on nm.id_num = nmu.id_num
 -- up to one month after last day of class
 where DATEADD(month, 1, sch.end_dte) >= @today
   -- exclude students who have withdrawn
@@ -37,7 +37,7 @@ where DATEADD(month, 1, sch.end_dte) >= @today
   -- exclude waitlisted students
   and sch.TRANSACTION_STS <> 'W'
   -- only include students with username
-  and name_usr.user_name is not null
+  and nmu.user_name is not null
 `;
 
 /**

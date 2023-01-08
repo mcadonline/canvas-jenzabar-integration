@@ -10,7 +10,7 @@ select distinct nm.ID_NUM as id
     , rtrim(nm.last_name) as lastName
     , rtrim(am_peml.AlternateContact) as personalEmail
     , rtrim(am_meml.AlternateContact) as mcadEmail
-    , rtrim(name_usr.user_name) as username
+    , rtrim(nmu.mcad_username) as username
 from nameMaster nm
 join section_master sm
     on sm.LEAD_INSTRUCTR_ID = nm.id_num
@@ -20,8 +20,8 @@ left join AlternateContactMethod am_peml
 left join AlternateContactMethod am_meml
     on nm.id_num = am_meml.id_num
     and am_meml.addr_cde = 'MEML'
-left join name_master_udf name_usr
-    on nm.id_num = name_usr.id_num
+left join name_master_udf nmu
+    on nm.id_num = nmu.id_num
 where sm.LAST_END_DTE >= @today
 `;
 
