@@ -20,7 +20,7 @@
     "esm": "3.2.25",
     "inquirer": "8.0.0",
     "isomorphic-fetch": "^3.0.0",
-    "luxon": "1.26.0",
+    "luxon": "2.5.2",
     "meow": "^9.0.0",
     "mssql": "6.3.1",
     "p-map": "5.0.0",
