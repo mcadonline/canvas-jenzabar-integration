@@ -1,5 +1,6 @@
 import jexService from './jexService.js';
 import fromJexToNormalizedCourse, { isValidJexCourse } from '../../models/Course/fromJex.js';
+import { NAME_MASTER } from '../../constants/jex.js';
 
 const sqlQuery = `
 select distinct
@@ -24,7 +25,7 @@ select distinct
 , rtrim(nm.preferred_name) as instructorPrefName
 , rtrim(nm.last_name) as instructorLastName
 from section_master sm
-    join nameMaster nm
+    join ${NAME_MASTER} nm
     on sm.LEAD_INSTRUCTR_ID = nm.ID_NUM
     join section_schedules ss
     on ss.CRS_CDE = sm.CRS_CDE
@@ -41,6 +42,7 @@ order by year
   , term
   , courseCode
 `;
+
 
 export default async () => {
   // get ALL sections in Jex which end after today
