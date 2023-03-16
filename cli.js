@@ -29,6 +29,8 @@ const generatorDict = {
   'course-sandboxes': generators.courseSandboxes,
   'course-updates': generators.courseUpdates,
   'courses-to-publish': generators.coursesToPublish,
+  'enrollment-repositories': generators.enrollRepository,
+  'course-repositories': generators.courseRepositories,
   sections: generators.sections,
 };
 
