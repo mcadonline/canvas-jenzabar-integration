@@ -7,12 +7,10 @@ import Select from '@mui/material/Select';
 import API from '../services/Api';
 import Button from '@mui/material/Button';
 
-
-
 class RunnersDropDown extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { runners: [], currentRunner: null };
+    this.state = { runners: [], currentRunner: null, jobId: null };
   }
 
   handleChange(event) {
@@ -27,6 +25,10 @@ class RunnersDropDown extends React.Component {
         api: this.props.api,
         data: { runner: this.state.currentRunner }
       }).then(response => {
+        debugger;
+        if (response.data && response.data.jobId) {
+          this.setState({ jobId: response.data.jobId })
+        }
         alert(`Intiated Runner`);
       })
     } else {
@@ -48,7 +50,7 @@ class RunnersDropDown extends React.Component {
   }
 
   render() {
-    const { currentRunner, runners } = this.state;
+    const { currentRunner, runners, jobId } = this.state;
 
     return(
       <Box sx={{ minWidth: 120, padding: '30px' }}>
@@ -69,6 +71,7 @@ class RunnersDropDown extends React.Component {
             })}
         </Select>
       </FormControl>
+      <h2>JobId: {jobId}</h2>
       <Box sx={{ padding: '10px' }}>
         <Button variant="contained" onClick={this.handleRunnerClick.bind(this)}>Run</Button>
       </Box>

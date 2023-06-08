@@ -32,47 +32,75 @@ const modalDivStyle = {
 export default function BasicTable(props) {
     const { rows } = props;
     const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
+    const [currentEditor, setCurrentEditor] = React.useState();
+    const handleOpen = (row) => {
+      debugger;
+      setCurrentEditor(row.id);
+      setOpen(true); 
+    }
     const handleClose = () => setOpen(false);
 
     function EditModal(modalProps) {
         const { row } = modalProps;
-        const [terms, setTerms] = React.useState(row.terms);
-        const [savedTerms, setSavedTerms] = React.useState(row.terms);        
+        const [template, setTemplate] = React.useState(row.blueprint_course_id);
+        // const [savedTerms, setSavedTerms] = React.useState(row.terms);        
 
-        const onEditTerm = () => {
-            // Call the update api
-            setSavedTerms(terms)
-        }
+        // const onEditTerm = () => {
+        //     // Call the update api
+        //     setSavedTerms(terms)
+        //     setTerms()
+        // }
+
+        // const onEditTemplate = () => {
+          
+        // }
 
         const onChange = (event) => {
             console.log(event)
-            setTerms(event.target.value);
+            setTemplate(event.target.value);
+            row.blueprint_course_id = event.target.value;
         }
     
         return(<Modal
-            open={open}
+            open={open && currentEditor === row.id}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
             <Box sx={style}>
                 <div style={modalDivStyle}>
-                    <span>name:</span> {row.name}
+                    <span>Course Id:</span> {row.course_id}
                 </div>
                 <div style={modalDivStyle}>
-                    <span>sisId:</span> {row.sisid}
+                    <span>Short Nme:</span> {row.short_name}
                 </div>
                 <div style={modalDivStyle}>
-                    <span>Terms:</span> {savedTerms}
+                    <span>Long Name:</span> {row.long_name}
                 </div>
                 <div style={modalDivStyle}>
-                    <TextField id="outlined-basic" label="Outlined" variant="outlined" onChange={onChange} value={terms} />
+                    <span>Term Id:</span> {row.term_id}
+                </div>
+                <div style={modalDivStyle}>
+                    <span>Start Date:</span> {row.start_date}
+                </div>
+                <div style={modalDivStyle}>
+                    <span>End Date:</span> {row.end_date}
+                </div>
+                <div style={modalDivStyle}>
+                    <span>Status:</span> {row.status}
+                </div>
+                <div style={modalDivStyle}>
+                    <span>Template:</span> {template}
                 </div>
 
+                
                 <div style={modalDivStyle}>
-                    <Button variant="contained" onClick={onEditTerm}>Edit</Button>
+                    <TextField id="outlined-basic" label="Template Id" variant="outlined" onChange={onChange} value={template} />
                 </div>
+
+                {/* <div style={modalDivStyle}>
+                    <Button variant="contained" onClick={onEditTemplate}>Update</Button>
+                </div> */}
             </Box>
         </Modal>)
     }
@@ -80,14 +108,17 @@ export default function BasicTable(props) {
 
   return (
     <TableContainer component={Paper}>
-    
-
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell align="center">Course Name</TableCell>
-            <TableCell align="center">Sis ID</TableCell>
-            <TableCell align="center">Terms</TableCell>
+            <TableCell align="center">Course Id</TableCell>
+            <TableCell align="center">Short Nme</TableCell>
+            <TableCell align="center">Long Name</TableCell>
+            <TableCell align="center">Term Id</TableCell>
+            <TableCell align="center">Start Date</TableCell>
+            <TableCell align="center">End Date</TableCell>
+            <TableCell align="center">Status</TableCell>
+            <TableCell align="center">Template</TableCell>
             <TableCell align="center">Action</TableCell>
           </TableRow>
         </TableHead>
@@ -98,11 +129,16 @@ export default function BasicTable(props) {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
                 <EditModal row={row} />
-              <TableCell align="center">{row.name}</TableCell>
-              <TableCell align="center">{row.sisid}</TableCell>
-              <TableCell align="center">{row.terms}</TableCell>
+              <TableCell align="center">{row.course_id}</TableCell>
+              <TableCell align="center">{row.short_name}</TableCell>
+              <TableCell align="center">{row.long_name}</TableCell>
+              <TableCell align="center">{row.term_id}</TableCell>
+              <TableCell align="center">{row.start_date}</TableCell>
+              <TableCell align="center">{row.end_date}</TableCell>
+              <TableCell align="center">{row.status}</TableCell>
+              <TableCell align="center">{row.blueprint_course_id}</TableCell>
               <TableCell align="center">
-                <Button variant="contained" onClick={handleOpen}>Edit</Button>
+                <Button variant="contained" onClick={() => handleOpen(row)}>Edit</Button>
               </TableCell>
             </TableRow>
           ))}

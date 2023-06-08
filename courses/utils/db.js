@@ -3,7 +3,6 @@ import sqlite from 'sqlite3';
 const sqlite3 = sqlite.verbose()
 import migrations from '../migrations/index.js';
 
-
 export const db = {};
 
 export function initiateDb() {

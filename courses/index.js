@@ -6,8 +6,11 @@ dotenv.config();
 
 import cors from 'cors';
 import { initiateDb } from './utils/db.js';
+initiateDb();
+
 import  express from 'express';
-import { EngineService } from './services/index.js'
+import { EngineService, MappingService } from './services/index.js';
+import { Exports } from './models/index.js';
 
 // const { initiateDb } = require('./utils/db');
 // const express = require('express');
@@ -15,7 +18,6 @@ const app = express()
 const port = process.env.PORT || 4000;
 // const { EngineService } = require('./services')
 
-initiateDb();
 app.use(cors())
 app.use(express.json());
 
@@ -38,17 +40,56 @@ app.get('/runners', (req, res) => {
             {
                 value: 'generateCourseShells',
                 name: 'Generate Course Shells'
+            },
+            {
+                value: 'generateEnrollment',
+                name: 'Generate Enrolment'
             }
         ]
     })
 })
 
-app.post('/runners', (req, res) => {
-    const run = EngineService.run(req.body.runner);
+app.get('/exports', (req, res) => {
+    console.log(req.query);
 
-    res.json({
-        done: true
+    if (req.query.jobId) {
+       Exports.FindByJobId(req.query.jobId, (err, data) => {
+            if (err) {
+                res.status(400).send('Error occured');
+            }
+    
+            res.json({
+                exports: data
+            })
+        }) 
+    }
+})
+
+app.post('/mappings', (req, res) => {
+    console.log(req.body)
+    MappingService.createMappings(req.body.mapping, (err, mapping) => {
+        res.json({
+            mapping
+        })
     })
+})
+
+app.get('/mappings', (req, res) => {
+    MappingService.getMappings((err, mappings) => {
+        res.json({
+            mappings
+        })
+    })
+})
+
+app.post('/runners', (req, res) => {
+    const run = EngineService.run(req.body.runner, res).then(() => {
+        console.log('done');
+    });
+
+    // res.json({
+    //     done: true
+    // })
 })
 
 app.get('/custom_runners', (req, res) => {
@@ -71,6 +112,10 @@ app.get('/custom_runners', (req, res) => {
         ]
     })
 })
+
+// Start a job
+
+
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
