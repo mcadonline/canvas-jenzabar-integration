@@ -8,8 +8,8 @@ select distinct sch.ID_NUM as id
   , rtrim(nm.first_name) as firstName
   , rtrim(nm.PREFERRED_NAME) as preferredName
   , rtrim(nm.last_name) as lastName
-  , rtrim(am_meml.addr_line_1) as mcadEmail
-  , rtrim(am_meml.addr_line_2) as username
+  , rtrim(am_meml.AlternateContact) as mcadEmail
+  , rtrim(nmu.mcad_username) as username
   , rtrim(sch.crs_cde) as courseCode
   , rtrim(sm.X_LISTED_PARNT_CRS) as parentCourseCode
   , rtrim(sch.trm_cde) as term
@@ -19,15 +19,17 @@ select distinct sch.ID_NUM as id
       ELSE sch.yr_cde + 1
     END
 from STUDENT_CRS_HIST sch
-join name_master nm
+join nameMaster nm
   on sch.id_num = nm.id_num
 join section_master sm
     on sm.CRS_CDE = sch.CRS_CDE
     and sm.TRM_CDE = sch.TRM_CDE
     and sm.YR_CDE = sch.YR_CDE
-left join address_master am_meml
+left join AlternateContactMethod am_meml
     on sch.id_num = am_meml.id_num
     and am_meml.addr_cde = 'MEML'
+left join name_master_udf nmu
+    on nm.id_num = nmu.id_num
 -- up to one month after last day of class
 where DATEADD(month, 1, sch.end_dte) >= @today
   -- exclude students who have withdrawn
@@ -35,7 +37,7 @@ where DATEADD(month, 1, sch.end_dte) >= @today
   -- exclude waitlisted students
   and sch.TRANSACTION_STS <> 'W'
   -- only include students with username
-  and am_meml.addr_line_2 is not null
+  and nmu.mcad_username is not null
 `;
 
 /**
