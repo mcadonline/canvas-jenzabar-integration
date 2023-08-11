@@ -2,7 +2,7 @@
 import { differenceWith } from 'ramda';
 import jsonToCSV from '../utils/jsonToCSV.js';
 import canvas from '../services/canvas/index.js';
-import getUsersWhoShouldHaveRepository from '../utils/getUsersWhoShouldHaveRepository';
+import getUsersWhoShouldHaveRepository from '../utils/getUsersWhoShouldHaveRepository.js';
 
 const getUsernamesWhoAlreadyHaveRepository = async () => {
   const coursesInCanvas = await canvas.getCourses();
