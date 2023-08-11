@@ -1,4 +1,4 @@
-import getUsersWhoShouldHaveRepository from '../utils/getUsersWhoShouldHaveRepository';
+import getUsersWhoShouldHaveRepository from '../utils/getUsersWhoShouldHaveRepository.js';
 import jsonToCSV from '../utils/jsonToCSV.js';
 
 const userToCanvasEnrollmentCsvFormat = (user) => ({
