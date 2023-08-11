@@ -9,6 +9,8 @@ import generateEnrollFacultySenate from './generateEnrollFacultySenate.js';
 import generateSandboxes from './generateSandboxes.js';
 import generateEnrollSandbox from './generateEnrollSandbox.js';
 import generateCoursesToPublish from './generateCoursesToPublish.js';
+import generateEnrollRepository from './generateEnrollRepository.js';
+import generateRepositories from './generateRepositories.js';
 
 export default {
   enrollAdds: generateEnrollAdds,
@@ -22,4 +24,6 @@ export default {
   courseUpdates: generateCourseUpdates,
   courseSandboxes: generateSandboxes,
   coursesToPublish: generateCoursesToPublish,
+  enrollRepository: generateEnrollRepository,
+  courseRepositories: generateRepositories,
 };
