@@ -9,7 +9,7 @@ import { initiateDb } from './utils/db.js';
 initiateDb();
 
 import  express from 'express';
-import { EngineService, MappingService } from './services/index.js';
+import { EngineService, MappingService, DataViewQuery, UserViewQuery } from './services/index.js';
 import { Exports } from './models/index.js';
 
 // const { initiateDb } = require('./utils/db');
@@ -111,6 +111,22 @@ app.get('/custom_runners', (req, res) => {
             }
         ]
     })
+})
+
+app.post('/filter_courses', async (req, res) => {
+    let data = await DataViewQuery(req);
+
+    res.json({
+        data
+    });
+})
+
+app.post('/filter_users', async (req, res) => {
+    let data = await UserViewQuery(req);
+
+    res.json({
+        data
+    });
 })
 
 // Start a job

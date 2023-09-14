@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 import Courses from './components/courses';
 import { Runners } from './components/runners';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -19,11 +21,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <div className='container'>
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Courses />} />
-        <Route path="/courses" element={<Courses />} />
-        <Route path="/runners" element={<Runners />} />
-      </Routes>
+        <Routes>
+            <Route path="/" element={<Courses />} />
+            <Route path="/courses" element={<Courses />} />
+            <Route path="/runners" element={<Runners />} />
+          </Routes>
     </BrowserRouter>
   </div>
   

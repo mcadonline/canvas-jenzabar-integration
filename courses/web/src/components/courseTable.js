@@ -34,7 +34,6 @@ export default function BasicTable(props) {
     const [open, setOpen] = React.useState(false);
     const [currentEditor, setCurrentEditor] = React.useState();
     const handleOpen = (row) => {
-      debugger;
       setCurrentEditor(row.id);
       setOpen(true); 
     }

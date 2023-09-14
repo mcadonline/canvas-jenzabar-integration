@@ -4,8 +4,6 @@ import generateEnrollFaculty from '../../generators/generateEnrollFaculty.js';
 import canvas from '../../services/canvas/index.js';
 import { Job, Exports, Mapping } from '../models/index.js';
 import { v4 as uuidv4 } from 'uuid';
-import writeToFile from '../../utils/writeToFile.js';
-
 
 const services = {
     generateCourseShells: generateShell,

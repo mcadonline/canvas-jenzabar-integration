@@ -8,6 +8,8 @@ import API from '../services/Api';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Mapping from './mapping';
+import DataView from './dataView';
+import UserView from './userView';
 import { Runners } from './runners';
 import { CSVLink, CSVDownload } from "react-csv";
 
@@ -94,6 +96,8 @@ export default function Courses() {
             <Tab label="Runner" />
             <Tab label="Course Shells" {...a11yProps(0)} />
             <Tab label="Mappings" {...a11yProps(1)} />
+            <Tab label="Course Views" {...a11yProps(2)} />
+            <Tab label="User Views" {...a11yProps(3)} />
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
@@ -115,6 +119,14 @@ export default function Courses() {
         <TabPanel value={value} index={2}>
             <h1>Mappings</h1>
             <Mapping/>
+        </TabPanel>
+        <TabPanel value={value} index={3}>
+          <h1>Courses</h1>
+          <DataView/>
+        </TabPanel>
+        <TabPanel value={value} index={4}>
+          <h1>Users</h1>
+          <UserView/>
         </TabPanel>
       </Box>
     );
