@@ -101,7 +101,9 @@ export default function DataView(props) {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell align="center">Course code</TableCell>
+            <TableCell align="center">Modality</TableCell>
+            <TableCell align="center">Course Code</TableCell>
+            <TableCell align="center">Course Title</TableCell>
             <TableCell align="center">Instructor Name</TableCell>
             <TableCell align="center">Term</TableCell>
             <TableCell align="center">Start Date</TableCell>
@@ -117,7 +119,9 @@ export default function DataView(props) {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell align="center">{row.room_id}</TableCell>
-              <TableCell align="center">{row.instructorPrefName}</TableCell>
+              <TableCell align="center">{row.courseCode}</TableCell>
+              <TableCell align="center">{row.title}</TableCell>
+              <TableCell align="center">{row.instructorFirstName}-{row.instructorLastName}</TableCell>
               <TableCell align="center">{row.term}</TableCell>
               <TableCell align="center">{row.startDate}</TableCell>
               <TableCell align="center">{row.endDate}</TableCell>

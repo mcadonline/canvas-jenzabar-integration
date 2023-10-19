@@ -28,7 +28,7 @@ function queryString(request) {
             conditionals += ` and `
         }
 
-        conditionals += `ss.ROOM_CDE like '%${request.body.modality}%'`;
+        conditionals += `ss.ROOM_CDE = '${request.body.modality}'`;
     }
 
     if (request.body.activeTerm === '1') {
@@ -44,8 +44,7 @@ function queryString(request) {
             conditionals += ` and `
         }
 
-        conditionals += `ss.ROOM_CDE like '%${request.body.modality}%'`;
-        crs_title
+        conditionals += `ss.title like '%${request.body.modality}%'`;
     }
 
     return `
