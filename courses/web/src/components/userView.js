@@ -44,9 +44,15 @@ export default function UserView(props) {
                 email, id, name
             }
           }).then(response => {
-            // here
-            debugger;
-            setUsers(response.data.data);
+            let uniqueUser = {}
+            let userData =  response.data.data.filter(data => {
+              if (!uniqueUser[data.id]) {
+                uniqueUser[data.id] = true;
+                return true
+              }
+              return false
+            })
+            setUsers(userData);
           })
     }
     

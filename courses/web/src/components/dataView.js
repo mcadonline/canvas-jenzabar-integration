@@ -44,16 +44,19 @@ export default function DataView(props) {
     const [code, setCode] = React.useState();
     const [startDate, setStartDate] = React.useState();
     const [endDate, setEndDate] = React.useState();
+    const [activeTerm, setActiveTerm] =  React.useState(0);
     const filterData = () => {
       API({
         method: 'post',
         api: 'filter_courses',
         data: {
-          modality, code, startDate, endDate
+          modality, code, startDate, endDate, activeTerm
         }
       }).then(response => {
         // here
-        debugger;
+        let dedupedCourses = {};
+        // response.data.data
+
         setCourses(response.data.data);
       })
     }
@@ -62,6 +65,7 @@ export default function DataView(props) {
     const codeValueChanger = (event) => setCode(event.target.value)
     const startDateChanger = (event) => setStartDate(event.target.value)
     const endDateChanger = (event) => setEndDate(event.target.value)
+    const activeTermChanger = (event) => setActiveTerm(event.target.value)
     
 
     const today = new Date();
@@ -76,6 +80,9 @@ export default function DataView(props) {
             <div style={modalDivStyle}>
                 <TextField id="outlined-basic" label="Start Date" variant="outlined" onChange={startDateChanger} value={startDate} />
                 <TextField id="outlined-basic" label="End Date" variant="outlined" onChange={endDateChanger} value={endDate} />
+            </div>
+            <div style={modalDivStyle}>
+                <TextField id="outlined-basic" label="ActveTerm?" variant="outlined" onChange={activeTermChanger} value={activeTerm} />
             </div>
             <div>
               <Button variant="SEARCH" onClick={() => filterData()}>Query</Button>

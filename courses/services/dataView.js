@@ -4,7 +4,7 @@ function queryString(request) {
     let conditionals = ``
 
     if (request.body.code) {
-        conditionals += `sm.crs_cde = '${request.body.code}'`
+        conditionals += `sm.crs_cde like '%${request.body.code}%'`
     }
 
     if (request.body.startDate) {
@@ -12,7 +12,7 @@ function queryString(request) {
             conditionals += ` and `
         }
 
-        conditionals += `sm.first_begin_dte = '${request.body.startDate}'`;
+        conditionals += `sm.first_begin_dte > '${request.body.startDate}'`;
     }
 
     if (request.body.endDate) {
@@ -20,15 +20,7 @@ function queryString(request) {
             conditionals += ` and `
         }
 
-        conditionals += `sm.first_begin_dte = '${request.body.endDate}'`;
-    }
-
-    if (request.body.endDate) {
-        if (conditionals.length > 0) {
-            conditionals += ` and `
-        }
-
-        conditionals += `sm.last_end_dte = '${request.body.endDate}'`;
+        conditionals += `sm.last_end_dte < '${request.body.endDate}'`;
     }
 
     if (request.body.modality) {
@@ -36,7 +28,24 @@ function queryString(request) {
             conditionals += ` and `
         }
 
-        conditionals += `ss.ROOM_CDE = '${request.body.modality}'`;
+        conditionals += `ss.ROOM_CDE like '%${request.body.modality}%'`;
+    }
+
+    if (request.body.activeTerm === '1') {
+        if (conditionals.length > 0) {
+            conditionals += ` and `
+        }
+
+        conditionals += `sm.last_end_dte >= getDate()`;        
+    }
+
+    if (request.body.title) {
+        if (conditionals.length > 0) {
+            conditionals += ` and `
+        }
+
+        conditionals += `ss.ROOM_CDE like '%${request.body.modality}%'`;
+        crs_title
     }
 
     return `
@@ -94,6 +103,7 @@ export const DataViewQuery = async (request) => {
     }]
   } else {
     try {
+        console.log(sqlQuery)
         const recordset = await jexService.query(sqlQuery);
         return recordset;
       } catch (err) {

@@ -20,7 +20,8 @@ function queryString(request) {
             conditionals += ` and `
         }
 
-        conditionals += `nm.first_name like '${request.body.name}'`;
+        conditionals += `nm.first_name like '%${request.body.name}%' or nm.last_name like '%${request.body.name}%' or
+        nm.preferred_name like '%${request.body.name}%'`;
     }
 
     return `
@@ -78,6 +79,7 @@ export const UserViewQuery = async (request) => {
     }]
   } else {
     try {
+        console.log(sqlQuery)
         const recordset = await jexService.query(sqlQuery);
         return recordset;
       } catch (err) {
