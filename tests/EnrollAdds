@@ -1,0 +1,21 @@
+import canvas from '../services/canvas/index.js';
+import toCourseIdParts from '../utils/toCourseIdParts.js';
+
+const run = async () => {
+  const [activeCanvasSections] = await Promise.all([
+    canvas.getActiveSections(),
+  ]);
+
+    console.log('Active Canvas Sections:', activeCanvasSections.length);
+    
+    activeCanvasSections.forEach(section => {
+        try {
+            toCourseIdParts(section.sis_section_id);
+        } catch (error) {
+            console.log(`Invalid section ${JSON.stringify(section)}`);
+            console.error(`Error processing section ${section.sis_section_id}:`, error);
+        }
+    });
+};
+
+run();
