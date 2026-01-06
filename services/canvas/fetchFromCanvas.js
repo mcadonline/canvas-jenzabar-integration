@@ -7,7 +7,10 @@ const { token, hostname } = settings.canvas;
 
 export default async (url, config) => {
   const baseUrl = `https://${hostname}/api/v1`;
-  const headers = { Authorization: `Bearer ${token}` };
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    "User-Agent": "MCADCanvasIntegration/1.0.0"
+};
 
   try {
     let nextPage = `${baseUrl}${url}`;
