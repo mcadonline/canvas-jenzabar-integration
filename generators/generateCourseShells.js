@@ -43,7 +43,7 @@ export default async ({ currentDateTime = DateTime.local().toISO() } = {}) => {
   const canvasSisCourseIds = coursesFromCanvas.map((c) => c.sis_course_id);
   const canvasCourseIdSet = new Set(canvasSisCourseIds);
 
-  const canvasCsvCourses = coursesFromJex
+  let canvasCsvCourses = coursesFromJex
     .filter(noCoursesTwoWeeksAfterStartDate(currentDateTime))
     // only parent courses should have a course shell
     .filter(onlyParentCourses)
@@ -52,6 +52,5 @@ export default async ({ currentDateTime = DateTime.local().toISO() } = {}) => {
     .sort(byStartDate)
     .map(toCanvasCsvFormat);
 
-  const csv = jsonToCSV(canvasCsvCourses);
-  return csv;
+  return canvasCsvCourses;
 };
