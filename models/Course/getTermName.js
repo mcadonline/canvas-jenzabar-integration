@@ -1,6 +1,6 @@
 export default termCode => {
   if (termCode === 'FA') return 'Fall';
   if (termCode === 'SP') return 'Spring';
-  if (termCode === 'SU') return 'Summer';
+  if (termCode === 'ST') return 'Summer';
   throw new Error(`${JSON.stringify(termCode)} is not a valid termCode`);
 };

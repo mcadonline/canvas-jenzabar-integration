@@ -1,6 +1,6 @@
 /**
  * converts a real year to a Jenzabar Academic Year
- * @param {string} term - Semester Code like 'FA', 'SP' or 'SU'
+ * @param {string} term - Semester Code like 'FA', 'SP' or 'ST'
  * @param {string|int} realYear - Real calendar year
  * @returns {int} Academic Year
  *
@@ -11,5 +11,5 @@
 export default function toJexYear({ term, realYear }) {
   if (!term || !realYear) throw Error('missing term or realYear');
   const yearInt = Number.parseInt(realYear, 10);
-  return term === 'FA' ? yearInt : yearInt - 1;
+  return term === 'FA' || term === 'ST' ? yearInt : yearInt - 1;
 }

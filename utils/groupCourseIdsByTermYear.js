@@ -11,7 +11,7 @@ export default (sisCourseIds) => {
   const termLookup = {
     F: 'FA',
     W: 'SP',
-    S: 'SU',
+    S: 'ST',
   };
 
   return Object.entries(termYearDict).map(([termYear, sections]) => {

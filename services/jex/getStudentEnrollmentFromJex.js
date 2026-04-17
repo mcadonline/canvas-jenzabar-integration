@@ -17,6 +17,7 @@ select distinct sch.ID_NUM as id
   , year =
     CASE sch.trm_cde
       WHEN 'FA' THEN sch.yr_cde
+      WHEN 'ST' THEN sch.yr_cde
       ELSE sch.yr_cde + 1
     END
 from STUDENT_CRS_HIST sch

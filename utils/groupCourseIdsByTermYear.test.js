@@ -20,7 +20,7 @@ describe('courseIdsToTermDict', () => {
         sections: ['AH   1701 01'],
       },
       {
-        term: 'SU',
+        term: 'ST',
         year: 2020,
         sections: ['HS   7000 02'],
       },

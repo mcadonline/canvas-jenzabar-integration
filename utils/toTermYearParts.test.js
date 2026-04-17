@@ -7,7 +7,7 @@ describe('toTermYearParts', () => {
       year: '2020',
     });
     expect(toTermYearParts('S21')).toEqual({
-      term: 'SU',
+      term: 'ST',
       year: '2021',
     });
     expect(toTermYearParts('W21')).toEqual({

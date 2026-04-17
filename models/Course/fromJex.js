@@ -6,7 +6,7 @@ import getSundayBefore from './getSundayBefore.js';
 import endOfDay from './endOfDay.js';
 import threeWeeksLater from './threeWeeksLater.js';
 
-const isTerm = (x) => /^(FA|SP|SU)$/.test(x);
+const isTerm = (x) => /^(FA|SP|ST)$/.test(x);
 const isYear = (x) => Number.isInteger(x) && x >= 1900;
 const isCourseCode = (x) => /^[A-Z0-9]{1,4}\s+[A-Z0-9]{4} [A-Z0-9]{2}$/.test(x);
 const isCourseFormat = (x) => /^(online|on_campus|blended)$/.test(x);
