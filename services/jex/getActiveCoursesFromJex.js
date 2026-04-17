@@ -7,6 +7,7 @@ select distinct
     year =
     CASE sm.trm_cde
        WHEN 'FA' THEN sm.yr_cde
+       WHEN 'ST' THEN sm.yr_cde
        ELSE sm.yr_cde + 1
     END
 , rtrim(sm.trm_cde) as term

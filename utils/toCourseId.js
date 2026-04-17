@@ -14,7 +14,7 @@ const toShortYear = year => year.toString().slice(-2);
 const toShortTerm = term => {
   if (term === 'FA') return 'F';
   if (term === 'SP') return 'W';
-  if (term === 'SU') return 'S';
+  if (term === 'ST') return 'S';
   throw Error(`invalid term: ${term}`);
 };
 
