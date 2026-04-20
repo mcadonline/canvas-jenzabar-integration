@@ -1,0 +1,13 @@
+# Courses
+
+Run jobs for runners and then change data
+
+1. start web 
+a. cd web
+b. yarn install
+c. yarn start
+
+2. start the server
+node index.js
+
+# Thats it :D.
