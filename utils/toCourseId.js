@@ -15,6 +15,7 @@ const toShortTerm = term => {
   if (term === 'FA') return 'F';
   if (term === 'SP') return 'W';
   if (term === 'ST') return 'S';
+  if (term === 'SU') return 'S';
   throw Error(`invalid term: ${term}`);
 };
 

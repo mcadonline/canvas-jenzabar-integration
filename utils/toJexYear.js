@@ -1,6 +1,6 @@
 /**
  * converts a real year to a Jenzabar Academic Year
- * @param {string} term - Semester Code like 'FA', 'SP' or 'ST'
+ * @param {string} term - Semester Code like 'FA', 'SP', 'ST' or 'SU'
  * @param {string|int} realYear - Real calendar year
  * @returns {int} Academic Year
  *

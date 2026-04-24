@@ -17,5 +17,21 @@ describe('toCourseId', () => {
         year: 2019,
       }),
     ).toEqual('AH-1234-01-W19');
+
+    expect(
+      toCourseId({
+        courseCode: 'AH   1234 01',
+        term: 'ST',
+        year: 2019,
+      }),
+    ).toEqual('AH-1234-01-S19');
+
+    expect(
+      toCourseId({
+        courseCode: 'AH   1234 01',
+        term: 'SU',
+        year: 2019,
+      }),
+    ).toEqual('AH-1234-01-S19');
   });
 });

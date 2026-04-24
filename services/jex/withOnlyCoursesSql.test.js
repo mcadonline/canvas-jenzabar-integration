@@ -83,4 +83,36 @@ describe('withOnlyCoursesSql', () => {
     // ignore whitespace when comparing sql
     expect(sql.replace(/\s+/g, '')).toBe(expected.replace(/\s+/g, ''));
   });
+
+  it('uses ST directly for summer terms with the ST academic-year rule', () => {
+    const courses = [{ term: 'ST', year: 2020, sections: ['IDM  6610 20'] }];
+    const expected = `
+    select id, crs_cde, term, year, firstName, lastName
+    from student_crs_hist sch
+    where term >= 2001
+    and
+    ((
+      sch.crs_cde in ('IDM  6610 20')
+      and sch.trm_cde = 'ST'
+      and sch.yr_cde = '2020'
+    ))`;
+    const sql = withOnlyCoursesSql({ baseQuery, sectionTable: 'sch', courses });
+    expect(sql.replace(/\s+/g, '')).toBe(expected.replace(/\s+/g, ''));
+  });
+
+  it('uses SU directly for legacy summer terms with the legacy academic-year rule', () => {
+    const courses = [{ term: 'SU', year: 2020, sections: ['IDM  6610 20'] }];
+    const expected = `
+    select id, crs_cde, term, year, firstName, lastName
+    from student_crs_hist sch
+    where term >= 2001
+    and
+    ((
+      sch.crs_cde in ('IDM  6610 20')
+      and sch.trm_cde = 'SU'
+      and sch.yr_cde = '2019'
+    ))`;
+    const sql = withOnlyCoursesSql({ baseQuery, sectionTable: 'sch', courses });
+    expect(sql.replace(/\s+/g, '')).toBe(expected.replace(/\s+/g, ''));
+  });
 });
