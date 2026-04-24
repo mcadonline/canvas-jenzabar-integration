@@ -61,7 +61,7 @@ describe('isValidJexCourse', () => {
     ).toThrowErrorMatchingInlineSnapshot(`"title undefined is not a valid course title"`);
   });
 
-  it('requires valid term (FA,SP,ST)', () => {
+  it('requires valid term (FA,SP,ST,SU)', () => {
     expect(() =>
       fromJex({
         ...jexCourse,

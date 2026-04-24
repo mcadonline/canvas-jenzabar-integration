@@ -1,6 +1,6 @@
 /**
  * Converts an academic (Jenzabar) year into a calendar (real) year.
- * @param {string} term - 2 letter Jex term ('FA', 'SP', 'ST')
+ * @param {string} term - 2 letter Jex term ('FA', 'SP', 'ST', 'SU')
  * @param {int} jexYear - 4 digit Academic year. e.g. 2017 === AY2017-8
  * @returns {int} real calendar year of a given term
  * @example
