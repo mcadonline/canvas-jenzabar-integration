@@ -1,0 +1,6 @@
+services:
+  integration:
+    build: .
+    init: true
+    # Default is a help-only smoke test; no credentials or external calls.
+    command: ["npm", "start", "--", "--help"]

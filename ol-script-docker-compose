@@ -1,0 +1,77 @@
+version: "2"
+
+services:
+  # Reverse Proxy other services! OMG! So great!
+  nginx-proxy:
+    image: jwilder/nginx-proxy:alpine
+    container_name: nginx-proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx-conf/my_proxy.conf:/etc/nginx/conf.d/my_proxy.conf:ro
+      - ./nginx-conf/vhost.d:/etc/nginx/vhost.d:ro
+      - certs:/etc/nginx/certs
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    network_mode: bridge
+
+  letsencrypt:
+    restart: always
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: letsencrypt
+    volumes_from:
+      - nginx-proxy
+    volumes:
+      - certs:/etc/nginx/certs:rw
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      - nginx-proxy
+    environment:
+      - DEFAULT_EMAIL=james_johnson@mcad.edu
+    network_mode: bridge
+
+  # Course Copy Requests
+  coursecopyform:
+    image: mcadonline/coursecopyform
+    container_name: coursecopyform
+    restart: always
+    ports:
+      - "8000:8080"
+    depends_on:
+      - nginx-proxy
+      - letsencrypt
+    environment:
+      - NODE_ENV=production
+      - VIRTUAL_HOST=courserequest.mcad.edu,costanza.mcad.edu
+      - LETSENCRYPT_HOST=courserequest.mcad.edu,costanza.mcad.edu
+      - LETSENCRYPT_EMAIL=james_johnson@mcad.edu
+    network_mode: bridge
+
+  # API for getting Course catalog data
+  api:
+    image: mcadonline/mcad-api
+    container_name: mcad-api
+    restart: always
+    ports:
+      - "9100:8080"
+    depends_on:
+      - nginx-proxy
+      - letsencrypt
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - VIRTUAL_HOST=ol-support.mcad.edu
+      - LETSENCRYPT_HOST=ol-support.mcad.edu
+      - LETSENCRYPT_EMAIL=james_johnson@mcad.edu
+    network_mode: bridge
+
+volumes:
+  conf:
+  vhost:
+  html:
+  dhparam:
+  certs:

@@ -1,0 +1,11 @@
+.git
+node_modules
+.npm
+.env
+.env.*
+!.env.example
+tmp
+coverage
+*.log
+.DS_Store
+ol-script-docker-compose
