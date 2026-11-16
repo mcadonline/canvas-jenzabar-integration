@@ -185,6 +185,7 @@ async function cli() {
     }
   } catch (err) {
     console.error(err.message);
+    process.exitCode = 1;
   }
 }
 

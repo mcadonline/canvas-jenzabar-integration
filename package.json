@@ -46,7 +46,7 @@
   },
   "scripts": {
     "start": "node ./cli.js",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "test": "node scripts/test-runner.js",
     "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch",
     "test:detectOpenHandles": "jest --watch --runInBand --detectOpenHandles",
     "test:unit": "TZ=America/Chicago npm test -- --runInBand --testPathIgnorePatterns services/jex/index.test.js services/jex/jexService.test.js --testNamePattern='^(?!.*[Ii]ntegration)'"

@@ -4,3 +4,11 @@ services:
     init: true
     # Default is a help-only smoke test; no credentials or external calls.
     command: ["npm", "start", "--", "--help"]
+
+  nodev:
+    build: .
+    init: true
+    network_mode: none
+    environment:
+      TZ: America/Chicago
+    command: ["node", "scripts/nodev/run.js"]

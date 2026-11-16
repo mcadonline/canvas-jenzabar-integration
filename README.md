@@ -172,3 +172,35 @@ $ docker run --rm --init --env-file .env -e TZ=America/Chicago canvas-jenzabar-i
 [James Johnson](https://www.jjohnson.me)<br>
 Director, Online Learning<br>
 Minneapolis College of Art and Design
+
+## One-command offline Node validation
+
+With Docker Desktop running and `nvm use` selected, run:
+
+```sh
+npm test nodev
+```
+
+This builds the pinned Node image, then starts a disposable container with
+`network_mode: none`, no `.env` file, and no host mounts. Building the image may
+need internet access to download the base image and npm packages; the actual
+test run has no network access.
+
+The demo checks the Node version and a Brotli compression/decompression round
+trip, runs the offline unit tests, and launches the real `cli.js` for all 13
+generators. It uses fictional student, instructor, course, section, and enrollment
+data. Only the SQL and HTTP transports are replaced; the real normalization,
+comparison, generator, CSV writing, and CLI upload handling code runs. Uploads
+return a dummy success response and never reach Canvas. Unknown SQL queries or
+Canvas URLs fail rather than silently returning empty data.
+
+Each generator prints its CSV, writes a temporary CSV inside the container, and
+performs a simulated upload. The runner checks command exit codes, parses the
+CSV files, checks for dummy upload acknowledgments, and prints PASS messages.
+Files disappear when the container exits. Any failure returns a nonzero exit
+code. `npm test` and existing Jest arguments continue to work as before.
+
+The fixtures cover representative paths; a passing demo does not establish
+complete code coverage, real database/API compatibility, or prove absence of
+security vulnerabilities. The Brotli round trip is a functional check; the
+patched Node version supplies the security fix.
