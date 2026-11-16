@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
 
+import './scripts/check-node.js';
 import meow from 'meow';
 import inquirer from 'inquirer';
 import { DateTime } from 'luxon';
@@ -184,6 +185,7 @@ async function cli() {
     }
   } catch (err) {
     console.error(err.message);
+    process.exitCode = 1;
   }
 }
 

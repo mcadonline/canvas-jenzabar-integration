@@ -53,7 +53,7 @@ describe('getActiveCoursesFromJex', () => {
       expect(courses).toMatchInlineSnapshot(`
       Array [
         Object {
-          "closeDate": "2021-01-01T23:59:59.000-05:00",
+          "closeDate": "2021-01-01T23:59:59.000-06:00",
           "courseCode": "FDN  1111 07",
           "courseFormat": "online",
           "endDate": "2020-12-11",
@@ -64,7 +64,7 @@ describe('getActiveCoursesFromJex', () => {
             "lastName": "benes",
           },
           "name": "trial -- L. benes (Sect. 07 - Fall 2022)",
-          "openDate": "2020-08-23T00:00:00.000-04:00",
+          "openDate": "2020-08-23T00:00:00.000-05:00",
           "parentCourseCode": "FDN  1111 07",
           "startDate": "2020-08-24",
           "term": "FA",
